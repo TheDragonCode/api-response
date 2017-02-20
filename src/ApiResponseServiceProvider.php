@@ -28,8 +28,8 @@ class ApiResponseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['ApiResponse'] = $this->app->share(function ($app) {
-            return new ApiResponse();
-        });
+//        $this->app['ApiResponse'] = $this->app->share(function ($app) {
+//            return new ApiResponse();
+//        });
     }
 }
