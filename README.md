@@ -34,10 +34,10 @@ Package for standardizing the responses from the API of your applications.
 
 ## Documentation
 
-    api_response(0, 'qwerty', 200);
+    return api_response(0, 'qwerty', 200);
     // return {"response":"qwerty"} with code 200
     
-    api_response(0, 'qwerty', 400);
+    return api_response(0, 'qwerty', 400);
     // return {"response":"qwerty"} with code 400
     
     $content = array(
@@ -50,11 +50,13 @@ Package for standardizing the responses from the API of your applications.
             'description' => 'Description #2',
         ),
     );
-    api_response(0, $content, 400);
+    return api_response(0, $content, 400);
     // {"error":{"error_code":0,"error_msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
     
-    api_response(0, $content, 200);
+    return api_response(0, $content, 200);
     // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
+    
+This package using "response()" helper from Laravel Framework. 
 
 
 ## Support Languages
