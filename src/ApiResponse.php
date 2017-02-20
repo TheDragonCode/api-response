@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  Andrey Helldar <helldar@ai-rus.com>
- * @version 2017-02-20
- */
 
 
 namespace Helldar\ApiResponse;

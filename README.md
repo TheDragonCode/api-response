@@ -5,7 +5,7 @@ Package for standardizing the responses from the API of your applications.
 ![api response](https://cloud.githubusercontent.com/assets/10347617/23128374/0f02ede0-f7c2-11e6-8b9a-a7d0d265859b.jpg)
 
 <p align="center">
-<a href="https://travis-ci.org/andrey-helldar/api-response"><img src="https://travis-ci.org/andrey-helldar/api-responseText.svg?branch=master&style=flat-square" alt="Build Status" /></a>
+<a href="https://travis-ci.org/andrey-helldar/api-response"><img src="https://travis-ci.org/andrey-helldar/api-response.svg?branch=master&style=flat-square" alt="Build Status" /></a>
 <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square" alt="Total Downloads" /></a>
 <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
 <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
