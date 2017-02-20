@@ -1,6 +1,7 @@
 <?php
 /**
  * @author  Andrey Helldar <helldar@ai-rus.com>
+ *
  * @version 2017-02-20
  */
 
@@ -8,6 +9,7 @@
  * Api Response helper.
  *
  * @author Andrey Helldar <helldar@ai-rus.com>
+ *
  * @since  2017-02-20
  *
  * @param int  $code
