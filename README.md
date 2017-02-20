@@ -16,7 +16,7 @@ Package for standardizing the responses from the API of your applications.
 <p align="center">
 <a href="https://github.com/andrey-helldar/api-response"><img src="https://img.shields.io/scrutinizer/g/andrey-helldar/api-response.svg?style=flat-square" alt="Quality Score" /></a>
 <a href="https://www.versioneye.com/php/andrey-helldar:api-response/dev-master"><img src="https://www.versioneye.com/php/andrey-helldar:api-response/dev-master/badge?style=flat-square" alt="Dependency Status" /></a>
-<a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
+<a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
 <a href="https://php-eye.com/package/andrey-helldar/api-response"><img src="https://php-eye.com/badge/andrey-helldar/api-response/tested.svg?style=flat" alt="PHP-Eye" /></a>
 </p>
 
