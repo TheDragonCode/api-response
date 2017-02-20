@@ -18,7 +18,7 @@ class ApiResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/lang/en/api.php', 'api-response');
+        //
     }
 
     /**
@@ -28,8 +28,6 @@ class ApiResponseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app['ApiResponse'] = $this->app->share(function ($app) {
-//            return new ApiResponse();
-//        });
+        //
     }
 }
