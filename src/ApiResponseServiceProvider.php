@@ -17,7 +17,7 @@ class ApiResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadTranslationsFrom(__DIR__.'/lang', 'api-response');
     }
 
     /**

@@ -22,13 +22,28 @@ Package for standardizing the responses from the API of your applications.
 
 ## Installation
 
-1. Run command in console:
+To get the latest version of Laravel Exceptions, simply require the project using [Composer](https://getcomposer.org/):
 
-        composer require andrey-helldar/api-response
+```bash
+$ composer require andrey-helldar/api-response
+```
 
-2. Use `api_response()` helper.
+Instead, you may of course manually update your require block and run `composer update` if you so choose:
 
-3. Profit!
+```json
+{
+    "require": {
+        "andrey-helldar/api-response": "^1.0"
+    }
+}
+```
+
+Once Laravel ApiResponse is installed, you need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
+
+* `Helldar\ApiResponse\ApiResponseServiceProvider::class,`
+
+Alright! Use `api_response()` helper.
+
 
 
 ## Documentation
@@ -69,7 +84,7 @@ You can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&
 
 ## Copyright and License
 
-ApiResponse was written by Andrey Helldar for the Laravel framework 5.3 or later, and is released under the MIT License. See the LICENSE file for details.
+ApiResponse was written by Andrey Helldar for the Laravel framework 5.3 or later, and is licensed under [The MIT License (MIT)](LICENSE).
 
 ## Translation
 

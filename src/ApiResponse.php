@@ -27,36 +27,11 @@ class ApiResponse
      */
     public static function response($code = 0, $content = null, $http_code = 200)
     {
-        static::loadingLocalization();
-
         if (static::category($http_code) == 'error') {
             return static::error($code, $content, $http_code);
         }
 
         return static::success($code, $content, $http_code);
-    }
-
-    /**
-     * Loading localization from file.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     */
-    private static function loadingLocalization()
-    {
-        if (sizeof(static::$trans)) {
-            return;
-        }
-
-        $path = __DIR__.'/lang/%s/api.php';
-        $filename = sprintf($path, App::getLocale());
-
-        if (!file_exists($filename)) {
-            $filename = sprintf($path, 'en');
-        }
-
-        static::$trans = include_once $filename;
     }
 
     /**
@@ -140,15 +115,7 @@ class ApiResponse
      */
     private static function trans($key = '')
     {
-        try {
-            if (array_key_exists((string) $key, static::$trans)) {
-                return static::$trans[$key];
-            }
-
-            return $key;
-        } catch (\Exception $e) {
-            return $key;
-        }
+        return trans('api-response::api.'.$key);
     }
 
     /**
