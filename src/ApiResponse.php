@@ -6,8 +6,6 @@
  */
 namespace Helldar\ApiResponse;
 
-use Illuminate\Support\Facades\App;
-
 class ApiResponse
 {
     private static $trans = array();
