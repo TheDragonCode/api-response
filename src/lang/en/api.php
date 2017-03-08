@@ -23,7 +23,7 @@ return array(
     41 => 'User authenticated successfully!',
     42 => 'User already authorized!',
     43 => 'User successfully updated!',
-    
+
     50 => 'Activated successfully!',
     51 => 'Activation failed!',
     52 => 'Deactivated successfully!',
