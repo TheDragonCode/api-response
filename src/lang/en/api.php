@@ -6,7 +6,6 @@
  * @since   2017-03-08 Add statuses for user.
  */
 return array(
-    0 => 'Other error',
     1 => 'Unknown method',
     2 => 'Unknown error!',
 
