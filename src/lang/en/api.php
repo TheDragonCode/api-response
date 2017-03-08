@@ -2,10 +2,10 @@
 /**
  * @author  Andrey Helldar <helldar@ai-rus.com>
  *
- * @version 2017-02-20
+ * @since   2017-02-20
+ * @since   2017-03-08 Add statuses for user.
  */
-
-return array(
+return [
     0 => 'Other error',
     1 => 'Unknown method',
     2 => 'Unknown error!',
@@ -14,5 +14,14 @@ return array(
     11 => 'Unauthorized.',
 
     20 => 'Successfully.',
-    21 => 'Error.',
-);
+    21 => 'Success!',
+    22 => 'Error.',
+
+    30 => 'Login successfully.',
+    31 => 'Logout successfully.',
+
+    40 => 'User successfully authorized!',
+    41 => 'User authenticated successfully!',
+    42 => 'User already authorized!',
+    43 => 'User successfully updated!',
+];
