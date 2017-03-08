@@ -5,7 +5,7 @@
  * @since   2017-02-20
  * @since   2017-03-08 Add statuses for user.
  */
-return [
+return array(
     0 => 'Other error',
     1 => 'Unknown method',
     2 => 'Unknown error!',
@@ -24,4 +24,4 @@ return [
     41 => 'User authenticated successfully!',
     42 => 'User already authorized!',
     43 => 'User successfully updated!',
-];
+);
