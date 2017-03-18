@@ -10,6 +10,8 @@ namespace Helldar\ApiResponse;
 
 class ApiResponse
 {
+    private static $fn;
+
     /**
      * Using magical methods.
      *
@@ -23,9 +25,24 @@ class ApiResponse
      */
     public static function __callStatic($name, $params)
     {
-        $obj = new ApiResponse();
+        return call_user_func_array([self::init(), 'get'], $params);
+    }
 
-        return $obj->get($params[0], $params[1], $params[2]);
+    /**
+     * Initializing class.
+     *
+     * @author Andrey Helldar <helldar@ai-rus.com>
+     * @since  2017-03-19
+     *
+     * @return ApiResponse
+     */
+    public static function init()
+    {
+        if (!self::$fn) {
+            self::$fn = new ApiResponse();
+        }
+
+        return self::$fn;
     }
 
     /**
