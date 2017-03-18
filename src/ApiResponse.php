@@ -5,7 +5,6 @@
  * @since   2017-02-20
  * @since   2017-03-19 Remove `static`.
  */
-
 namespace Helldar\ApiResponse;
 
 class ApiResponse
@@ -16,6 +15,7 @@ class ApiResponse
      * Using magical methods.
      *
      * @author Andrey Helldar <helldar@ai-rus.com>
+     *
      * @since  2017-03-19
      *
      * @param $name
@@ -25,13 +25,14 @@ class ApiResponse
      */
     public static function __callStatic($name, $params)
     {
-        return call_user_func_array([self::init(), 'get'], $params);
+        return call_user_func_array(array(self::init(), 'get'), $params);
     }
 
     /**
      * Initializing class.
      *
      * @author Andrey Helldar <helldar@ai-rus.com>
+     *
      * @since  2017-03-19
      *
      * @return ApiResponse
@@ -39,7 +40,7 @@ class ApiResponse
     public static function init()
     {
         if (!self::$fn) {
-            self::$fn = new ApiResponse();
+            self::$fn = new self();
         }
 
         return self::$fn;
@@ -80,7 +81,7 @@ class ApiResponse
      */
     private function category($http_code = 200)
     {
-        $category = intval((int)$http_code / 100);
+        $category = intval((int) $http_code / 100);
 
         if ($category == 4 || $category == 5) {
             return 'error';
@@ -104,12 +105,12 @@ class ApiResponse
      */
     private function error($code = 0, $content = null, $http_code = 200)
     {
-        $result = [
-            'error' => [
+        $result = array(
+            'error' => array(
                 'error_code' => $code,
-                'error_msg'  => $this->getMessage($code, $content),
-            ],
-        ];
+                'error_msg' => $this->getMessage($code, $content),
+            ),
+        );
 
         return response()->json($result, $http_code);
     }
@@ -128,7 +129,7 @@ class ApiResponse
      */
     private function getMessage($code = 0, $content = null)
     {
-        if ((int)$code == 0) {
+        if ((int) $code == 0) {
             return $content;
         }
 
@@ -148,7 +149,7 @@ class ApiResponse
      */
     private function trans($key = '')
     {
-        return trans('api-response::api.' . $key);
+        return trans('api-response::api.'.$key);
     }
 
     /**
@@ -166,9 +167,9 @@ class ApiResponse
      */
     private function success($code = 0, $content = null, $http_code = 200)
     {
-        $result = [
+        $result = array(
             'response' => $this->getMessage($code, $content),
-        ];
+        );
 
         return response()->json($result, $http_code);
     }
