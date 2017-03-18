@@ -2,13 +2,31 @@
 /**
  * @author  Andrey Helldar <helldar@ai-rus.com>
  *
- * @version 2017-02-20
+ * @since   2017-02-20
+ * @since   2017-03-19 Remove `static`.
  */
+
 namespace Helldar\ApiResponse;
 
 class ApiResponse
 {
-    private static $trans = array();
+    /**
+     * Using magical methods.
+     *
+     * @author Andrey Helldar <helldar@ai-rus.com>
+     * @since  2017-03-19
+     *
+     * @param $name
+     * @param $params
+     *
+     * @return mixed
+     */
+    public static function __callStatic($name, $params)
+    {
+        $obj = new ApiResponse();
+
+        return $obj->get($params[0], $params[1], $params[2]);
+    }
 
     /**
      * Return response in JSON-formatted.
@@ -23,13 +41,13 @@ class ApiResponse
      *
      * @return mixed
      */
-    public static function response($code = 0, $content = null, $http_code = 200)
+    public function get($code = 0, $content = null, $http_code = 200)
     {
-        if (static::category($http_code) == 'error') {
-            return static::error($code, $content, $http_code);
+        if ($this->category($http_code) == 'error') {
+            return $this->error($code, $content, $http_code);
         }
 
-        return static::success($code, $content, $http_code);
+        return $this->success($code, $content, $http_code);
     }
 
     /**
@@ -43,9 +61,9 @@ class ApiResponse
      *
      * @return string
      */
-    private static function category($http_code = 200)
+    private function category($http_code = 200)
     {
-        $category = intval((int) $http_code / 100);
+        $category = intval((int)$http_code / 100);
 
         if ($category == 4 || $category == 5) {
             return 'error';
@@ -67,14 +85,14 @@ class ApiResponse
      *
      * @return mixed
      */
-    private static function error($code = 0, $content = null, $http_code = 200)
+    private function error($code = 0, $content = null, $http_code = 200)
     {
-        $result = array(
-            'error' => array(
+        $result = [
+            'error' => [
                 'error_code' => $code,
-                'error_msg' => static::getMessage($code, $content),
-            ),
-        );
+                'error_msg'  => $this->getMessage($code, $content),
+            ],
+        ];
 
         return response()->json($result, $http_code);
     }
@@ -91,13 +109,13 @@ class ApiResponse
      *
      * @return null
      */
-    private static function getMessage($code = 0, $content = null)
+    private function getMessage($code = 0, $content = null)
     {
-        if ((int) $code == 0) {
+        if ((int)$code == 0) {
             return $content;
         }
 
-        return static::trans($code);
+        return $this->trans($code);
     }
 
     /**
@@ -111,9 +129,9 @@ class ApiResponse
      *
      * @return mixed
      */
-    private static function trans($key = '')
+    private function trans($key = '')
     {
-        return trans('api-response::api.'.$key);
+        return trans('api-response::api.' . $key);
     }
 
     /**
@@ -129,11 +147,11 @@ class ApiResponse
      *
      * @return mixed
      */
-    private static function success($code = 0, $content = null, $http_code = 200)
+    private function success($code = 0, $content = null, $http_code = 200)
     {
-        $result = array(
-            'response' => static::getMessage($code, $content),
-        );
+        $result = [
+            'response' => $this->getMessage($code, $content),
+        ];
 
         return response()->json($result, $http_code);
     }
