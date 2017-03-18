@@ -5,7 +5,7 @@
  * @since   2017-02-20
  * @since   2017-03-08 Add statuses for user.
  */
-return [
+return array(
     1 => 'Unknown method',
     2 => 'Unknown error!',
 
@@ -28,4 +28,4 @@ return [
     51 => 'Activation failed!',
     52 => 'Deactivated successfully!',
     53 => 'Deactivation failed!',
-];
+);
