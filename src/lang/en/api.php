@@ -4,28 +4,29 @@
  *
  * @since   2017-02-20
  * @since   2017-03-08 Add statuses for user.
+ * @since   2017-03-20 Replace codes to HTTP Codes.
  */
 return array(
-    1 => 'Unknown method',
+    1 => 'Unknown method!',
     2 => 'Unknown error!',
+    3 => 'Access denied.',
 
-    10 => 'Access denied.',
-    11 => 'Unauthorized.',
-
-    20 => 'Successfully.',
-    21 => 'Success!',
-    22 => 'Error.',
-
-    30 => 'Login successfully.',
-    31 => 'Logout successfully.',
-
-    40 => 'User successfully authorized!',
-    41 => 'User authenticated successfully!',
-    42 => 'User already authorized!',
-    43 => 'User successfully updated!',
-
-    50 => 'Activated successfully!',
-    51 => 'Activation failed!',
-    52 => 'Deactivated successfully!',
-    53 => 'Deactivation failed!',
+    200 => 'OK',
+    201 => 'Created',
+    202 => 'Accepted',
+    204 => 'No content',
+    
+    301 => 'Moved',
+    302 => 'Found',
+    304 => 'Not Modified',
+    
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    409 => 'Conflict',
+    
+    500 => 'Internal Server Error',
+    502 => 'Bad Gateway',
+    503 => 'Service Unvailable',
 );
