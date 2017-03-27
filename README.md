@@ -45,14 +45,16 @@ Once Laravel ApiResponse is installed, you need to register the service provider
 Alright! Use `api_response()` helper.
 
 
-
 ## Documentation
 
+    return api_response(200);
+    // return {"response": "OK"} with code 200
+    
     return api_response(0, 'qwerty', 200);
     // return {"response":"qwerty"} with code 200
     
     return api_response(0, 'qwerty', 400);
-    // return {"response":"qwerty"} with code 400
+    // return {"error":{"error_code":400,"error_msg":"qwerty"}} with code 400
     
     $content = array(
         array(
@@ -70,7 +72,7 @@ Alright! Use `api_response()` helper.
     return api_response(0, $content, 200);
     // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
     
-This package using "response()" helper from Laravel Framework. 
+This package using "response()->json()" helper from Laravel Framework.
 
 
 ## Support Languages
@@ -82,9 +84,11 @@ The possibility of the output status in various languages.
 
 You can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=94B8LCPAPJ5VG), [Yandex Money](https://money.yandex.ru/quickpay/shop-widget?account=410012608840929&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=Andrey+Helldar%3A+Open+Source+Projects&targets-hint=&default-sum=&button-text=04&mail=on&successURL=), WebMoney (Z124862854284, R343524258966) and [Patreon](https://www.patreon.com/helldar)
 
+
 ## Copyright and License
 
 ApiResponse was written by Andrey Helldar for the Laravel framework 5.3 or later, and is licensed under [The MIT License (MIT)](LICENSE).
+
 
 ## Translation
 

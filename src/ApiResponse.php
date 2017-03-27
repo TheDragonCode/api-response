@@ -5,53 +5,18 @@
  * @since   2017-02-20
  * @since   2017-03-19 Remove `static`.
  */
+
 namespace Helldar\ApiResponse;
 
 class ApiResponse
 {
-    private static $fn;
-
-    /**
-     * Using magical methods.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-03-19
-     *
-     * @param $name
-     * @param $params
-     *
-     * @return mixed
-     */
-    public static function __callStatic($name, $params)
-    {
-        return call_user_func_array(array(self::init(), 'get'), $params);
-    }
-
-    /**
-     * Initializing class.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-03-19
-     *
-     * @return ApiResponse
-     */
-    public static function init()
-    {
-        if (!self::$fn) {
-            self::$fn = new self();
-        }
-
-        return self::$fn;
-    }
-
     /**
      * Return response in JSON-formatted.
      *
      * @author Andrey Helldar <helldar@ai-rus.com>
      *
      * @since  2017-02-20
+     * @since  2017-03-27 Refactoring code.
      *
      * @param int        $code
      * @param mixed|null $content
@@ -61,11 +26,9 @@ class ApiResponse
      */
     public function get($code = 0, $content = null, $http_code = 200)
     {
-        if ($this->category($http_code) == 'error') {
-            return $this->error($code, $content, $http_code);
-        }
+        $type = $this->category($http_code) == 'error' ? 'error' : 'success';
 
-        return $this->success($code, $content, $http_code);
+        return $this->$type($code, $content, $http_code);
     }
 
     /**
@@ -74,6 +37,7 @@ class ApiResponse
      * @author Andrey Helldar <helldar@ai-rus.com>
      *
      * @since  2017-02-20
+     * @since  2017-03-27 Refactoring code.
      *
      * @param int $http_code
      *
@@ -81,13 +45,9 @@ class ApiResponse
      */
     private function category($http_code = 200)
     {
-        $category = intval((int) $http_code / 100);
+        $category = intval((int)$http_code / 100);
 
-        if ($category == 4 || $category == 5) {
-            return 'error';
-        }
-
-        return 'success';
+        return ($category == 4 || $category == 5) ? 'error' : 'success';
     }
 
     /**
@@ -105,12 +65,12 @@ class ApiResponse
      */
     private function error($code = 0, $content = null, $http_code = 200)
     {
-        $result = array(
-            'error' => array(
+        $result = [
+            'error' => [
                 'error_code' => $code,
-                'error_msg' => $this->getMessage($code, $content),
-            ),
-        );
+                'error_msg'  => $this->getMessage($code, $content),
+            ],
+        ];
 
         return response()->json($result, $http_code);
     }
@@ -129,7 +89,7 @@ class ApiResponse
      */
     private function getMessage($code = 0, $content = null)
     {
-        if ((int) $code == 0) {
+        if((int)$code == 0) {
             return $content;
         }
 
@@ -158,6 +118,7 @@ class ApiResponse
      * @author Andrey Helldar <helldar@ai-rus.com>
      *
      * @since  2017-02-20
+     * @since  2017-03-27 Refactoring code.
      *
      * @param int  $code
      * @param null $content
@@ -167,10 +128,8 @@ class ApiResponse
      */
     private function success($code = 0, $content = null, $http_code = 200)
     {
-        $result = array(
+        return response()->json([
             'response' => $this->getMessage($code, $content),
-        );
-
-        return response()->json($result, $http_code);
+        ], $http_code);
     }
 }
