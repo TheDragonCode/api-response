@@ -5,7 +5,6 @@
  * @since   2017-02-20
  * @since   2017-03-19 Remove `static`.
  */
-
 namespace Helldar\ApiResponse;
 
 class ApiResponse
@@ -45,7 +44,7 @@ class ApiResponse
      */
     private function category($http_code = 200)
     {
-        $category = intval((int)$http_code / 100);
+        $category = intval((int) $http_code / 100);
 
         return ($category == 4 || $category == 5) ? 'error' : 'success';
     }
@@ -65,12 +64,12 @@ class ApiResponse
      */
     private function error($code = 0, $content = null, $http_code = 200)
     {
-        $result = [
-            'error' => [
+        $result = array(
+            'error' => array(
                 'error_code' => $code,
-                'error_msg'  => $this->getMessage($code, $content),
-            ],
-        ];
+                'error_msg' => $this->getMessage($code, $content),
+            ),
+        );
 
         return response()->json($result, $http_code);
     }
@@ -89,7 +88,7 @@ class ApiResponse
      */
     private function getMessage($code = 0, $content = null)
     {
-        if((int)$code == 0) {
+        if ((int) $code == 0) {
             return $content;
         }
 
@@ -128,8 +127,8 @@ class ApiResponse
      */
     private function success($code = 0, $content = null, $http_code = 200)
     {
-        return response()->json([
+        return response()->json(array(
             'response' => $this->getMessage($code, $content),
-        ], $http_code);
+        ), $http_code);
     }
 }
