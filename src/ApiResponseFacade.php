@@ -2,7 +2,6 @@
 
 namespace Helldar\ApiResponse;
 
-
 class ApiResponseFacade
 {
     /**
