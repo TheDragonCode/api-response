@@ -22,7 +22,7 @@ Package for standardizing the responses from the API of your applications.
 
 ## Installation
 
-To get the latest version of Laravel Exceptions, simply require the project using [Composer](https://getcomposer.org/):
+To get the latest version of ApiResponse, simply require the project using [Composer](https://getcomposer.org/):
 
 ```bash
 $ composer require andrey-helldar/api-response
