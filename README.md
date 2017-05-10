@@ -33,7 +33,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^1.0"
+        "andrey-helldar/api-response": "^2.0"
     }
 }
 ```
@@ -47,13 +47,13 @@ Alright! Use `api_response()` helper.
 
 ## Documentation
 
-    return api_response(200);
-    // return {"response": "OK"} with code 200
-    
-    return api_response(0, 'qwerty', 200);
+    return api_response(null, 304);
+    // return {"response":"Not Modified"} with code 200
+
+    return api_response('qwerty');
     // return {"response":"qwerty"} with code 200
     
-    return api_response(0, 'qwerty', 400);
+    return api_response('qwerty', 0, 400);
     // return {"error":{"error_code":400,"error_msg":"qwerty"}} with code 400
     
     $content = array(
@@ -66,10 +66,10 @@ Alright! Use `api_response()` helper.
             'description' => 'Description #2',
         ),
     );
-    return api_response(0, $content, 400);
+    return api_response($content, 0, 400);
     // {"error":{"error_code":0,"error_msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
     
-    return api_response(0, $content, 200);
+    return api_response($content, 0, 200);
     // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
     
 This package using "response()->json()" helper from Laravel Framework.
