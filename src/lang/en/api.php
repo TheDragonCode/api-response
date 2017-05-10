@@ -1,11 +1,5 @@
 <?php
-/**
- * @author  Andrey Helldar <helldar@ai-rus.com>
- *
- * @since   2017-02-20
- * @since   2017-03-08 Add statuses for user.
- * @since   2017-03-20 Replace codes to HTTP Codes.
- */
+
 return array(
     1 => 'Unknown method!',
     2 => 'Unknown error!',
@@ -28,5 +22,5 @@ return array(
 
     500 => 'Internal Server Error',
     502 => 'Bad Gateway',
-    503 => 'Service Unvailable',
+    503 => 'Service Unavailable',
 );
