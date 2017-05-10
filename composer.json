@@ -1,44 +1,46 @@
 {
-    "name": "andrey-helldar/api-response",
-    "description": "Package for standardizing the responses from the API of your applications.",
-    "type": "library",
-    "license": "MIT",
-    "homepage": "http://ai-rus.com",
-    "keywords": [
-        "api response",
-        "api-response",
-        "apiresponse",
-        "response"
-    ],
-    "support": {
-        "issues": "https://github.com/andrey-helldar/ApiResponse/issues",
-        "source": "https://github.com/andrey-helldar/ApiResponse"
+  "name": "andrey-helldar/api-response",
+  "description": "Package for standardizing the responses from the API of your applications.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "http://ai-rus.com",
+  "keywords": [
+    "api response",
+    "api-response",
+    "apiresponse",
+    "response",
+    "laravel response",
+    "laravel"
+  ],
+  "support": {
+    "issues": "https://github.com/andrey-helldar/ApiResponse/issues",
+    "source": "https://github.com/andrey-helldar/ApiResponse"
+  },
+  "authors": [
+    {
+      "name": "Andrey Helldar",
+      "email": "helldar@ai-rus.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.4",
+    "illuminate/support": "^5.3.0|^5.4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Helldar\\ApiResponse\\": "src/"
     },
-    "authors": [
-        {
-            "name": "Andrey Helldar",
-            "email": "helldar@ai-rus.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.6.4",
-        "illuminate/support": "^5.3.0|^5.4.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~5.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "Helldar\\ApiResponse\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "minimum-stability": "stable"
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable"
 }

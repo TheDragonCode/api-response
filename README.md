@@ -50,6 +50,9 @@ Alright! Use `api_response()` helper.
     return api_response(null, 304);
     // return {"response":"Not Modified"} with code 200
 
+    return api_response(304);
+    // return {"response":"Not Modified"} with code 200
+
     return api_response('qwerty');
     // return {"response":"qwerty"} with code 200
     

@@ -65,8 +65,12 @@ class ApiResponse
      */
     private function getMessage($content = null, $code = 0)
     {
-        if ((int) $code == 0) {
+        if ((int) $code == 0 && !is_null($content)) {
             return $content;
+        }
+
+        if ((int) $code == 0 && is_numeric($content)) {
+            $code = (int) $content;
         }
 
         return $this->trans($code);
