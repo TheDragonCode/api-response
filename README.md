@@ -59,6 +59,9 @@ Alright! Use `api_response()` helper.
     return api_response('qwerty', 0, 400);
     // return {"error":{"error_code":400,"error_msg":"qwerty"}} with code 400
     
+    return api_response('qwerty', 304, 400);
+    // return {"response":"Not Modified"} with code 200
+    
     $content = array(
         array(
             'title' => 'Title #1',
