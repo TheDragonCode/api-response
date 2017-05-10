@@ -1,21 +1,11 @@
 <?php
-/**
- * @author  Andrey Helldar <helldar@ai-rus.com>
- *
- * @since   2017-02-20
- * @since   2017-03-19 Remove `static`.
- */
+
 namespace Helldar\ApiResponse;
 
 class ApiResponse
 {
     /**
      * Return response in JSON-formatted.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     * @since  2017-03-27 Refactoring code.
      *
      * @param int        $code
      * @param mixed|null $content
@@ -33,11 +23,6 @@ class ApiResponse
     /**
      * The class definition for an error return code.
      *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     * @since  2017-03-27 Refactoring code.
-     *
      * @param int $http_code
      *
      * @return string
@@ -52,10 +37,6 @@ class ApiResponse
     /**
      * Formation of an error response.
      *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     *
      * @param int  $code
      * @param null $content
      * @param int  $http_code
@@ -67,7 +48,7 @@ class ApiResponse
         $result = array(
             'error' => array(
                 'error_code' => $code,
-                'error_msg' => $this->getMessage($code, $content),
+                'error_msg'  => $this->getMessage($code, $content),
             ),
         );
 
@@ -76,10 +57,6 @@ class ApiResponse
 
     /**
      * Get the error text.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
      *
      * @param int  $code
      * @param null $content
@@ -98,10 +75,6 @@ class ApiResponse
     /**
      * Translating error on key.
      *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     *
      * @param string $key
      *
      * @return mixed
@@ -113,11 +86,6 @@ class ApiResponse
 
     /**
      * Formation of the success of the response.
-     *
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-02-20
-     * @since  2017-03-27 Refactoring code.
      *
      * @param int  $code
      * @param null $content

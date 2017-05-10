@@ -5,10 +5,6 @@ namespace Helldar\ApiResponse;
 class ApiResponseFacade
 {
     /**
-     * @author Andrey Helldar <helldar@ai-rus.com>
-     *
-     * @since  2017-03-27
-     *
      * @param int  $code
      * @param null $content
      * @param int  $http_code
