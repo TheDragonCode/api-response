@@ -8,16 +8,15 @@ class ApiResponse
      * Return response in JSON-formatted.
      *
      * @param mixed $content
-     * @param int   $code
      * @param int   $http_code
      *
      * @return mixed
      */
-    public function get($content = null, $code = 0, $http_code = 200)
+    public function get($content = null, $http_code = 200)
     {
         $type = $this->category($http_code) == 'error' ? 'error' : 'success';
 
-        return $this->$type($content, $code, $http_code);
+        return $this->$type($content, $http_code);
     }
 
     /**
@@ -38,17 +37,16 @@ class ApiResponse
      * Formation of an error response.
      *
      * @param mixed $content
-     * @param int   $code
      * @param int   $http_code
      *
      * @return mixed
      */
-    private function error($content = null, $code = 0, $http_code = 200)
+    private function error($content = null, $http_code = 400)
     {
         $result = array(
             'error' => array(
-                'error_code' => $code,
-                'error_msg' => $this->getMessage($content, $code),
+                'error_code' => is_numeric($content) ? $content : $http_code,
+                'error_msg' => $this->getMessage($content),
             ),
         );
 
@@ -59,16 +57,11 @@ class ApiResponse
      * Get the error text.
      *
      * @param null $content
-     * @param int  $code
      *
      * @return null
      */
-    private function getMessage($content = null, $code = 0)
+    private function getMessage($content = null)
     {
-        if((int) $code !== 0) {
-            return $this->trans($code);
-        }
-
         if(is_numeric($content)) {
             return $this->trans((int) $content);
         }
@@ -92,15 +85,14 @@ class ApiResponse
      * Formation of the success of the response.
      *
      * @param mixed $content
-     * @param int   $code
      * @param int   $http_code
      *
      * @return mixed
      */
-    private function success($content = null, $code = 0, $http_code = 200)
+    private function success($content = null, $http_code = 200)
     {
         return response()->json(array(
-            'response' => $this->getMessage($content, $code),
+            'response' => $this->getMessage($content),
         ), $http_code);
     }
 }

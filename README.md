@@ -48,7 +48,7 @@ Alright! Use `api_response()` helper.
 ## Documentation
 
     return api_response(null, 304);
-    // return {"response":"Not Modified"} with code 200
+    // return {"response":null} with code 304
 
     return api_response(304);
     // return {"response":"Not Modified"} with code 200
@@ -56,11 +56,11 @@ Alright! Use `api_response()` helper.
     return api_response('qwerty');
     // return {"response":"qwerty"} with code 200
     
-    return api_response('qwerty', 0, 400);
+    return api_response('qwerty', 400);
     // return {"error":{"error_code":400,"error_msg":"qwerty"}} with code 400
     
-    return api_response('qwerty', 304, 400);
-    // return {"response":"Not Modified"} with code 200
+    return api_response(304, 400);
+    // return {"response":"Not Modified"} with code 400
     
     $content = array(
         array(
@@ -72,10 +72,10 @@ Alright! Use `api_response()` helper.
             'description' => 'Description #2',
         ),
     );
-    return api_response($content, 0, 400);
+    return api_response($content, 400);
     // {"error":{"error_code":0,"error_msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
     
-    return api_response($content, 0, 200);
+    return api_response($content, 200);
     // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
     
 This package using "response()->json()" helper from Laravel Framework.
