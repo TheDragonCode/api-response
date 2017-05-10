@@ -7,17 +7,17 @@ class ApiResponse
     /**
      * Return response in JSON-formatted.
      *
-     * @param int        $code
-     * @param mixed|null $content
-     * @param int        $http_code
+     * @param mixed $content
+     * @param int   $code
+     * @param int   $http_code
      *
      * @return mixed
      */
-    public function get($code = 0, $content = null, $http_code = 200)
+    public function get($content = null, $code = 0, $http_code = 200)
     {
         $type = $this->category($http_code) == 'error' ? 'error' : 'success';
 
-        return $this->$type($code, $content, $http_code);
+        return $this->$type($content, $code, $http_code);
     }
 
     /**
@@ -37,18 +37,18 @@ class ApiResponse
     /**
      * Formation of an error response.
      *
-     * @param int  $code
-     * @param null $content
-     * @param int  $http_code
+     * @param mixed $content
+     * @param int   $code
+     * @param int   $http_code
      *
      * @return mixed
      */
-    private function error($code = 0, $content = null, $http_code = 200)
+    private function error($content = null, $code = 0, $http_code = 200)
     {
         $result = array(
             'error' => array(
                 'error_code' => $code,
-                'error_msg'  => $this->getMessage($code, $content),
+                'error_msg'  => $this->getMessage($content, $code),
             ),
         );
 
@@ -58,12 +58,12 @@ class ApiResponse
     /**
      * Get the error text.
      *
-     * @param int  $code
      * @param null $content
+     * @param int  $code
      *
      * @return null
      */
-    private function getMessage($code = 0, $content = null)
+    private function getMessage($content = null, $code = 0)
     {
         if ((int) $code == 0) {
             return $content;
@@ -79,24 +79,24 @@ class ApiResponse
      *
      * @return mixed
      */
-    private function trans($key = '')
+    private function trans($key = null)
     {
-        return trans('api-response::api.'.$key);
+        return trans('api-response::api.'.$key, 'key: '.$key);
     }
 
     /**
      * Formation of the success of the response.
      *
-     * @param int  $code
-     * @param null $content
-     * @param int  $http_code
+     * @param mixed $content
+     * @param int   $code
+     * @param int   $http_code
      *
      * @return mixed
      */
-    private function success($code = 0, $content = null, $http_code = 200)
+    private function success($content = null, $code = 0, $http_code = 200)
     {
         return response()->json(array(
-            'response' => $this->getMessage($code, $content),
+            'response' => $this->getMessage($content, $code),
         ), $http_code);
     }
 }

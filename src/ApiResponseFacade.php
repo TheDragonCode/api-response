@@ -5,14 +5,14 @@ namespace Helldar\ApiResponse;
 class ApiResponseFacade
 {
     /**
-     * @param int  $code
-     * @param null $content
-     * @param int  $http_code
+     * @param mixed $content
+     * @param int   $code
+     * @param int   $http_code
      *
      * @return mixed
      */
-    public static function response($code = 0, $content = null, $http_code = 200)
+    public static function response($content = null, $code = 0, $http_code = 200)
     {
-        return (new ApiResponse())->get($code, $content, $http_code);
+        return (new ApiResponse())->get($content, $code, $http_code);
     }
 }
