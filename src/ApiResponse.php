@@ -48,7 +48,7 @@ class ApiResponse
         $result = array(
             'error' => array(
                 'error_code' => $code,
-                'error_msg'  => $this->getMessage($content, $code),
+                'error_msg' => $this->getMessage($content, $code),
             ),
         );
 
