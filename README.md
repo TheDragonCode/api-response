@@ -78,6 +78,8 @@ Alright! Use `api_response()` helper.
     return api_response($content, 200);
     // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
     
+If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
+    
 This package using "response()->json()" helper from Laravel Framework.
 
 
