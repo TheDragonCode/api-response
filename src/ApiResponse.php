@@ -46,7 +46,7 @@ class ApiResponse
         $result = array(
             'error' => array(
                 'error_code' => is_numeric($content) ? $content : $http_code,
-                'error_msg'  => $this->getMessage($content),
+                'error_msg' => $this->getMessage($content),
             ),
         );
 
