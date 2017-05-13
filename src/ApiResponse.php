@@ -39,7 +39,7 @@ class ApiResponse
     {
         $category = intval((int) $http_code / 100);
 
-        return ($category == 4 || $category == 5);
+        return $category == 4 || $category == 5;
     }
 
     /**
@@ -53,7 +53,7 @@ class ApiResponse
         $this->result = array(
             'error' => array(
                 'error_code' => is_numeric($content) ? $content : $http_code,
-                'error_msg'  => $this->getMessage($content),
+                'error_msg' => $this->getMessage($content),
             ),
         );
     }
