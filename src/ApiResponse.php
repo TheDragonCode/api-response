@@ -5,6 +5,11 @@ namespace Helldar\ApiResponse;
 class ApiResponse
 {
     /**
+     * @var array|string
+     */
+    protected $result;
+
+    /**
      * Return response in JSON-formatted.
      *
      * @param mixed $content
@@ -14,9 +19,13 @@ class ApiResponse
      */
     public function get($content = null, $http_code = 200)
     {
-        $type = $this->category($http_code) == 'error' ? 'error' : 'success';
+        if ($this->isErrorCategory($http_code)) {
+            $this->error($content, $http_code);
+        } else {
+            $this->success($content, $http_code);
+        }
 
-        return $this->$type($content, $http_code);
+        return response()->json($this->result, $http_code);
     }
 
     /**
@@ -24,13 +33,13 @@ class ApiResponse
      *
      * @param int $http_code
      *
-     * @return string
+     * @return bool
      */
-    private function category($http_code = 200)
+    protected function isErrorCategory($http_code = 200)
     {
         $category = intval((int) $http_code / 100);
 
-        return ($category == 4 || $category == 5) ? 'error' : 'success';
+        return ($category == 4 || $category == 5);
     }
 
     /**
@@ -38,19 +47,15 @@ class ApiResponse
      *
      * @param mixed $content
      * @param int   $http_code
-     *
-     * @return mixed
      */
-    private function error($content = null, $http_code = 400)
+    protected function error($content = null, $http_code = 400)
     {
-        $result = array(
+        $this->result = array(
             'error' => array(
                 'error_code' => is_numeric($content) ? $content : $http_code,
-                'error_msg' => $this->getMessage($content),
+                'error_msg'  => $this->getMessage($content),
             ),
         );
-
-        return response()->json($result, $http_code);
     }
 
     /**
@@ -60,7 +65,7 @@ class ApiResponse
      *
      * @return null
      */
-    private function getMessage($content = null)
+    protected function getMessage($content = null)
     {
         if (is_numeric($content)) {
             return $this->trans((int) $content);
@@ -76,7 +81,7 @@ class ApiResponse
      *
      * @return mixed
      */
-    private function trans($key = null)
+    protected function trans($key = null)
     {
         return trans('api-response::api.'.$key);
     }
@@ -86,13 +91,11 @@ class ApiResponse
      *
      * @param mixed $content
      * @param int   $http_code
-     *
-     * @return mixed
      */
-    private function success($content = null, $http_code = 200)
+    protected function success($content = null, $http_code = 400)
     {
-        return response()->json(array(
+        $this->result = array(
             'response' => $this->getMessage($content),
-        ), $http_code);
+        );
     }
 }
