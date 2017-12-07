@@ -1,4 +1,4 @@
-## ApiResponse for Laravel 5.3+
+## ApiResponse for Laravel 5.5+
 
 Package for standardizing the responses from the API of your applications.
 
@@ -19,6 +19,7 @@ Package for standardizing the responses from the API of your applications.
 <a href="https://php-eye.com/package/andrey-helldar/api-response"><img src="https://php-eye.com/badge/andrey-helldar/api-response/tested.svg?style=flat-square" alt="PHP-Eye" /></a>
 </p>
 
+#### For **Laravel <= 5.4** use branch  [v2.x](tree/v2.x).
 
 ## Installation
 
@@ -33,14 +34,16 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^2.0"
+        "andrey-helldar/api-response": "^3.0"
     }
 }
 ```
 
-Once Laravel ApiResponse is installed, you need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
+If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`:
 
-* `Helldar\ApiResponse\ApiResponseServiceProvider::class,`
+* `Helldar\ApiResponse\ServiceProvider::class,`
+
+Next, call `php artisan vendor:publish`.
 
 Alright! Use `api_response()` helper.
 
@@ -48,19 +51,19 @@ Alright! Use `api_response()` helper.
 ## Documentation
 
     return api_response(null, 304);
-    // return {"response":null} with code 304
+    // return {null} with code 304
 
     return api_response(304);
-    // return {"response":"Not Modified"} with code 200
+    // return {"Not Modified"} with code 200
 
     return api_response('qwerty');
-    // return {"response":"qwerty"} with code 200
+    // return {"qwerty"} with code 200
     
     return api_response('qwerty', 400);
-    // return {"error":{"error_code":400,"error_msg":"qwerty"}} with code 400
+    // return {"error":{"code":400,"msg":"qwerty"}} with code 400
     
     return api_response(304, 400);
-    // return {"response":"Not Modified"} with code 400
+    // return {"Not Modified"} with code 400
     
     $content = array(
         array(
@@ -73,14 +76,12 @@ Alright! Use `api_response()` helper.
         ),
     );
     return api_response($content, 400);
-    // {"error":{"error_code":0,"error_msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
+    // {"error":{"code":0,"msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
     
     return api_response($content, 200);
-    // {"response":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
+    // {[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
-    
-This package using "response()->json()" helper from Laravel Framework.
 
 
 ## Support Languages
@@ -90,12 +91,12 @@ The possibility of the output status in various languages.
 
 ## Support Package
 
-You can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=94B8LCPAPJ5VG), [Yandex Money](https://money.yandex.ru/quickpay/shop-widget?account=410012608840929&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=Andrey+Helldar%3A+Open+Source+Projects&targets-hint=&default-sum=&button-text=04&mail=on&successURL=), WebMoney (Z124862854284, R343524258966) and [Patreon](https://www.patreon.com/helldar)
+You can donate via [Yandex Money](https://money.yandex.ru/quickpay/shop-widget?account=410012608840929&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=Andrey+Helldar%3A+Open+Source+Projects&targets-hint=&default-sum=&button-text=04&mail=on&successURL=), WebMoney (Z124862854284, R343524258966).
 
 
 ## Copyright and License
 
-ApiResponse was written by Andrey Helldar for the Laravel framework 5.3 or later, and is licensed under [The MIT License (MIT)](LICENSE).
+ApiResponse was written by Andrey Helldar for the Laravel framework 5.5 or later, and is licensed under [The MIT License](LICENSE).
 
 
 ## Translation

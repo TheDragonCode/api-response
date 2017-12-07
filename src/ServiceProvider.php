@@ -2,9 +2,9 @@
 
 namespace Helldar\ApiResponse;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class ApiResponseServiceProvider extends ServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Perform post-registration booting of services.
