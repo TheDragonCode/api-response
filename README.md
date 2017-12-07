@@ -19,7 +19,7 @@ Package for standardizing the responses from the API of your applications.
 <a href="https://php-eye.com/package/andrey-helldar/api-response"><img src="https://php-eye.com/badge/andrey-helldar/api-response/tested.svg?style=flat-square" alt="PHP-Eye" /></a>
 </p>
 
-#### For **Laravel <= 5.4** use [v2.x](/andrey-helldar/api-response/tree/v2.x) version.
+#### For **Laravel <= 5.4** use [v2.x](https://github.com/andrey-helldar/api-response/tree/v2.x) version.
 
 ## Installation
 
