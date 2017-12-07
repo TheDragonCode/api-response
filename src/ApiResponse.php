@@ -52,8 +52,8 @@ class ApiResponse
     {
         $this->result = array(
             'error' => array(
-                'error_code' => is_numeric($content) ? $content : $http_code,
-                'error_msg' => $this->getMessage($content),
+                'code' => is_numeric($content) ? $content : $http_code,
+                'msg' => $this->getMessage($content),
             ),
         );
     }
@@ -94,8 +94,6 @@ class ApiResponse
      */
     protected function success($content = null, $http_code = 400)
     {
-        $this->result = array(
-            'response' => $this->getMessage($content),
-        );
+        $this->result = $this->getMessage($content);
     }
 }
