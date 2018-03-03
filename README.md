@@ -89,11 +89,6 @@ If the first parameter is a number, then the decryption of the error by code wil
 The possibility of the output status in various languages.
 
 
-## Support Package
-
-You can donate via [Yandex Money](https://money.yandex.ru/quickpay/shop-widget?account=410012608840929&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=Andrey+Helldar%3A+Open+Source+Projects&targets-hint=&default-sum=&button-text=04&mail=on&successURL=).
-
-
 ## Copyright and License
 
 ApiResponse was written by Andrey Helldar for the Laravel framework 5.5 or later, and is licensed under [The MIT License](LICENSE).
