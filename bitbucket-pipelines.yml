@@ -3,14 +3,13 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: phpunit/phpunit:6.0.0
+image: phpunit/phpunit:7.0.0
 
 pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
           - composer self-update
-          - composer global require "hirak/prestissimo:^0.3"
           - composer install --ignore-platform-reqs
 
 #  branches:
