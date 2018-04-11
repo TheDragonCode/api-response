@@ -70,7 +70,7 @@ returned with code 200:
 ```php
 return api_response('qwerty');
 ```
-// returned with code 200:
+returned with code 200:
 ```json
 "qwerty"
 ```
