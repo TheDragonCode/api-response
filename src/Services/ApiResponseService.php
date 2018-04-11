@@ -19,7 +19,7 @@ class ApiResponseService
     /**
      * @var array
      */
-    protected $headers = [];
+    protected $headers = array();
 
     /**
      * @return \Helldar\ApiResponse\Services\ApiResponseService
@@ -58,7 +58,7 @@ class ApiResponseService
      *
      * @return $this
      */
-    public function headers($headers = [])
+    public function headers($headers = array())
     {
         $this->headers = array_merge($this->headers, $headers);
 
@@ -84,12 +84,12 @@ class ApiResponseService
 
     protected function setErrorContent()
     {
-        $this->content = [
-            "error" => [
-                "code" => $this->status_code,
-                "msg"  => $this->content,
-            ],
-        ];
+        $this->content = array(
+            'error' => array(
+                'code' => $this->status_code,
+                'msg' => $this->content,
+            ),
+        );
     }
 
     /**
