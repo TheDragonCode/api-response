@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "29dea8cb30c5edef88f368043f0fef46",
+    "content-hash": "5b3be725b930c70a8146e3f68130c8e0",
     "packages": [
         {
             "name": "symfony/http-foundation",
@@ -1581,7 +1581,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=5.5.9"
     },
     "platform-dev": []
 }
