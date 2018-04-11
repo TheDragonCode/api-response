@@ -19,8 +19,6 @@ Package for standardizing the responses from the API of your applications.
 <a href="https://php-eye.com/package/andrey-helldar/api-response"><img src="https://php-eye.com/badge/andrey-helldar/api-response/tested.svg?style=flat-square" alt="PHP-Eye" /></a>
 </p>
 
-#### For **Laravel <= 5.4** use [v2.x](https://github.com/andrey-helldar/api-response/tree/v2.x) version.
-
 ## Installation
 
 To get the latest version of ApiResponse, simply require the project using [Composer](https://getcomposer.org/):
@@ -168,7 +166,7 @@ The possibility of the output status in various languages.
 
 ## Copyright and License
 
-ApiResponse was written by Andrey Helldar for the Laravel framework 5.5 or later, and is licensed under [The MIT License](LICENSE).
+ApiResponse was written by Andrey Helldar, and is licensed under [The MIT License](LICENSE).
 
 
 ## Translation
