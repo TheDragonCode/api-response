@@ -34,9 +34,9 @@ class ApiResponseService
      *
      * @return $this
      */
-    public function status(int $status = 200)
+    public function status($status = 200)
     {
-        $this->status_code = $status;
+        $this->status_code = (int) $status;
 
         return $this;
     }
@@ -87,7 +87,7 @@ class ApiResponseService
         $this->content = [
             'error' => [
                 'code' => $this->status_code,
-                'msg' => $this->content,
+                'msg'  => $this->content,
             ],
         ];
     }
