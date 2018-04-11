@@ -1,4 +1,4 @@
-## ApiResponse for Laravel 5.5+
+## ApiResponse
 
 Package for standardizing the responses from the API of your applications.
 
@@ -34,52 +34,103 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^3.0"
+        "andrey-helldar/api-response": "^4.0"
     }
 }
 ```
 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`:
 
-* `Helldar\ApiResponse\ServiceProvider::class,`
-
-Next, call `php artisan vendor:publish`.
+    Helldar\ApiResponse\ServiceProvider::class,
 
 Alright! Use `api_response()` helper.
 
 
 ## Documentation
 
-    return api_response(null, 304);
-    // return {null} with code 304
+```php
+return api_response(null, 304);
+// returned with code 304:
+// null
+```
 
-    return api_response(304);
-    // return {"Not Modified"} with code 200
+```php
+return api_response(304);
+// returned with code 200:
+// 304
+```
 
-    return api_response('qwerty');
-    // return {"qwerty"} with code 200
+```php
+return api_response('qwerty');
+// returned with code 200:
+// "qwerty"
+```
     
-    return api_response('qwerty', 400);
-    // return {"error":{"code":400,"msg":"qwerty"}} with code 400
+```php
+return api_response('qwerty', 400);
+// returned with code 400:
+// {
+//   "error": {
+//     "code": 400,
+//     "msg": "qwerty"
+//   }
+// }
+```
     
-    return api_response(304, 400);
-    // return {"Not Modified"} with code 400
+```php
+return api_response(304, 400);
+// returned with code 400:
+// {
+//   "error": {
+//     "code": 400,
+//     "msg": 304
+//   }
+// }
+```
     
-    $content = array(
-        array(
-            'title' => 'Title #1',
-            'description' => 'Description #1',
-        ),
-        array(
-            'title' => 'Title #2',
-            'description' => 'Description #2',
-        ),
-    );
-    return api_response($content, 400);
-    // {"error":{"code":0,"msg":[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}}
-    
-    return api_response($content, 200);
-    // {[{"title":"Title #1","description":"Description #1"},{"title":"Title #2","description":"Description #2"}]}
+```php
+$content = array(
+    array(
+        'title' => 'Title #1',
+        'description' => 'Description #1',
+    ),
+    array(
+        'title' => 'Title #2',
+        'description' => 'Description #2',
+    ),
+);
+
+return api_response($content, 400);
+// returned with code 400:
+// {
+//   "error": {
+//     "code": 400,
+//     "msg": [
+//       {
+//         "title": "Title #1",
+//         "description": "Description #1",
+//       },
+//       {
+//         "title": "Title #2",
+//         "description": "Description #2",
+//       }
+//     ]
+//   }
+// }
+
+return api_response($content, 200);
+// returned with code 200:
+// [
+//   {
+//     "title": "Title #1",
+//     "description": "Description #1",
+//   },
+//   {
+//     "title": "Title #2",
+//     "description": "Description #2",
+//   }
+// ]
+```
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
 

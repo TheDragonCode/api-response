@@ -13,7 +13,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/lang', 'api-response');
+        //
     }
 
     /**

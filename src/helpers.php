@@ -1,14 +1,19 @@
 <?php
 
 /**
- * Api Response helper.
+ * Return a new response from the application.
  *
- * @param mixed $content
- * @param int   $http_code
+ * @param null  $content
+ * @param int   $status_code
+ * @param array $headers
  *
- * @return mixed
+ * @return \Symfony\Component\HttpFoundation\JsonResponse
  */
-function api_response($content = null, $http_code = 200)
+function api_response($content = null, int $status_code = 200, array $headers = [])
 {
-    return \Helldar\ApiResponse\ApiResponseFacade::response($content, $http_code);
+    return \Helldar\ApiResponse\Services\ApiResponseService::init()
+        ->headers($headers)
+        ->content($content)
+        ->status($status_code)
+        ->send();
 }
