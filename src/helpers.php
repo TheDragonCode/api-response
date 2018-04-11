@@ -9,7 +9,7 @@
  *
  * @return \Symfony\Component\HttpFoundation\JsonResponse
  */
-function api_response($content = null, int $status_code = 200, array $headers = [])
+function api_response($content = null, $status_code = 200, $headers = [])
 {
     return \Helldar\ApiResponse\Services\ApiResponseService::init()
         ->headers($headers)
