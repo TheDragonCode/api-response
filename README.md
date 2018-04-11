@@ -46,90 +46,116 @@ If you don't use auto-discovery, add the ServiceProvider to the providers array 
 Alright! Use `api_response()` helper.
 
 
-## Documentation
+## Using
 
+### returned NULL with code:
 ```php
 return api_response(null, 304);
-// returned with code 304:
-// null
+```
+returned with code 304:
+```json
+null
 ```
 
+### returned integer with default code:
 ```php
 return api_response(304);
-// returned with code 200:
-// 304
+```
+returned with code 200:
+```json
+304
 ```
 
+### returned string with default code:
 ```php
 return api_response('qwerty');
-// returned with code 200:
-// "qwerty"
 ```
-    
+// returned with code 200:
+```json
+"qwerty"
+```
+
+### returned string with code:
 ```php
 return api_response('qwerty', 400);
-// returned with code 400:
-// {
-//   "error": {
-//     "code": 400,
-//     "msg": "qwerty"
-//   }
-// }
 ```
-    
+returned with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "msg": "qwerty"
+  }
+}
+```
+
+### returned integer with code:
 ```php
 return api_response(304, 400);
-// returned with code 400:
-// {
-//   "error": {
-//     "code": 400,
-//     "msg": 304
-//   }
-// }
 ```
-    
+returned with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "msg": 304
+  }
+}
+```
+
+### returned array:
 ```php
-$content = array(
-    array(
+$content = [
+    [
         'title' => 'Title #1',
         'description' => 'Description #1',
-    ),
-    array(
+    ],
+    [
         'title' => 'Title #2',
         'description' => 'Description #2',
-    ),
-);
+    ],
+];
+```
 
+#### as error
+```php
 return api_response($content, 400);
-// returned with code 400:
-// {
-//   "error": {
-//     "code": 400,
-//     "msg": [
-//       {
-//         "title": "Title #1",
-//         "description": "Description #1",
-//       },
-//       {
-//         "title": "Title #2",
-//         "description": "Description #2",
-//       }
-//     ]
-//   }
-// }
+```
+returned with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "msg": [
+      {
+        "title": "Title #1",
+        "description": "Description #1"
+      },
+      {
+        "title": "Title #2",
+        "description": "Description #2"
+      }
+    ]
+  }
+}
+```
 
+#### as success
+```php
 return api_response($content, 200);
-// returned with code 200:
-// [
-//   {
-//     "title": "Title #1",
-//     "description": "Description #1",
-//   },
-//   {
-//     "title": "Title #2",
-//     "description": "Description #2",
-//   }
-// ]
+```
+returned with code 200:
+```json
+[
+  {
+    "title": "Title #1",
+    "description": "Description #1"
+  },
+  {
+    "title": "Title #2",
+    "description": "Description #2"
+  }
+]
 ```
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
