@@ -66,15 +66,25 @@ class ApiResponseService
     }
 
     /**
+     * @deprecated
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function send()
+    {
+        return $this->response();
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function response()
     {
         if ($this->isError()) {
             $this->setErrorContent();
         }
 
-        return $this->response();
+        return $this->jsonResponse();
     }
 
     protected function isError()
@@ -95,7 +105,7 @@ class ApiResponseService
     /**
      * @return JsonResponse
      */
-    protected function response()
+    protected function jsonResponse()
     {
         return JsonResponse::create($this->content, $this->status_code, $this->headers)
             ->send();

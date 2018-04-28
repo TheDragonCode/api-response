@@ -15,5 +15,5 @@ function api_response($content = null, $status_code = 200, $headers = [])
         ->headers($headers)
         ->content($content)
         ->status($status_code)
-        ->send();
+        ->response();
 }
