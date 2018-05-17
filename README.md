@@ -1,4 +1,4 @@
-## Api Response
+## API Response
 
 Package for standardizing the responses from the API of your applications.
 
