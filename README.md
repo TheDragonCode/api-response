@@ -2,7 +2,7 @@
 
 Package for standardizing the responses from the API of your applications.
 
-![api response](https://user-images.githubusercontent.com/10347617/40197291-b736dece-5a1b-11e8-920e-28721a60999b.png)
+![api response](https://user-images.githubusercontent.com/10347617/40197721-f19cbcea-5a1c-11e8-933a-416117cb8fe7.png)
 
 <p align="center">
     <a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
