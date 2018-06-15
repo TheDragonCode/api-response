@@ -107,7 +107,6 @@ class ApiResponseService
      */
     protected function jsonResponse()
     {
-        return JsonResponse::create($this->content, $this->status_code, $this->headers)
-            ->send();
+        return JsonResponse::create($this->content, $this->status_code, $this->headers);
     }
 }
