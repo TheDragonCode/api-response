@@ -97,7 +97,7 @@ class ApiResponseService
         $this->content = [
             'error' => [
                 'code' => $this->status_code,
-                'msg'  => $this->content,
+                'msg' => $this->content,
             ],
         ];
     }

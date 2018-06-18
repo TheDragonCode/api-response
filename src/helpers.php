@@ -3,8 +3,8 @@
 /**
  * Return a new response from the application.
  *
- * @param null $content
- * @param int $status_code
+ * @param null  $content
+ * @param int   $status_code
  * @param array $headers
  *
  * @return \Symfony\Component\HttpFoundation\JsonResponse
