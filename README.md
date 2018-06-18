@@ -1,22 +1,17 @@
-## ApiResponse
+## API Response
 
 Package for standardizing the responses from the API of your applications.
 
-![api response](https://cloud.githubusercontent.com/assets/10347617/23128374/0f02ede0-f7c2-11e6-8b9a-a7d0d265859b.jpg)
+![api response](https://user-images.githubusercontent.com/10347617/40197721-f19cbcea-5a1c-11e8-933a-416117cb8fe7.png)
 
 <p align="center">
-<a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square" alt="Total Downloads" /></a>
-<a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
-<a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
-<a href="https://github.com/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/license?format=flat-square" alt="License" /></a>
+    <a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square" alt="Total Downloads" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
+    <a href="LICENSE"><img src="https://poser.pugx.org/andrey-helldar/api-response/license?format=flat-square" alt="License" /></a>
 </p>
 
-
-<p align="center">
-<a href="https://github.com/andrey-helldar/api-response"><img src="https://img.shields.io/scrutinizer/g/andrey-helldar/api-response.svg?style=flat-square" alt="Quality Score" /></a>
-<a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
-<a href="https://php-eye.com/package/andrey-helldar/api-response"><img src="https://php-eye.com/badge/andrey-helldar/api-response/tested.svg?style=flat-square" alt="PHP-Eye" /></a>
-</p>
 
 ## Installation
 
