@@ -97,7 +97,7 @@ class ApiResponseService
         $this->content = [
             'error' => [
                 'code' => $this->status_code,
-                'msg' => $this->content,
+                'msg'  => $this->content,
             ],
         ];
     }
@@ -107,7 +107,6 @@ class ApiResponseService
      */
     protected function jsonResponse()
     {
-        return JsonResponse::create($this->content, $this->status_code, $this->headers)
-            ->send();
+        return JsonResponse::create($this->content, $this->status_code, $this->headers);
     }
 }
