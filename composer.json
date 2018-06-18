@@ -4,13 +4,7 @@
     "type": "library",
     "license": "MIT",
     "homepage": "http://ai-rus.com",
-    "keywords": [
-        "api response",
-        "api-response",
-        "response",
-        "laravel response",
-        "laravel"
-    ],
+    "keywords": ["api response", "api-response", "response", "laravel response", "laravel"],
     "support": {
         "issues": "https://github.com/andrey-helldar/api-response/issues",
         "source": "https://github.com/andrey-helldar/api-response"
