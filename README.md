@@ -153,11 +153,6 @@ returned with code 200:
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
 
 
-## Support Languages
-
-The possibility of the output status in various languages.
-
-
 ## Copyright and License
 
 ApiResponse was written by Andrey Helldar, and is licensed under [The MIT License](LICENSE).
