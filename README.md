@@ -1,8 +1,8 @@
 ## API Response
 
-Package for standardizing the responses from the API of your applications.
+Package for standardizing the responses from the API of your **Symfony based** applications.
 
-![api response](https://user-images.githubusercontent.com/10347617/40197721-f19cbcea-5a1c-11e8-933a-416117cb8fe7.png)
+![api response](https://user-images.githubusercontent.com/10347617/41526643-83080b9c-72ed-11e8-9fc7-9780546e0255.png)
 
 <p align="center">
     <a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
@@ -15,7 +15,7 @@ Package for standardizing the responses from the API of your applications.
 
 ## Installation
 
-To get the latest version of ApiResponse, simply require the project using [Composer](https://getcomposer.org/):
+To get the latest version of `API Response`, simply require the project using [Composer](https://getcomposer.org/):
 
 ```bash
 $ composer require andrey-helldar/api-response
@@ -34,6 +34,12 @@ Instead, you may of course manually update your require block and run `composer 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`:
 
     Helldar\ApiResponse\ServiceProvider::class,
+
+If you use a package outside the Laravel framework, you only need to connect the file `src/helpers.php`:
+
+```php
+require_once 'src/helpers.php';
+```
 
 Alright! Use `api_response()` helper.
 

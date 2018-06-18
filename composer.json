@@ -1,10 +1,10 @@
 {
     "name": "andrey-helldar/api-response",
-    "description": "Package for standardizing the responses from the API of your applications.",
+    "description": "Package for standardizing the responses from the API of your Symfony based applications.",
     "type": "library",
     "license": "MIT",
     "homepage": "http://ai-rus.com",
-    "keywords": ["api response", "api-response", "response", "laravel response", "laravel"],
+    "keywords": ["api response", "api-response", "response", "laravel", "symfony"],
     "support": {
         "issues": "https://github.com/andrey-helldar/api-response/issues",
         "source": "https://github.com/andrey-helldar/api-response"
