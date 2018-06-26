@@ -158,7 +158,7 @@ returned with code 200:
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
 
-### FormRequest for Laravel 5+ framework
+### FormRequest for API in Laravel 5+ framework
 
 You then must change your `Illuminate\Foundation\Http\FormRequest` to extend `Helldar\ApiResponse\Requests\FormRequest` in `app/Http/Requests/*` files:
 
