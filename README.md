@@ -170,6 +170,22 @@ class MyRequest extends FormRequest {
 }
 ```
 
+Next, in `app/Exceptions/Handler.php` file change a `render` method to:
+
+```php
+public function render($request, Exception $exception)
+{
+    if ($request->wantsJson() || $request->isJson()) {
+        $code    = $exception->getCode() ?: 400;
+        $message = $exception->getMessage();
+
+        return api_response($message, $code);
+    }
+
+    return parent::render($request, $exception);
+}
+```
+
 
 ## Copyright and License
 
