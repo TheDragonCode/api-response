@@ -1,5 +1,7 @@
 <?php
 
+use Helldar\ApiResponse\Services\ApiResponseService;
+
 /**
  * Return a new response from the application.
  *
@@ -11,7 +13,7 @@
  */
 function api_response($content = null, $status_code = 200, $headers = [])
 {
-    return \Helldar\ApiResponse\Services\ApiResponseService::init()
+    return ApiResponseService::init()
         ->headers($headers)
         ->content($content)
         ->status($status_code)
