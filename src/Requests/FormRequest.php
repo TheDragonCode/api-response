@@ -10,7 +10,7 @@ class FormRequest extends LaravelFormRequest
 {
     protected function failedValidation(Validator $validator)
     {
-        $errors = $validator->errors()->all();
+        $errors   = $validator->errors()->all();
         $response = api_response($errors, 400);
 
         throw new HttpResponseException($response);
