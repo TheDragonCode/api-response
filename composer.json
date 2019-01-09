@@ -3,7 +3,6 @@
     "description": "Package for standardizing the responses from the API of your Symfony based applications.",
     "type": "library",
     "license": "MIT",
-    "homepage": "http://ai-rus.com",
     "keywords": ["api response", "api-response", "response", "laravel", "symfony"],
     "support": {
         "issues": "https://github.com/andrey-helldar/api-response/issues",
@@ -21,6 +20,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5|^7.0"
+    },
+    "suggest": {
+        "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
     },
     "autoload": {
         "classmap": [
