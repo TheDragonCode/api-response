@@ -173,16 +173,23 @@ class MyRequest extends FormRequest {
 Next, in `app/Exceptions/Handler.php` file change a `render` method to:
 
 ```php
-public function render($request, Exception $exception)
+protected function unauthenticated($request, AuthenticationException $exception)
 {
-    if ($request->wantsJson() || $request->isJson()) {
-        $code    = $exception->getCode() ?: 400;
-        $message = $exception->getMessage();
-
-        return api_response($message, $code);
+    if ($this->isJson($request)) {
+        return api_response(__('Unauthorized'), 401);
     }
 
-    return parent::render($request, $exception);
+    return redirect()->guest(route('login'));
+}
+
+protected function invalidJson($request, ValidationException $exception)
+{
+    return api_response($exception->errors(), $exception->status ?: 400);
+}
+
+protected function isJson($request): bool
+{
+    return $request->expectsJson() || $request->isJson() || $request->is('api/');
 }
 ```
 
