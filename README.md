@@ -158,19 +158,9 @@ returned with code 200:
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
 
-### FormRequest for API in Laravel 5+ framework
+### Using in Laravel 5+ framework
 
-You then must change your `Illuminate\Foundation\Http\FormRequest` to extend `Helldar\ApiResponse\Requests\FormRequest` in `app/Http/Requests/*` files:
-
-```php
-use Helldar\ApiResponse\Requests\FormRequest;
-
-class MyRequest extends FormRequest {
-    //
-}
-```
-
-Next, in `app/Exceptions/Handler.php` file change a `render` method to:
+To use you need to add three methods to the file `app/Exceptions/Handler.php`:
 
 ```php
 protected function unauthenticated($request, AuthenticationException $exception)

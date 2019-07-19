@@ -5,8 +5,8 @@ use Helldar\ApiResponse\Services\ApiResponseService;
 /**
  * Return a new response from the application.
  *
- * @param null  $content
- * @param int   $status_code
+ * @param null|string|int|array|object $content
+ * @param int $status_code
  * @param array $headers
  *
  * @return \Symfony\Component\HttpFoundation\JsonResponse
