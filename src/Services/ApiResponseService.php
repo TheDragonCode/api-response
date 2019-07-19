@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiResponseService
 {
     /**
-     * @var mixed
+     * @var string|int|array|object
      */
     protected $content = null;
 
@@ -26,7 +26,7 @@ class ApiResponseService
      */
     public static function init()
     {
-        return new self();
+        return new self;
     }
 
     /**
@@ -42,7 +42,7 @@ class ApiResponseService
     }
 
     /**
-     * @param mixed $content
+     * @param string|int|array|object $content
      *
      * @return $this
      */
@@ -66,9 +66,9 @@ class ApiResponseService
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @deprecated
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function send()
     {
