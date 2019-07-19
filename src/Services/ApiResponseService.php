@@ -67,8 +67,8 @@ class ApiResponseService
 
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @deprecated
      *
+     * @deprecated
      */
     public function send()
     {
