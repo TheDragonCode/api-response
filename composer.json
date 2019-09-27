@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": ">=5.6.9",
+        "ext-json": "*",
         "symfony/http-foundation": "^3.0|^4.0"
     },
     "require-dev": {

@@ -6,19 +6,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiResponseService
 {
-    /**
-     * @var null|string|int|array|object
-     */
+    /** @var null|string|int|array|object */
     protected $content = null;
 
-    /**
-     * @var int
-     */
+    /** @var array */
+    protected $additionalContent = [];
+
+    /** @var int */
     protected $status_code = 200;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $headers = [];
 
     /**
@@ -49,6 +46,18 @@ class ApiResponseService
     public function content($content = null)
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @param array $content
+     *
+     * @return $this
+     */
+    public function additionalContent(array $content = [])
+    {
+        $this->additionalContent = $content;
 
         return $this;
     }
@@ -105,6 +114,19 @@ class ApiResponseService
      */
     protected function jsonResponse()
     {
-        return JsonResponse::create($this->content, $this->status_code, $this->headers);
+        $content = $this->mergeContent($this->content);
+
+        return JsonResponse::create($content, $this->status_code, $this->headers);
+    }
+
+    private function mergeContent($content)
+    {
+        if (! $this->additionalContent) {
+            return $content;
+        }
+
+        $content = is_array($content) ? $content : compact('content');
+
+        return array_merge($content, $this->additionalContent);
     }
 }

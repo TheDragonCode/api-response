@@ -23,4 +23,22 @@ class ApiResponseServiceTest extends TestCase
         $this->assertJsonStringEqualsJsonString(api_response('fail', 400)->getContent(), json_encode(['error' => ['code' => 400, 'msg' => 'fail']]));
         $this->assertJsonStringNotEqualsJsonString(api_response('fail', 400)->getContent(), json_encode('ok'));
     }
+
+    public function testAdditionalContent()
+    {
+        $this->assertJson(api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
+        $this->assertJson(api_response('fail', 400, [], ['foo' => 'bar'])->getContent());
+
+        $this->assertEquals(api_response('ok', 200, [], ['foo' => 'bar'])->getContent(), json_encode(['content' => 'ok', 'foo' => 'bar']));
+
+        $this->assertEquals(api_response('ok', 400, [], ['foo' => 'bar'])->getContent(),
+            json_encode([
+                'error' => [
+                    'code' => 400,
+                    'msg'  => 'ok',
+                ],
+                'foo'   => 'bar',
+            ])
+        );
+    }
 }

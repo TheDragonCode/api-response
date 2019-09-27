@@ -26,7 +26,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^4.0"
+        "andrey-helldar/api-response": "^4.3"
     }
 }
 ```
@@ -157,6 +157,30 @@ returned with code 200:
 ```
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
+
+
+## with additional content
+```php
+return api_response('title', 200, [], ['foo' => 'bar']);
+```
+returned with code 200:
+```json
+{
+  "content": "title",
+  "foo": "bar"
+}
+```
+
+returned with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "msg":"ok"
+  },
+  "foo": "bar"
+}
+```
 
 ### Using in Laravel 5+ framework
 
