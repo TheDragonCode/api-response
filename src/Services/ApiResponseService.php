@@ -121,7 +121,7 @@ class ApiResponseService
 
     private function mergeContent($content)
     {
-        if (! $this->additionalContent) {
+        if (!$this->additionalContent) {
             return $content;
         }
 
