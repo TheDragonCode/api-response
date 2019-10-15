@@ -2,9 +2,9 @@
 
 namespace Helldar\ApiResponse\Services;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use function is_string;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiResponseService
 {
@@ -123,7 +123,7 @@ class ApiResponseService
 
     private function mergeContent($content)
     {
-        if (! $this->additionalContent) {
+        if (!$this->additionalContent) {
             return $content;
         }
 
@@ -134,7 +134,7 @@ class ApiResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (! is_string($value) || null === $value) {
+        if (!is_string($value) || null === $value) {
             return $value;
         }
 
