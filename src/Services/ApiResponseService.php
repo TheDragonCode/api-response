@@ -4,26 +4,28 @@ namespace Helldar\ApiResponse\Services;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use function is_string;
+
 class ApiResponseService
 {
+    /** @var array */
+    protected $additionalContent = [];
+
     /** @var null|string|int|array|object */
     protected $content = null;
 
     /** @var array */
-    protected $additionalContent = [];
+    protected $headers = [];
 
     /** @var int */
     protected $status_code = 200;
-
-    /** @var array */
-    protected $headers = [];
 
     /**
      * @return \Helldar\ApiResponse\Services\ApiResponseService
      */
     public static function init()
     {
-        return new self;
+        return new self();
     }
 
     /**
@@ -39,7 +41,7 @@ class ApiResponseService
     }
 
     /**
-     * @param null|string|int|array|object $content
+     * @param mixed $content
      *
      * @return $this
      */
@@ -104,7 +106,7 @@ class ApiResponseService
         $this->content = [
             'error' => [
                 'code' => $this->status_code,
-                'msg'  => $this->content,
+                'msg'  => $this->getContent(),
             ],
         ];
     }
@@ -114,19 +116,33 @@ class ApiResponseService
      */
     protected function jsonResponse()
     {
-        $content = $this->mergeContent($this->content);
+        $content = $this->mergeContent($this->getContent());
 
         return JsonResponse::create($content, $this->status_code, $this->headers);
     }
 
     private function mergeContent($content)
     {
-        if (!$this->additionalContent) {
+        if (! $this->additionalContent) {
             return $content;
         }
 
         $content = is_array($content) ? $content : compact('content');
 
         return array_merge($content, $this->additionalContent);
+    }
+
+    private function e($value = null, $doubleEncode = true)
+    {
+        if (! is_string($value) || null === $value) {
+            return $value;
+        }
+
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode);
+    }
+
+    private function getContent()
+    {
+        return $this->e($this->content);
     }
 }
