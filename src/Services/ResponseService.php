@@ -2,11 +2,11 @@
 
 namespace Helldar\ApiResponse\Services;
 
-use function is_string;
-
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ApiResponseService
+class ResponseService
 {
     /** @var array */
     protected $additionalContent = [];
@@ -21,7 +21,7 @@ class ApiResponseService
     protected $status_code = 200;
 
     /**
-     * @return \Helldar\ApiResponse\Services\ApiResponseService
+     * @return \Helldar\ApiResponse\Services\ResponseService
      */
     public static function init()
     {
@@ -123,7 +123,7 @@ class ApiResponseService
 
     private function mergeContent($content)
     {
-        if (!$this->additionalContent) {
+        if (! $this->additionalContent) {
             return $content;
         }
 
@@ -134,7 +134,7 @@ class ApiResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -143,6 +143,18 @@ class ApiResponseService
 
     private function getContent()
     {
-        return $this->e($this->content);
+        return $this->content instanceof Responsable
+            ? $this->toResponse($this->content)
+            : $this->e($this->content);
+    }
+
+    private function toResponse(Responsable $content)
+    {
+        $request  = Container::getInstance()->make('request');
+        $response = $content->toResponse($request);
+
+        $this->status($response->getStatusCode());
+
+        return $response->getData();
     }
 }
