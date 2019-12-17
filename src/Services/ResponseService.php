@@ -123,7 +123,7 @@ class ResponseService
 
     private function mergeContent($content)
     {
-        if (! $this->additionalContent) {
+        if (!$this->additionalContent) {
             return $content;
         }
 
@@ -134,7 +134,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (! is_string($value) || null === $value) {
+        if (!is_string($value) || null === $value) {
             return $value;
         }
 
