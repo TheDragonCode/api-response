@@ -61,7 +61,7 @@ class ResponseService
      */
     public function with(array $with = []): self
     {
-        $this->with = $with;
+        $this->with = array_merge($this->with, $with);
 
         return $this;
     }
@@ -93,7 +93,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -104,6 +104,8 @@ class ResponseService
 
     private function getData()
     {
+        $this->splitData();
+
         $data = $this->isError()
             ? $this->getErrorData()
             : $this->getSuccessData();
@@ -116,15 +118,15 @@ class ResponseService
         return [
             'error' => [
                 'code' => $this->status_code,
-                'data' => $this->wrappedData(),
+                'data' => $this->e($this->data),
             ],
         ];
     }
 
-    private function getSuccessData()
+    private function getSuccessData(): array
     {
         return [
-            'data' => $this->wrappedData(),
+            'data' => $this->e($this->data),
         ];
     }
 
@@ -135,11 +137,24 @@ class ResponseService
             : $data;
     }
 
-    private function wrappedData()
+    private function splitData(): void
     {
-        return is_array($this->data) || is_object($this->data)
-            ? $this->data->data ?? $this->data['data'] ?? $this->data
-            : $this->e($this->data);
+        if (! is_array($this->data) && ! is_object($this->data)) {
+            return;
+        }
+
+        $data = is_object($this->data)
+            ? get_object_vars($this->data)
+            : $this->data;
+
+        if (isset($data['data'])) {
+            $with = array_filter($data, function ($key) {
+                return $key !== 'data';
+            }, ARRAY_FILTER_USE_KEY);
+
+            $this->data = $data['data'];
+            $this->with($with);
+        }
     }
 
     private function toResponse(Responsable $content)
