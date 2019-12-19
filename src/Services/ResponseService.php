@@ -98,7 +98,7 @@ class ResponseService
         $this->content = [
             'error' => [
                 'code' => $this->status_code,
-                'msg'  => $this->getContent(),
+                'data' => $this->getContent(),
             ],
         ];
     }
