@@ -77,4 +77,20 @@ class ResponseServiceTest extends TestCase
         $this->assertEquals(401, api_response('ok', 401)->getStatusCode());
         $this->assertEquals(500, api_response('ok', 500)->getStatusCode());
     }
+
+    public function testKeyCollisionTesting()
+    {
+        $this->assertEquals(json_encode(['data' => 'example', 'foo' => 'bar']), api_response(['data' => 'example', 'foo' => 'bar'])->getContent());
+        $this->assertEquals(json_encode(['data' => ['example', 'foo' => 'bar']]), api_response(['data' => ['example', 'foo' => 'bar']])->getContent());
+
+        $this->assertEquals(
+            json_encode(['error' => ['code' => 400, 'data' => 'example'], 'foo' => 'bar']),
+            api_response(['data' => 'example', 'foo' => 'bar'], 400)->getContent()
+        );
+
+        $this->assertEquals(
+            json_encode(['error' => ['code' => 400, 'data' => ['foo' => 'bar', 'baz' => 'baq']]]),
+            api_response(['data' => ['foo' => 'bar', 'baz' => 'baq']], 400)->getContent()
+        );
+    }
 }
