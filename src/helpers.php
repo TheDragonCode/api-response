@@ -1,6 +1,7 @@
 <?php
 
 use Helldar\ApiResponse\Services\ResponseService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Return a new response from the application.
@@ -10,7 +11,7 @@ use Helldar\ApiResponse\Services\ResponseService;
  * @param array $headers
  * @param array $with
  *
- * @return \Symfony\Component\HttpFoundation\JsonResponse
+ * @return JsonResponse
  */
 function api_response($content = null, $status_code = 200, $headers = [], array $with = [])
 {

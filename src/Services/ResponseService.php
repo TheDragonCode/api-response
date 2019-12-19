@@ -21,7 +21,7 @@ class ResponseService
     protected $status_code = 200;
 
     /**
-     * @return \Helldar\ApiResponse\Services\ResponseService
+     * @return ResponseService
      */
     public static function init()
     {
@@ -33,9 +33,9 @@ class ResponseService
      *
      * @return $this
      */
-    public function status($status = 200)
+    public function status(int $status = 200)
     {
-        $this->status_code = (int) $status;
+        $this->status_code = $status;
 
         return $this;
     }
@@ -77,7 +77,7 @@ class ResponseService
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function send()
     {
@@ -85,7 +85,7 @@ class ResponseService
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function response()
     {
@@ -112,7 +112,7 @@ class ResponseService
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     protected function jsonResponse()
     {
@@ -123,7 +123,7 @@ class ResponseService
 
     private function mergeContent($content)
     {
-        if (!$this->with) {
+        if (! $this->with) {
             return $content;
         }
 
@@ -134,7 +134,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
