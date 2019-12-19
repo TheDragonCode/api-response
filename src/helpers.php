@@ -6,18 +6,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Return a new response from the application.
  *
- * @param null|string|int|array|object $content
+ * @param null|mixed $data
  * @param int $status_code
  * @param array $headers
  * @param array $with
  *
  * @return JsonResponse
  */
-function api_response($content = null, $status_code = 200, $headers = [], array $with = [])
+function api_response($data = null, int $status_code = 200, array $headers = [], array $with = [])
 {
     return ResponseService::init()
         ->headers($headers)
-        ->content($content)
+        ->data($data)
         ->with($with)
         ->status($status_code)
         ->response();

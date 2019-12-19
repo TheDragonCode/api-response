@@ -12,7 +12,7 @@ class ResponseService
     protected $with = [];
 
     /** @var null|string|int|array|object */
-    protected $content = null;
+    protected $data = null;
 
     /** @var array */
     protected $headers = [];
@@ -41,15 +41,15 @@ class ResponseService
     }
 
     /**
-     * @param mixed $content
+     * @param mixed $data
      *
      * @return $this
      */
-    public function content($content = null): self
+    public function data($data = null): self
     {
-        $this->content = $content instanceof Responsable
-            ? $this->toResponse($content)
-            : $content;
+        $this->data = $data instanceof Responsable
+            ? $this->toResponse($data)
+            : $data;
 
         return $this;
     }
@@ -83,7 +83,7 @@ class ResponseService
      */
     public function response(): JsonResponse
     {
-        return JsonResponse::create($this->getContent(), $this->status_code, $this->headers);
+        return JsonResponse::create($this->getData(), $this->status_code, $this->headers);
     }
 
     protected function isError(): bool
@@ -93,7 +93,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -102,37 +102,37 @@ class ResponseService
             : null;
     }
 
-    private function getContent()
+    private function getData()
     {
-        $content = $this->isError()
-            ? $this->getErrorContent()
-            : $this->getSuccessContent();
+        $data = $this->isError()
+            ? $this->getErrorData()
+            : $this->getSuccessData();
 
-        return $this->mergeWith($content);
+        return $this->mergeDataWith($data);
     }
 
-    private function getErrorContent(): array
+    private function getErrorData(): array
     {
         return [
             'error' => [
                 'code' => $this->status_code,
-                'data' => $this->e($this->content),
+                'data' => $this->e($this->data),
             ],
         ];
     }
 
-    private function getSuccessContent()
+    private function getSuccessData()
     {
         return [
-            'data' => $this->e($this->content),
+            'data' => $this->e($this->data),
         ];
     }
 
-    private function mergeWith(array $content = []): array
+    private function mergeDataWith(array $data = []): array
     {
         return $this->with
-            ? array_merge($content, $this->with)
-            : $content;
+            ? array_merge($data, $this->with)
+            : $data;
     }
 
     private function toResponse(Responsable $content)

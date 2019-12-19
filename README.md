@@ -116,7 +116,7 @@ returned with code 400:
 
 ### returned array:
 ```php
-$content = [
+$data = [
     [
         'title' => 'Title #1',
         'description' => 'Description #1',
@@ -130,7 +130,7 @@ $content = [
 
 #### as error
 ```php
-return api_response($content, 400);
+return api_response($data, 400);
 ```
 returned with code 400:
 ```json
@@ -153,7 +153,7 @@ returned with code 400:
 
 #### as success
 ```php
-return api_response($content, 200);
+return api_response($data, 200);
 ```
 returned with code 200:
 ```json

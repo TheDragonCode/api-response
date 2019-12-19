@@ -29,7 +29,7 @@ class ResponseServiceTest extends TestCase
         $this->assertEquals(json_encode(['error' => ['code' => 500, 'data' => null]]), api_response('', 500)->getContent());
     }
 
-    public function testContent()
+    public function testData()
     {
         $this->assertJson(api_response('ok')->getContent());
         $this->assertJson(api_response('fail', 400)->getContent());
@@ -45,7 +45,7 @@ class ResponseServiceTest extends TestCase
         $this->assertJsonStringNotEqualsJsonString(json_encode(['data' => 'ok']), api_response('fail', 400)->getContent());
     }
 
-    public function testWithContent()
+    public function testDataWith()
     {
         $this->assertJson(api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
         $this->assertJson(api_response('fail', 400, [], ['foo' => 'bar'])->getContent());
@@ -64,7 +64,7 @@ class ResponseServiceTest extends TestCase
         );
     }
 
-    public function testNumberContent()
+    public function testNumber()
     {
         $this->assertEquals(json_encode(['data' => 304]), api_response(304)->getContent());
         $this->assertEquals(json_encode(['error' => ['code' => 400, 'data' => 304]]), api_response(304, 400)->getContent());
