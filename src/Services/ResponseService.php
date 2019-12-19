@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ResponseService
 {
     /** @var array */
-    protected $additionalContent = [];
+    protected $with = [];
 
     /** @var null|string|int|array|object */
     protected $content = null;
@@ -53,13 +53,13 @@ class ResponseService
     }
 
     /**
-     * @param array $content
+     * @param array $with
      *
      * @return $this
      */
-    public function additionalContent(array $content = [])
+    public function with(array $with = [])
     {
-        $this->additionalContent = $content;
+        $this->with = $with;
 
         return $this;
     }
@@ -123,13 +123,13 @@ class ResponseService
 
     private function mergeContent($content)
     {
-        if (!$this->additionalContent) {
+        if (!$this->with) {
             return $content;
         }
 
         $content = is_array($content) ? $content : compact('content');
 
-        return array_merge($content, $this->additionalContent);
+        return array_merge($content, $this->with);
     }
 
     private function e($value = null, $doubleEncode = true)
