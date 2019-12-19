@@ -2,6 +2,7 @@
 
 namespace Helldar\ApiResponse\Services;
 
+use Helldar\Support\Facades\Arr;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -93,7 +94,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -110,7 +111,7 @@ class ResponseService
             ? $this->getErrorData()
             : $this->getSuccessData();
 
-        return $this->mergeDataWith($data);
+        return $this->mergeData($data);
     }
 
     private function getErrorData(): array
@@ -130,7 +131,7 @@ class ResponseService
         ];
     }
 
-    private function mergeDataWith(array $data = []): array
+    private function mergeData(array $data = []): array
     {
         return $this->with
             ? array_merge($data, $this->with)
@@ -139,21 +140,15 @@ class ResponseService
 
     private function splitData(): void
     {
-        if (!is_array($this->data) && !is_object($this->data)) {
+        if (! is_array($this->data) && ! is_object($this->data)) {
             return;
         }
 
-        $data = is_object($this->data)
-            ? get_object_vars($this->data)
-            : $this->data;
+        $data = Arr::toArray($this->data);
 
-        if (isset($data['data'])) {
-            $with = array_filter($data, function ($key) {
-                return $key !== 'data';
-            }, ARRAY_FILTER_USE_KEY);
-
-            $this->data = $data['data'];
-            $this->with($with);
+        if (Arr::exists($data, 'data')) {
+            $this->data(Arr::get($data, 'data'));
+            $this->with(Arr::except($data, 'data'));
         }
     }
 
