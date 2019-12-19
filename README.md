@@ -29,7 +29,8 @@ Or you can manually set the required branch, following the table:
 |:---:|:---:|:---:|:---|
 |  ^4.0 | 5.6.9+ | ^3.0, ^4.0 | `composer require andrey-helldar/api-response:^4.0` |
 |  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4.1` |
-|  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.0` |
+|  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^5.0` |
+|  latest | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response` |
 
 Instead, you may of course manually update your require block and run `composer update` if you so choose:
 
