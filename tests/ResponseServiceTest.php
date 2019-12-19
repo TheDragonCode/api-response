@@ -6,39 +6,75 @@ use PHPUnit\Framework\TestCase;
 
 class ResponseServiceTest extends TestCase
 {
-    public function testInit()
+    public function testEmpty()
+    {
+        $this->assertJson(api_response(null)->getContent());
+        $this->assertJson(api_response(null, 300)->getContent());
+        $this->assertJson(api_response(null, 400)->getContent());
+        $this->assertJson(api_response(null, 500)->getContent());
+
+        $this->assertJson(api_response('')->getContent());
+        $this->assertJson(api_response('', 300)->getContent());
+        $this->assertJson(api_response('', 400)->getContent());
+        $this->assertJson(api_response('', 500)->getContent());
+
+        $this->assertEquals(json_encode(['data' => null]), api_response(null)->getContent());
+        $this->assertEquals(json_encode(['data' => null]), api_response(null, 300)->getContent());
+        $this->assertEquals(json_encode(['error' => ['code' => 400, 'data' => null]]), api_response(null, 400)->getContent());
+        $this->assertEquals(json_encode(['error' => ['code' => 500, 'data' => null]]), api_response(null, 500)->getContent());
+
+        $this->assertEquals(json_encode(['data' => null]), api_response('')->getContent());
+        $this->assertEquals(json_encode(['data' => null]), api_response('', 300)->getContent());
+        $this->assertEquals(json_encode(['error' => ['code' => 400, 'data' => null]]), api_response('', 400)->getContent());
+        $this->assertEquals(json_encode(['error' => ['code' => 500, 'data' => null]]), api_response('', 500)->getContent());
+    }
+
+    public function testContent()
     {
         $this->assertJson(api_response('ok')->getContent());
         $this->assertJson(api_response('fail', 400)->getContent());
 
-        $this->assertEquals(api_response('ok')->getContent(), json_encode('ok'));
-
-        $this->assertEquals(api_response('ok', 401)->getStatusCode(), 401);
-        $this->assertEquals(api_response('ok')->getStatusCode(), 200);
+        $this->assertEquals(json_encode(['data' => 'ok']), api_response('ok')->getContent());
     }
 
     public function testStructure()
     {
-        $this->assertJsonStringEqualsJsonString(api_response('ok')->getContent(), json_encode('ok'));
-        $this->assertJsonStringEqualsJsonString(api_response('fail', 400)->getContent(), json_encode(['error' => ['code' => 400, 'msg' => 'fail']]));
-        $this->assertJsonStringNotEqualsJsonString(api_response('fail', 400)->getContent(), json_encode('ok'));
+        $this->assertJsonStringEqualsJsonString(json_encode(['data' => 'ok']), api_response('ok')->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(['error' => ['code' => 400, 'data' => 'fail']]), api_response('fail', 400)->getContent());
+
+        $this->assertJsonStringNotEqualsJsonString(json_encode(['data' => 'ok']), api_response('fail', 400)->getContent());
     }
 
-    public function testAdditionalContent()
+    public function testWithContent()
     {
         $this->assertJson(api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
         $this->assertJson(api_response('fail', 400, [], ['foo' => 'bar'])->getContent());
 
-        $this->assertEquals(api_response('ok', 200, [], ['foo' => 'bar'])->getContent(), json_encode(['content' => 'ok', 'foo' => 'bar']));
+        $this->assertEquals(json_encode(['data' => 'ok', 'foo' => 'bar']), api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
 
-        $this->assertEquals(api_response('ok', 400, [], ['foo' => 'bar'])->getContent(),
+        $this->assertEquals(
             json_encode([
                 'error' => [
                     'code' => 400,
-                    'msg'  => 'ok',
+                    'data' => 'ok',
                 ],
                 'foo'   => 'bar',
-            ])
+            ]),
+            api_response('ok', 400, [], ['foo' => 'bar'])->getContent()
         );
+    }
+
+    public function testNumberContent()
+    {
+        $this->assertEquals(json_encode(['data' => 304]), api_response(304)->getContent());
+        $this->assertEquals(json_encode(['error' => ['code' => 400, 'data' => 304]]), api_response(304, 400)->getContent());
+    }
+
+    public function testStatusCode()
+    {
+        $this->assertEquals(200, api_response('ok')->getStatusCode());
+        $this->assertEquals(301, api_response('ok', 301)->getStatusCode());
+        $this->assertEquals(401, api_response('ok', 401)->getStatusCode());
+        $this->assertEquals(500, api_response('ok', 500)->getStatusCode());
     }
 }

@@ -33,7 +33,7 @@ class ResponseService
      *
      * @return $this
      */
-    public function status(int $status = 200)
+    public function status(int $status = 200): self
     {
         $this->status_code = $status;
 
@@ -45,9 +45,11 @@ class ResponseService
      *
      * @return $this
      */
-    public function content($content = null)
+    public function content($content = null): self
     {
-        $this->content = $content;
+        $this->content = $content instanceof Responsable
+            ? $this->toResponse($content)
+            : $content;
 
         return $this;
     }
@@ -57,7 +59,7 @@ class ResponseService
      *
      * @return $this
      */
-    public function with(array $with = [])
+    public function with(array $with = []): self
     {
         $this->with = $with;
 
@@ -69,7 +71,7 @@ class ResponseService
      *
      * @return $this
      */
-    public function headers($headers = [])
+    public function headers(array $headers = []): self
     {
         $this->headers = array_merge($this->headers, $headers);
 
@@ -79,49 +81,14 @@ class ResponseService
     /**
      * @return JsonResponse
      */
-    public function response()
+    public function response(): JsonResponse
     {
-        if ($this->isError()) {
-            $this->setErrorContent();
-        }
-
-        return $this->jsonResponse();
+        return JsonResponse::create($this->getContent(), $this->status_code, $this->headers);
     }
 
-    protected function isError()
+    protected function isError(): bool
     {
         return $this->status_code >= 400;
-    }
-
-    protected function setErrorContent()
-    {
-        $this->content = [
-            'error' => [
-                'code' => $this->status_code,
-                'data' => $this->getContent(),
-            ],
-        ];
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    protected function jsonResponse()
-    {
-        $content = $this->mergeContent($this->getContent());
-
-        return JsonResponse::create($content, $this->status_code, $this->headers);
-    }
-
-    private function mergeContent($content)
-    {
-        if (! $this->with) {
-            return $content;
-        }
-
-        $content = is_array($content) ? $content : compact('content');
-
-        return array_merge($content, $this->with);
     }
 
     private function e($value = null, $doubleEncode = true)
@@ -130,23 +97,48 @@ class ResponseService
             return $value;
         }
 
-        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode);
+        return $value !== ''
+            ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode)
+            : null;
     }
 
     private function getContent()
     {
-        return $this->content instanceof Responsable
-            ? $this->toResponse($this->content)
-            : $this->e($this->content);
+        $content = $this->isError()
+            ? $this->getErrorContent()
+            : $this->getSuccessContent();
+
+        return $this->mergeWith($content);
+    }
+
+    private function getErrorContent(): array
+    {
+        return [
+            'error' => [
+                'code' => $this->status_code,
+                'data' => $this->e($this->content),
+            ],
+        ];
+    }
+
+    private function getSuccessContent()
+    {
+        return [
+            'data' => $this->e($this->content),
+        ];
+    }
+
+    private function mergeWith(array $content = []): array
+    {
+        return $this->with
+            ? array_merge($content, $this->with)
+            : $content;
     }
 
     private function toResponse(Responsable $content)
     {
-        $request  = Container::getInstance()->make('request');
-        $response = $content->toResponse($request);
-
-        $this->status($response->getStatusCode());
-
-        return $response->getData();
+        return $content
+            ->toResponse(Container::getInstance()->make('request'))
+            ->getData();
     }
 }

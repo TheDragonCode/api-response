@@ -21,21 +21,28 @@ To get the latest version of `API Response`, simply require the project using [C
 $ composer require andrey-helldar/api-response
 ```
 
+This command will automatically install the latest version of the package for your environment.
+
+Or you can manually set the required branch, following the table:
+
+| Package version | PHP version | Symfony version | Command |
+|:---:|:---:|:---:|:---|
+|  ^4.0 | 5.6.9+ | ^3.0, ^4.0 | `composer require andrey-helldar/api-response:^4.0` |
+|  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4.1` |
+|  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.0` |
+
 Instead, you may of course manually update your require block and run `composer update` if you so choose:
 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^4.3"
+        "andrey-helldar/api-response": "^5.0"
     }
 }
 ```
 
-If you don't use auto-discovery, add the ServiceProvider to the providers array in `config/app.php`:
 
-    Helldar\ApiResponse\ServiceProvider::class,
-
-If you use a package outside the Laravel framework, you only need to connect the file `src/helpers.php`:
+If you use a package outside the Laravel framework, you only need to connect the file `src/helpers.php` for easy use:
 
 ```php
 require_once 'src/helpers.php';
@@ -52,7 +59,9 @@ return api_response(null, 304);
 ```
 returned with code 304:
 ```json
-null
+{
+    "data": null
+}
 ```
 
 ### returned integer with default code:
@@ -61,7 +70,9 @@ return api_response(304);
 ```
 returned with code 200:
 ```json
-304
+{
+    "data": 304
+}
 ```
 
 ### returned string with default code:
@@ -70,7 +81,9 @@ return api_response('qwerty');
 ```
 returned with code 200:
 ```json
-"qwerty"
+{
+    "data": "qwerty"
+}
 ```
 
 ### returned string with code:
@@ -82,7 +95,7 @@ returned with code 400:
 {
   "error": {
     "code": 400,
-    "msg": "qwerty"
+    "data": "qwerty"
   }
 }
 ```
@@ -96,7 +109,7 @@ returned with code 400:
 {
   "error": {
     "code": 400,
-    "msg": 304
+    "data": 304
   }
 }
 ```
@@ -124,7 +137,7 @@ returned with code 400:
 {
   "error": {
     "code": 400,
-    "msg": [
+    "data": [
       {
         "title": "Title #1",
         "description": "Description #1"
@@ -144,16 +157,18 @@ return api_response($content, 200);
 ```
 returned with code 200:
 ```json
-[
-  {
-    "title": "Title #1",
-    "description": "Description #1"
-  },
-  {
-    "title": "Title #2",
-    "description": "Description #2"
-  }
-]
+{
+    "data": [
+        {
+            "title": "Title #1",
+            "description": "Description #1"
+        },
+        {
+            "title": "Title #2",
+            "description": "Description #2"
+        }
+    ]
+}
 ```
     
 If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
@@ -166,7 +181,7 @@ return api_response('title', 200, [], ['foo' => 'bar']);
 returned with code 200:
 ```json
 {
-  "content": "title",
+  "data": "title",
   "foo": "bar"
 }
 ```
@@ -176,7 +191,7 @@ returned with code 400:
 {
   "error": {
     "code": 400,
-    "msg":"ok"
+    "data":"ok"
   },
   "foo": "bar"
 }
@@ -187,34 +202,32 @@ returned with code 400:
 To use you need to add three methods to the file `app/Exceptions/Handler.php`:
 
 ```php
-protected function unauthenticated($request, AuthenticationException $exception)
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+
+class Handler extends ExceptionHandler
 {
-    if ($this->isJson($request)) {
-        return api_response(__('Unauthorized'), 401);
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->isJson($request)
+            ? api_response(__('errors.401', 401))
+            : redirect()->guest(route('login'));
     }
-
-    return redirect()->guest(route('login'));
-}
-
-protected function invalidJson($request, ValidationException $exception)
-{
-    return api_response($exception->errors(), $exception->status ?: 400);
-}
-
-protected function isJson($request): bool
-{
-    return $request->expectsJson() || $request->isJson() || $request->is('api/');
+    
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return api_response($exception->errors(), $exception->status ?: 400);
+    }
+    
+    protected function isJson($request): bool
+    {
+        return $request->expectsJson() || $request->isJson() || $request->is('api/');
+    }
 }
 ```
 
 
 ## Copyright and License
 
-ApiResponse was written by Andrey Helldar, and is licensed under [The MIT License](LICENSE).
-
-
-## Translation
-
-Translations of text and comment by Google Translate.
-
-Help with translation +1 in karma :)
+`API Response` was written by Andrey Helldar, and is licensed under the [MIT License](LICENSE).
