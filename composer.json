@@ -3,7 +3,7 @@
     "description": "Package for standardizing the responses from the API of your Symfony based applications.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["api response", "api-response", "response", "laravel", "symfony"],
+    "keywords": ["api response", "api-response", "response", "laravel", "symfony", "api"],
     "support": {
         "issues": "https://github.com/andrey-helldar/api-response/issues",
         "source": "https://github.com/andrey-helldar/api-response"
@@ -45,12 +45,5 @@
         "preferred-install": "dist"
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Helldar\\ApiResponse\\ServiceProvider"
-            ]
-        }
-    }
+    "prefer-stable": true
 }
