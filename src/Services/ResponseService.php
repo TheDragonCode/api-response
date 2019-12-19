@@ -93,7 +93,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -116,7 +116,7 @@ class ResponseService
         return [
             'error' => [
                 'code' => $this->status_code,
-                'data' => $this->e($this->data),
+                'data' => $this->wrappedData(),
             ],
         ];
     }
@@ -124,7 +124,7 @@ class ResponseService
     private function getSuccessData()
     {
         return [
-            'data' => $this->e($this->data),
+            'data' => $this->wrappedData(),
         ];
     }
 
@@ -133,6 +133,13 @@ class ResponseService
         return $this->with
             ? array_merge($data, $this->with)
             : $data;
+    }
+
+    private function wrappedData()
+    {
+        return is_array($this->data) || is_object($this->data)
+            ? $this->data->data ?? $this->data['data'] ?? $this->data
+            : $this->e($this->data);
     }
 
     private function toResponse(Responsable $content)
