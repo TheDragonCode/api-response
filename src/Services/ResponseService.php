@@ -79,14 +79,6 @@ class ResponseService
     /**
      * @return JsonResponse
      */
-    public function send()
-    {
-        return $this->response();
-    }
-
-    /**
-     * @return JsonResponse
-     */
     public function response()
     {
         if ($this->isError()) {
