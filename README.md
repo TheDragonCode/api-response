@@ -263,16 +263,34 @@ return with code 400:
 
 ## Use without `data` key
 
-If you do not want to wrap the response in the `data` key, you need to write your helper that calls the service or use `Helldar\ApiResponse\Services\Response` class:
+If you do not want to wrap the response in the `data` key, then you need to pass the `false` value to the 5th parameter of the function:
 
 ```php
 use Helldar\ApiResponse\Services\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-function api_response($data = null, int $status_code = 200, array $headers = [], array $with = [])
+/**
+ * Return a new response from the application.
+ *
+ * @param mixed|null $data
+ * @param int $status_code
+ * @param array $headers
+ * @param array $with
+ * @param bool $use_data
+ *
+ * @return JsonResponse
+ */
+function api_response(
+    $data = null,
+    int $status_code = 200,
+    array $headers = [],
+    array $with = [],
+    bool $use_data = true
+)
 {
     return Response::init()
         ->headers($headers)
-        ->data($data, false)
+        ->data($data, $use_data)
         ->with($with)
         ->status($status_code)
         ->response();
@@ -281,7 +299,7 @@ function api_response($data = null, int $status_code = 200, array $headers = [],
 
 ### as NULL with code and without `data` key:
 ```php
-return api_response(null, 304);
+return api_response(null, 304, [], [], false);
 ```
 return with code 304:
 ```json
@@ -292,7 +310,7 @@ return with code 304:
 
 ### as integer with default code and without `data` key:
 ```php
-return api_response(304);
+return api_response(304, 200, [], [], false);
 ```
 return with code 200:
 ```json
@@ -303,7 +321,7 @@ return with code 200:
 
 ### as string with default code and without `data` key:
 ```php
-return api_response('qwerty');
+return api_response('qwerty', 200, [], [], false);
 ```
 return with code 200:
 ```json
@@ -314,7 +332,7 @@ return with code 200:
 
 ### as string with code and without `data` key:
 ```php
-return api_response('qwerty', 400);
+return api_response('qwerty', 400, [], [], false);
 ```
 return with code 400:
 ```json
@@ -330,7 +348,7 @@ return with code 400:
 
 ### as integer with code and without `data` key:
 ```php
-return api_response(304, 400);
+return api_response(304, 400, [], [], false);
 ```
 return with code 400:
 ```json
@@ -358,11 +376,9 @@ $data = [
 ];
 ```
 
-[[ to top ]](#api-response)
-
 #### as error and without `data` key
 ```php
-return api_response($data, 400);
+return api_response($data, 400, [], [], false);
 ```
 return with code 400:
 ```json
@@ -387,7 +403,7 @@ return with code 400:
 
 #### as success and without `data` key
 ```php
-return api_response($data, 200);
+return api_response($data, 200, [], [], false);
 ```
 return with code 200:
 ```json
@@ -407,9 +423,9 @@ If the first parameter is a number, then the decryption of the error by code wil
 
 [[ to top ]](#api-response)
 
-### with additional content and without `data` key:
+#### with additional content and without `data` key:
 ```php
-return api_response('title', 200, [], ['foo' => 'bar']);
+return api_response('title', 200, [], ['foo' => 'bar'], false);
 ```
 return with code 200:
 ```json
@@ -432,7 +448,7 @@ return with code 400:
 
 
 ```php
-return api_response(['data' => 'foo', 'bar' => 'baz']);
+return api_response(['data' => 'foo', 'bar' => 'baz'], 200, [], [], false);
 ```
 
 return with code 200:

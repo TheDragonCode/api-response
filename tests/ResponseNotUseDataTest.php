@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Helldar\ApiResponse\Services\Response;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -113,11 +112,6 @@ class ResponseNotUseDataTest extends TestCase
 
     protected function response($data = null, int $status_code = 200, array $headers = [], array $with = []): JsonResponse
     {
-        return Response::init()
-            ->headers($headers)
-            ->data($data, false)
-            ->with($with)
-            ->status($status_code)
-            ->response();
+        return api_response($data, $status_code, $headers, $with, false);
     }
 }
