@@ -484,6 +484,15 @@ use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
+    public function render($request, Exception $exception)
+    {
+        $rendered = parent::render($request, $exception);
+
+        return $this->isJson($request)
+            ? api_response($rendered->getContent(), $rendered->getStatusCode())
+            : $rendered;
+    }
+
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
