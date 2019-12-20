@@ -32,7 +32,7 @@ Or you can manually set the required version, following the table:
 | Package version | PHP version | Symfony version | Command |
 |:---:|:---:|:---:|:---|
 |  ^4.0 | 5.6.9+ | ^3.0, ^4.0 | `composer require andrey-helldar/api-response:^4.0` |
-|  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4.1` |
+|  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4` |
 |  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^5.0` |
 |  latest | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response` |
 
