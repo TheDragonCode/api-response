@@ -17,6 +17,28 @@ Package for standardizing the responses from the API of your **Symfony based** a
 </p>
 
 
+## Content
+* [Installation](#installation)
+* [Using](#using)
+    * [as NULL with code](#as-null-with-code)
+    * [as integer with default code](#as-integer-with-default-code)
+    * [as string with default code](#as-string-with-default-code)
+    * [as string with code](#as-string-with-code)
+    * [as integer with code](#as-integer-with-code)
+    * [as array](#as-array)
+    * [with additional content](#with-additional-content)
+* [Use without `data` key](#use-without-data-key)
+    * [as NULL with code](#as-null-with-code-and-without-data-key)
+    * [as integer with default code](#as-integer-with-default-code-and-without-data-key)
+    * [as string with default code](#as-string-with-default-code-and-without-data-key)
+    * [as string with code](#as-string-with-code-and-without-data-key)
+    * [as integer with code](#as-integer-with-code-and-without-data-key)
+    * [as array](#as-array-and-without-data-key)
+    * [with additional content](#with-additional-content-and-without-data-key)
+* [Using in Laravel 5+ framework](#using-in-laravel-5-framework)
+* [Copyright and License](#copyright-and-license)
+
+
 ## Installation
 
 To get the latest version of `API Response`, simply require the project using [Composer](https://getcomposer.org/):
@@ -51,44 +73,44 @@ Alright! Use `api_response()` helper.
 
 ## Using
 
-### returned NULL with code:
+### as NULL with code:
 ```php
 return api_response(null, 304);
 ```
-returned with code 304:
+return with code 304:
 ```json
 {
     "data": null
 }
 ```
 
-### returned integer with default code:
+### as integer with default code:
 ```php
 return api_response(304);
 ```
-returned with code 200:
+return with code 200:
 ```json
 {
     "data": 304
 }
 ```
 
-### returned string with default code:
+### as string with default code:
 ```php
 return api_response('qwerty');
 ```
-returned with code 200:
+return with code 200:
 ```json
 {
     "data": "qwerty"
 }
 ```
 
-### returned string with code:
+### as string with code:
 ```php
 return api_response('qwerty', 400);
 ```
-returned with code 400:
+return with code 400:
 ```json
 {
   "error": {
@@ -98,11 +120,11 @@ returned with code 400:
 }
 ```
 
-### returned integer with code:
+### as integer with code:
 ```php
 return api_response(304, 400);
 ```
-returned with code 400:
+return with code 400:
 ```json
 {
   "error": {
@@ -112,7 +134,7 @@ returned with code 400:
 }
 ```
 
-### returned array:
+### as array:
 ```php
 $data = [
     [
@@ -130,7 +152,7 @@ $data = [
 ```php
 return api_response($data, 400);
 ```
-returned with code 400:
+return with code 400:
 ```json
 {
   "error": {
@@ -153,7 +175,7 @@ returned with code 400:
 ```php
 return api_response($data, 200);
 ```
-returned with code 200:
+return with code 200:
 ```json
 {
     "data": [
@@ -169,14 +191,13 @@ returned with code 200:
 }
 ```
     
-If the first parameter is a number, then the decryption of the error by code will be returned. In other cases, the value of the passed variable will be returned.
+If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
 
-
-## with additional content
+### with additional content
 ```php
 return api_response('title', 200, [], ['foo' => 'bar']);
 ```
-returned with code 200:
+return with code 200:
 ```json
 {
   "data": "title",
@@ -184,7 +205,7 @@ returned with code 200:
 }
 ```
 
-returned with code 400:
+return with code 400:
 ```json
 {
   "error": {
@@ -197,10 +218,10 @@ returned with code 400:
 
 
 ```php
-return api_response(['data' => 'foo', 'bar' => 'baz]);
+return api_response(['data' => 'foo', 'bar' => 'baz']);
 ```
 
-returned with code 200:
+return with code 200:
 ```json
 {
   "data": "foo",
@@ -208,7 +229,7 @@ returned with code 200:
 }
 ```
 
-returned with code 400:
+return with code 400:
 ```json
 {
   "error": {
@@ -218,6 +239,185 @@ returned with code 400:
   "bar": "baz"
 }
 ```
+
+
+## Use without `data` key
+
+If you do not want to wrap the response in the `data` key, you need to write your helper that calls the service or use `Helldar\ApiResponse\Services\Response` class:
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+function api_response($data = null, int $status_code = 200, array $headers = [], array $with = [])
+{
+    return Response::init()
+        ->headers($headers)
+        ->data($data, false)
+        ->with($with)
+        ->status($status_code)
+        ->response();
+}
+```
+
+### as NULL with code and without `data` key:
+```php
+return api_response(null, 304);
+```
+return with code 304:
+```json
+{}
+```
+
+### as integer with default code and without `data` key:
+```php
+return api_response(304);
+```
+return with code 200:
+```json
+304
+```
+
+### as string with default code and without `data` key:
+```php
+return api_response('qwerty');
+```
+return with code 200:
+```json
+"qwerty"
+```
+
+### as string with code and without `data` key:
+```php
+return api_response('qwerty', 400);
+```
+return with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data": "qwerty"
+  }
+}
+```
+
+### as integer with code and without `data` key:
+```php
+return api_response(304, 400);
+```
+return with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data": 304
+  }
+}
+```
+
+### as array and without `data` key:
+```php
+$data = [
+    [
+        'title' => 'Title #1',
+        'description' => 'Description #1',
+    ],
+    [
+        'title' => 'Title #2',
+        'description' => 'Description #2',
+    ],
+];
+```
+
+#### as error and without `data` key
+```php
+return api_response($data, 400);
+```
+return with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data": [
+      {
+        "title": "Title #1",
+        "description": "Description #1"
+      },
+      {
+        "title": "Title #2",
+        "description": "Description #2"
+      }
+    ]
+  }
+}
+```
+
+#### as success and without `data` key
+```php
+return api_response($data, 200);
+```
+return with code 200:
+```json
+[
+    {
+        "title": "Title #1",
+        "description": "Description #1"
+    },
+    {
+        "title": "Title #2",
+        "description": "Description #2"
+    }
+]
+```
+    
+If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
+
+### with additional content and without `data` key:
+```php
+return api_response('title', 200, [], ['foo' => 'bar']);
+```
+return with code 200:
+```json
+{
+  "data": "title",
+  "foo": "bar"
+}
+```
+
+return with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data":"ok"
+  },
+  "foo": "bar"
+}
+```
+
+
+```php
+return api_response(['data' => 'foo', 'bar' => 'baz']);
+```
+
+return with code 200:
+```json
+{
+  "data": "foo",
+  "bar": "baz"
+}
+```
+
+return with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data":"foo"
+  },
+  "bar": "baz"
+}
+```
+
 
 ### Using in Laravel 5+ framework
 

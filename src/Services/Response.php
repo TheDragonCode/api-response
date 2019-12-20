@@ -15,6 +15,9 @@ class Response
     /** @var null|string|int|array|object */
     protected $data = null;
 
+    /** @var bool */
+    protected $use_data = true;
+
     /** @var array */
     protected $headers = [];
 
@@ -43,11 +46,14 @@ class Response
 
     /**
      * @param mixed $data
+     * @param bool $use_data
      *
      * @return $this
      */
-    public function data($data = null): self
+    public function data($data = null, bool $use_data = true): self
     {
+        $this->use_data = $use_data;
+
         $this->data = $data instanceof Responsable
             ? $this->toResponse($data)
             : $data;
@@ -124,16 +130,18 @@ class Response
         ];
     }
 
-    private function getSuccessData(): array
+    private function getSuccessData()
     {
-        return [
-            'data' => $this->e($this->data),
-        ];
+        $data = $this->e($this->data);
+
+        return $this->use_data || $this->with
+            ? compact('data')
+            : $data;
     }
 
-    private function mergeData(array $data = []): array
+    private function mergeData($data = [])
     {
-        return $this->with
+        return is_array($data)
             ? array_merge($data, $this->with)
             : $data;
     }
