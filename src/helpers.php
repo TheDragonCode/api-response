@@ -1,6 +1,6 @@
 <?php
 
-use Helldar\ApiResponse\Services\ResponseService;
+use Helldar\ApiResponse\Services\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 function api_response($data = null, int $status_code = 200, array $headers = [], array $with = [])
 {
-    return ResponseService::init()
+    return Response::init()
         ->headers($headers)
         ->data($data)
         ->with($with)

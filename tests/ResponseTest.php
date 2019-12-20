@@ -4,7 +4,7 @@ namespace Helldar\ApiResponse\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class ResponseServiceTest extends TestCase
+class ResponseTest extends TestCase
 {
     public function testEmpty()
     {

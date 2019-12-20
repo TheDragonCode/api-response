@@ -7,7 +7,7 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ResponseService
+class Response
 {
     /** @var array */
     protected $with = [];
@@ -22,7 +22,7 @@ class ResponseService
     protected $status_code = 200;
 
     /**
-     * @return ResponseService
+     * @return Response
      */
     public static function init()
     {
@@ -94,7 +94,7 @@ class ResponseService
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (!is_string($value) || null === $value) {
+        if (! is_string($value) || null === $value) {
             return $value;
         }
 
@@ -140,7 +140,7 @@ class ResponseService
 
     private function splitData(): void
     {
-        if (!is_array($this->data) && !is_object($this->data)) {
+        if (! is_array($this->data) && ! is_object($this->data)) {
             return;
         }
 
