@@ -27,7 +27,7 @@ $ composer require andrey-helldar/api-response
 
 This command will automatically install the latest version of the package for your environment.
 
-Or you can manually set the required branch, following the table:
+Or you can manually set the required version, following the table:
 
 | Package version | PHP version | Symfony version | Command |
 |:---:|:---:|:---:|:---|
@@ -44,13 +44,6 @@ Instead, you may of course manually update your require block and run `composer 
         "andrey-helldar/api-response": "^5.0"
     }
 }
-```
-
-
-If you use a package outside the Laravel framework, you only need to connect the file `src/helpers.php` for easy use:
-
-```php
-require_once 'src/helpers.php';
 ```
 
 Alright! Use `api_response()` helper.
