@@ -70,6 +70,8 @@ Instead, you may of course manually update your require block and run `composer 
 
 Alright! Use `api_response()` helper.
 
+[[ to top ]](#api-response)
+
 
 ## Using
 
@@ -84,6 +86,8 @@ return with code 304:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as integer with default code:
 ```php
 return api_response(304);
@@ -95,6 +99,8 @@ return with code 200:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as string with default code:
 ```php
 return api_response('qwerty');
@@ -105,6 +111,8 @@ return with code 200:
     "data": "qwerty"
 }
 ```
+
+[[ to top ]](#api-response)
 
 ### as string with code:
 ```php
@@ -120,6 +128,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as integer with code:
 ```php
 return api_response(304, 400);
@@ -134,6 +144,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as array:
 ```php
 $data = [
@@ -147,6 +159,8 @@ $data = [
     ],
 ];
 ```
+
+[[ to top ]](#api-response)
 
 #### as error
 ```php
@@ -171,6 +185,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 #### as success
 ```php
 return api_response($data, 200);
@@ -192,6 +208,8 @@ return with code 200:
 ```
     
 If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
+
+[[ to top ]](#api-response)
 
 ### with additional content
 ```php
@@ -240,6 +258,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 
 ## Use without `data` key
 
@@ -268,6 +288,8 @@ return with code 304:
 {}
 ```
 
+[[ to top ]](#api-response)
+
 ### as integer with default code and without `data` key:
 ```php
 return api_response(304);
@@ -277,6 +299,8 @@ return with code 200:
 304
 ```
 
+[[ to top ]](#api-response)
+
 ### as string with default code and without `data` key:
 ```php
 return api_response('qwerty');
@@ -285,6 +309,8 @@ return with code 200:
 ```json
 "qwerty"
 ```
+
+[[ to top ]](#api-response)
 
 ### as string with code and without `data` key:
 ```php
@@ -300,6 +326,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as integer with code and without `data` key:
 ```php
 return api_response(304, 400);
@@ -314,6 +342,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 ### as array and without `data` key:
 ```php
 $data = [
@@ -327,6 +357,8 @@ $data = [
     ],
 ];
 ```
+
+[[ to top ]](#api-response)
 
 #### as error and without `data` key
 ```php
@@ -351,6 +383,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 #### as success and without `data` key
 ```php
 return api_response($data, 200);
@@ -370,6 +404,8 @@ return with code 200:
 ```
     
 If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
+
+[[ to top ]](#api-response)
 
 ### with additional content and without `data` key:
 ```php
@@ -418,6 +454,8 @@ return with code 400:
 }
 ```
 
+[[ to top ]](#api-response)
+
 
 ### Using in Laravel 5+ framework
 
@@ -449,7 +487,11 @@ class Handler extends ExceptionHandler
 }
 ```
 
+[[ to top ]](#api-response)
+
 
 ## Copyright and License
 
 `API Response` was written by Andrey Helldar, and is licensed under the [MIT License](LICENSE).
+
+[[ to top ]](#api-response)
