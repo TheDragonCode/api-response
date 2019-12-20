@@ -505,13 +505,16 @@ class Handler extends ExceptionHandler
 
     protected function invalidJson($request, ValidationException $exception)
     {
-        return api_response($exception->errors(), $exception->status ?: 400);
+        return response()->json(
+            $exception->errors(),
+            $exception->status
+        );
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
-            ? api_response(trans('errors.401', 401))
+            ? api_response(__('Unauthenticated'), 401)
             : redirect()->guest(route('login'));
     }
 
