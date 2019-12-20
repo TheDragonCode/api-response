@@ -475,39 +475,68 @@ return with code 400:
 
 ### Best practice use with the Laravel Framework
 
-To use you need to add three methods to the file `app/Exceptions/Handler.php`:
+To call the function when errors occur, you need to make changes to file `app/Exceptions/Handler.php`:
 
 ```php
-use Illuminate\Auth\Access\AuthorizationException;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
+    /**
+     * @param Request $request
+     * @param Exception $exception
+     *
+     * @return \Illuminate\Http\Response|JsonResponse|Response
+     */
     public function render($request, Exception $exception)
     {
         $rendered = parent::render($request, $exception);
 
         return $this->isJson($request)
-            ? api_response($rendered->getContent(), $rendered->getStatusCode())
+            ? $this->jsonResponse($rendered)
             : $rendered;
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return api_response($exception->errors(), $exception->status ?: 400);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
-            ? api_response(__('errors.401', 401))
+            ? api_response(trans('errors.401', 401))
             : redirect()->guest(route('login'));
     }
-    
-    protected function invalidJson($request, ValidationException $exception)
-    {
-        return api_response($exception->errors(), $exception->status ?: 400);
-    }
-    
+
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
     protected function isJson($request): bool
     {
         return $request->expectsJson() || $request->isJson() || $request->is('api/');
+    }
+
+    /**
+     * @param \Illuminate\Http\Response|Response $rendered
+     *
+     * @return JsonResponse
+     */
+    protected function jsonResponse($rendered)
+    {
+        $content = method_exists($rendered, 'getOriginalContent')
+            ? $rendered->getOriginalContent()
+            : $rendered->getContent();
+
+        return api_response($content, $rendered->getStatusCode());
     }
 }
 ```
