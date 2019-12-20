@@ -12,7 +12,7 @@ class Response
     /** @var array */
     protected $with = [];
 
-    /** @var null|string|int|array|object */
+    /** @var array|int|object|string|null */
     protected $data = null;
 
     /** @var bool */

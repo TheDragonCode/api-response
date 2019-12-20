@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Return a new response from the application.
  *
- * @param null|mixed $data
+ * @param mixed|null $data
  * @param int $status_code
  * @param array $headers
  * @param array $with
