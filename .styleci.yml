@@ -16,7 +16,6 @@ enabled:
     - concat_with_spaces
     - const_separation
     - lowercase_cast
-    - lowercase_constants
     - method_separation
     - no_blank_lines_after_phpdoc
     - no_empty_comment
