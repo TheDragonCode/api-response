@@ -195,6 +195,30 @@ returned with code 400:
 }
 ```
 
+
+```php
+return api_response(['data' => 'foo', 'bar' => 'baz]);
+```
+
+returned with code 200:
+```json
+{
+  "data": "foo",
+  "bar": "baz"
+}
+```
+
+returned with code 400:
+```json
+{
+  "error": {
+    "code": 400,
+    "data":"foo"
+  },
+  "bar": "baz"
+}
+```
+
 ### Using in Laravel 5+ framework
 
 To use you need to add three methods to the file `app/Exceptions/Handler.php`:
