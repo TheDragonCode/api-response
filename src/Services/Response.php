@@ -100,7 +100,7 @@ class Response
 
     private function e($value = null, $doubleEncode = true)
     {
-        if (! is_string($value) || null === $value) {
+        if (!is_string($value) || null === $value) {
             return $value;
         }
 
@@ -148,7 +148,7 @@ class Response
 
     private function splitData(): void
     {
-        if (! is_array($this->data) && ! is_object($this->data)) {
+        if (!is_array($this->data) && !is_object($this->data)) {
             return;
         }
 
