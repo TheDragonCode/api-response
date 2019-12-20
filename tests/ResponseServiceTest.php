@@ -62,6 +62,26 @@ class ResponseServiceTest extends TestCase
             ]),
             api_response('ok', 400, [], ['foo' => 'bar'])->getContent()
         );
+
+        $this->assertEquals(
+            json_encode(['data' => [], 'foo' => 'bar', 'baz' => 'baq']),
+            api_response([], 200, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+        );
+
+        $this->assertEquals(
+            json_encode(['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
+            api_response([], 200, [], ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+        );
+
+        $this->assertEquals(
+            json_encode(['error' => ['code' => 400, 'data' => []], 'foo' => 'bar', 'baz' => 'baq']),
+            api_response([], 400, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+        );
+
+        $this->assertEquals(
+            json_encode(['error' => ['code' => 400, 'data' => []], 'data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
+            api_response([], 400, [], ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+        );
     }
 
     public function testNumber()
