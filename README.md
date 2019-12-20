@@ -35,7 +35,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
     * [as integer with code](#as-integer-with-code-and-without-data-key)
     * [as array](#as-array-and-without-data-key)
     * [with additional content](#with-additional-content-and-without-data-key)
-* [Using in Laravel 5+ framework](#using-in-laravel-5-framework)
+* [Best practice use with the Laravel Framework](#best-practice-use-with-the-laravel-framework)
 * [Copyright and License](#copyright-and-license)
 
 
@@ -473,7 +473,7 @@ return with code 400:
 [[ to top ]](#api-response)
 
 
-### Using in Laravel 5+ framework
+### Best practice use with the Laravel Framework
 
 To use you need to add three methods to the file `app/Exceptions/Handler.php`:
 
