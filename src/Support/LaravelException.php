@@ -2,6 +2,9 @@
 
 namespace Helldar\ApiResponse\Support;
 
+use function __;
+use function api_response;
+use function config;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -9,15 +12,12 @@ use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Throwable;
 
-use function __;
-use function api_response;
-use function config;
+use Illuminate\Validation\ValidationException;
 use function method_exists;
 use function redirect;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Throwable;
 
 abstract class LaravelException extends ExceptionHandler
 {
@@ -28,8 +28,8 @@ abstract class LaravelException extends ExceptionHandler
      * @param  \Throwable  $e
      *
      * @throws \Throwable
-     * @return \Symfony\Component\HttpFoundation\Response
      *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Throwable $e)
     {
@@ -72,7 +72,7 @@ abstract class LaravelException extends ExceptionHandler
 
     /**
      * @param  \Illuminate\Http\Request  $request
-     * @param  Throwable|Symfony\Component\HttpFoundation\JsonResponse  $response
+     * @param  Symfony\Component\HttpFoundation\JsonResponse|Throwable  $response
      *
      * @return bool
      */
