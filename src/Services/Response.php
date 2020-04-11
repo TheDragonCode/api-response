@@ -33,7 +33,7 @@ class Response
     }
 
     /**
-     * @param int $status
+     * @param  int  $status
      *
      * @return $this
      */
@@ -45,8 +45,8 @@ class Response
     }
 
     /**
-     * @param mixed $data
-     * @param bool $use_data
+     * @param  mixed  $data
+     * @param  bool  $use_data
      *
      * @return $this
      */
@@ -62,7 +62,7 @@ class Response
     }
 
     /**
-     * @param array $with
+     * @param  array  $with
      *
      * @return $this
      */
@@ -74,7 +74,7 @@ class Response
     }
 
     /**
-     * @param array $headers
+     * @param  array  $headers
      *
      * @return $this
      */
