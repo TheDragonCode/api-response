@@ -2,17 +2,19 @@
 
 namespace Helldar\ApiResponse\Support;
 
-use function basename;
 use Exception as BaseException;
-use function get_class;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
-
+use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Throwable;
+
+use function basename;
+use function get_class;
 use function is_object;
 use function is_subclass_of;
 use function str_replace;
-use Throwable;
 
 final class Exception
 {
@@ -40,8 +42,8 @@ final class Exception
     public static function getCode($value, int $status_code = 400): int
     {
         $code = $value instanceof ValidationException
-            ? ($value->status ?? $value->getCode())
-            : ($value->getCode() ?? $status_code);
+            ? $value->status ?? $value->getCode() ?? $status_code
+            : $value->getCode() ?? $value->getStatusCode() ?? $status_code;
 
         return static::correctStatusCode($code, $status_code);
     }
@@ -55,6 +57,12 @@ final class Exception
 
     public static function getData($exception)
     {
+        if ($exception instanceof SymfonyResponse || $exception instanceof LaravelResponse) {
+            return method_exists($exception, 'getOriginalContent')
+                ? $exception->getOriginalContent()
+                : $exception->getContent() ?? $exception->getMessage();
+        }
+
         if ($exception instanceof Responsable || $exception instanceof HttpResponseException) {
             return $exception->getResponse();
         }
