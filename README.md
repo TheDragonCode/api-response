@@ -38,7 +38,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
         * [as array](#as-array-and-without-data-key)
         * [with additional content](#with-additional-content-and-without-data-key)
     * [Returning Exception instances](#returning-exception-instances)
-    * [Best practice use with the Laravel Framework](#best-practice-use-with-the-laravel-framework)
+    * [Best practice use with the Laravel and Lumen Frameworks](#best-practice-use-with-the-laravel-and-lumen-frameworks)
 * [Copyright and License](#copyright-and-license)
 
 
@@ -572,73 +572,101 @@ return with code 405:
 [[ to top ]](#api-response)
 
 
-### Best practice use with the Laravel Framework
+### Best practice use with the Laravel and Lumen Frameworks
 
 To call the function when errors occur, you need to make changes to file `app/Exceptions/Handler.php`:
 
 ```php
-use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * @param Request $request
-     * @param Exception $exception
+     * Render an exception into an HTTP response.
      *
-     * @return \Illuminate\Http\Response|JsonResponse|Response
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $e
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $e)
     {
-        $rendered = parent::render($request, $exception);
+        if ($this->isJson($request) && $e instanceof MaintenanceModeException) {
+            return api_response(__('Maintenance Mode'), 503);
+        }
+
+        if (\method_exists($e, 'render') && $response = $e->render($request)) {
+            return Router::toResponse($request, $response);
+        } elseif ($e instanceof Responsable) {
+            return $e->toResponse($request);
+        }
+
+        $e = $this->prepareException($e);
+
+        if ($e instanceof HttpResponseException) {
+            return $e->getResponse();
+        } elseif ($e instanceof AuthenticationException) {
+            return $this->unauthenticated($request, $e);
+        } elseif ($e instanceof ValidationException) {
+            return $this->convertValidationExceptionToResponse($e, $request);
+        }
 
         return $this->isJson($request)
-            ? $this->jsonResponse($rendered)
-            : $rendered;
+            ? $this->prepareJsonResponse($request, $e)
+            : $this->prepareResponse($request, $e);
     }
 
     protected function invalidJson($request, ValidationException $exception)
     {
-        return response()->json(
-            $exception->errors(),
-            $exception->status
-        );
+        return api_response($exception);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
-            ? api_response(__('Unauthenticated'), 401)
+            ? api_response($exception)
             : redirect()->guest(route('login'));
     }
 
     /**
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
+     * @param Throwable|Symfony\Component\HttpFoundation\JsonResponse $response
      *
      * @return bool
      */
-    protected function isJson($request): bool
+    protected function isJson($request, $response = null): bool
     {
-        return $request->expectsJson() || $request->isJson() || $request->is('api*');
+        return $request->expectsJson() || $request->isJson() || $request->is('api*') || $response instanceof JsonResponse;
     }
 
-    /**
-     * @param \Illuminate\Http\Response|Response $rendered
-     *
-     * @return JsonResponse
-     */
-    protected function jsonResponse($rendered)
+    protected function prepareJsonResponse($request, Throwable $e)
     {
-        $content = method_exists($rendered, 'getOriginalContent')
-            ? $rendered->getOriginalContent()
-            : $rendered->getContent();
+        return api_response(
+            $this->convertExceptionToArray($e),
+            $this->isHttpException($e) ? $e->getStatusCode() : 500,
+            [],
+            $this->isHttpException($e) ? $e->getHeaders() : []
+        );
+    }
 
-        return api_response($content, $rendered->getStatusCode());
+    protected function convertExceptionToArray(Throwable $e)
+    {
+        $converted = parent::convertExceptionToArray($e);
+
+        return config('app.debug')
+            ? $converted
+            : Arr::get($converted, 'message');
     }
 }
 ```
