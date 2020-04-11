@@ -1,6 +1,6 @@
 <?php
 
-namespace Helldar\ApiResponse\Tests;
+namespace Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
