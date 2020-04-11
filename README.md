@@ -574,102 +574,40 @@ return with code 405:
 
 ### Best practice use with the Laravel and Lumen Frameworks
 
-To call the function when errors occur, you need to make changes to file `app/Exceptions/Handler.php`:
-
+If you use the Laravel or Lumen framework, you can update the inheritance in the `app\Exceptions\Handler.php` file to `Helldar\ApiResponse\Support\LaravelException`:
 ```php
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Arr;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Throwable;
+use Helldar\ApiResponse\Support\LaravelException as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $e
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $e)
-    {
-        if ($this->isJson($request) && $e instanceof MaintenanceModeException) {
-            return api_response(__('Maintenance Mode'), 503);
-        }
-
-        if (\method_exists($e, 'render') && $response = $e->render($request)) {
-            return Router::toResponse($request, $response);
-        } elseif ($e instanceof Responsable) {
-            return $e->toResponse($request);
-        }
-
-        $e = $this->prepareException($e);
-
-        if ($e instanceof HttpResponseException) {
-            return $e->getResponse();
-        } elseif ($e instanceof AuthenticationException) {
-            return $this->unauthenticated($request, $e);
-        } elseif ($e instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($e, $request);
-        }
-
-        return $this->isJson($request)
-            ? $this->prepareJsonResponse($request, $e)
-            : $this->prepareResponse($request, $e);
-    }
-
-    protected function invalidJson($request, ValidationException $exception)
-    {
-        return api_response($exception);
-    }
-
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return $this->isJson($request)
-            ? api_response($exception)
-            : redirect()->guest(route('login'));
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param Throwable|Symfony\Component\HttpFoundation\JsonResponse $response
-     *
-     * @return bool
-     */
-    protected function isJson($request, $response = null): bool
-    {
-        return $request->expectsJson() || $request->isJson() || $request->is('api*') || $response instanceof JsonResponse;
-    }
-
-    protected function prepareJsonResponse($request, Throwable $e)
-    {
-        return api_response(
-            $this->convertExceptionToArray($e),
-            $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            [],
-            $this->isHttpException($e) ? $e->getHeaders() : []
-        );
-    }
-
-    protected function convertExceptionToArray(Throwable $e)
-    {
-        $converted = parent::convertExceptionToArray($e);
-
-        return config('app.debug')
-            ? $converted
-            : Arr::get($converted, 'message');
-    }
+    //
 }
 ```
+
+If you did not add anything to this file, then delete everything except methods 111 and 222 from it.
+
+As a result, a clean file will look like this:
+```php
+<?php
+
+namespace App\Exceptions;
+
+use Helldar\ApiResponse\Support\LaravelException as ExceptionHandler;
+
+class Handler extends ExceptionHandler
+{
+    protected $dontReport = [
+        //
+    ];
+
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+}
+```
+
+Or you can change this file by adding code to it, similar to [ours](src/Support/LaravelException.php).
 
 [[ to top ]](#api-response)
 
