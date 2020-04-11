@@ -1,0 +1,47 @@
+name: phpunit
+on: [push]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+            matrix:
+                php: [7.3, 7.4]
+                dependency-version: [prefer-lowest, prefer-stable]
+
+        name: PHP ${{ matrix.php }} - ${{ matrix.dependency-version }}
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v1
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
+                    coverage: xdebug
+
+            -   name: Composer self update
+                run: |
+                    composer self-update
+                    composer global require hirak/prestissimo --no-plugins
+
+            -   name: Validate composer.json and composer.lock
+                run: composer validate
+
+            -   name: Install dependencies
+                run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-progress --no-interaction --no-suggest
+
+            -   name: Execute tests
+                run: |
+                    mkdir -p build/logs
+                    vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+            -   name: Scrutinizer CI
+                run: |
+                    wget https://scrutinizer-ci.com/ocular.phar
+                    php ocular.phar code-coverage:upload --format=php-clover coverage.clover
