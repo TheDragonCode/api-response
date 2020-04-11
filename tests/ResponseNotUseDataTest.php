@@ -3,13 +3,13 @@
 namespace Tests;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Exceptions\BarException;
 use Tests\Exceptions\FooException;
 
-class ResponseNotUseDataTest extends TestCase
+class ResponseNotUseDataTest extends BaseTestCase
 {
+    protected $use_data = false;
+
     public function testEmpty()
     {
         $this->assertJson($this->response(null)->getContent());
@@ -163,10 +163,5 @@ class ResponseNotUseDataTest extends TestCase
         );
 
         $this->assertSame(406, $r->getStatusCode());
-    }
-
-    protected function response($data = null, int $status_code = 200, array $with = [], bool $use_data = false): JsonResponse
-    {
-        return api_response($data, $status_code, $with, [], $use_data);
     }
 }
