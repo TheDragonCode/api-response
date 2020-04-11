@@ -2,17 +2,17 @@
 
 namespace Helldar\ApiResponse\Support;
 
+use function basename;
 use Exception as BaseException;
+use function get_class;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
-use Throwable;
 
-use function basename;
-use function get_class;
+use Illuminate\Validation\ValidationException;
 use function is_object;
 use function is_subclass_of;
 use function str_replace;
+use Throwable;
 
 final class Exception
 {
@@ -32,7 +32,7 @@ final class Exception
     }
 
     /**
-     * @param  \Throwable|\Exception  $value
+     * @param  \Exception|\Throwable  $value
      * @param  int  $status_code
      *
      * @return int

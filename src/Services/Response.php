@@ -88,7 +88,6 @@ final class Response
      */
     public function response(): JsonResponse
     {
-
         return JsonResponse::create($this->getData(), $this->status_code, $this->headers);
     }
 
