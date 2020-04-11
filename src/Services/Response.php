@@ -2,12 +2,13 @@
 
 namespace Helldar\ApiResponse\Services;
 
+use Exception as BaseException;
+use Helldar\ApiResponse\Support\Exception;
+use Helldar\ApiResponse\Support\Response as ResponseSupport;
 use Helldar\Support\Facades\Arr;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class Response
+final class Response
 {
     /** @var array */
     protected $with = [];
@@ -24,45 +25,42 @@ class Response
     /** @var int */
     protected $status_code = 200;
 
+    /** @var string */
+    protected $status_type = BaseException::class;
+
     /**
      * @return Response
      */
-    public static function init()
+    public static function init(): self
     {
         return new self();
     }
 
     /**
-     * @param int $status
+     * @param  mixed  $data
+     * @param  int  $status_code
+     * @param  bool  $use_data
      *
      * @return $this
      */
-    public function status(int $status = 200): self
+    public function data($data = null, int $status_code = 200, bool $use_data = true): self
     {
-        $this->status_code = $status;
+        $this->use_data    = $use_data;
+        $this->status_code = $status_code;
+
+        if (Exception::isError($data)) {
+            $this->status_code = Exception::getCode($data, $status_code);
+            $this->status_type = Exception::getType($data);
+            $this->data        = Exception::getData($data);
+        } else {
+            $this->data = ResponseSupport::get($data);
+        }
 
         return $this;
     }
 
     /**
-     * @param mixed $data
-     * @param bool $use_data
-     *
-     * @return $this
-     */
-    public function data($data = null, bool $use_data = true): self
-    {
-        $this->use_data = $use_data;
-
-        $this->data = $data instanceof Responsable
-            ? $this->toResponse($data)
-            : $data;
-
-        return $this;
-    }
-
-    /**
-     * @param array $with
+     * @param  array  $with
      *
      * @return $this
      */
@@ -74,7 +72,7 @@ class Response
     }
 
     /**
-     * @param array $headers
+     * @param  array  $headers
      *
      * @return $this
      */
@@ -98,7 +96,7 @@ class Response
         return $this->status_code >= 400;
     }
 
-    private function e($value = null, $doubleEncode = true)
+    protected function e($value = null, $doubleEncode = true)
     {
         if (! is_string($value) || null === $value) {
             return $value;
@@ -109,7 +107,7 @@ class Response
             : null;
     }
 
-    private function getData()
+    protected function getData()
     {
         $this->splitData();
 
@@ -120,17 +118,17 @@ class Response
         return $this->mergeData($data);
     }
 
-    private function getErrorData(): array
+    protected function getErrorData(): array
     {
         return [
             'error' => [
-                'code' => $this->status_code,
+                'type' => $this->status_type,
                 'data' => $this->e($this->data),
             ],
         ];
     }
 
-    private function getSuccessData()
+    protected function getSuccessData()
     {
         $data = $this->e($this->data);
 
@@ -139,14 +137,14 @@ class Response
             : $data;
     }
 
-    private function mergeData($data = [])
+    protected function mergeData($data = [])
     {
         return is_array($data)
             ? array_merge($data, $this->with)
             : $data;
     }
 
-    private function splitData(): void
+    protected function splitData(): void
     {
         if (! is_array($this->data) && ! is_object($this->data)) {
             return;
@@ -155,15 +153,8 @@ class Response
         $data = Arr::toArray($this->data);
 
         if (Arr::exists($data, 'data')) {
-            $this->data(Arr::get($data, 'data'));
+            $this->data(Arr::get($data, 'data'), $this->status_code);
             $this->with(Arr::except($data, 'data'));
         }
-    }
-
-    private function toResponse(Responsable $content)
-    {
-        return $content
-            ->toResponse(Container::getInstance()->make('request'))
-            ->getData();
     }
 }

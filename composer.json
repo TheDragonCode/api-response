@@ -3,7 +3,7 @@
     "description": "Package for standardizing the responses from the API of your Symfony based applications.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["api response", "api-response", "response", "laravel", "symfony", "api"],
+    "keywords": ["api response", "api-response", "response", "laravel", "lumen", "symfony", "api"],
     "support": {
         "issues": "https://github.com/andrey-helldar/api-response/issues",
         "source": "https://github.com/andrey-helldar/api-response"
@@ -15,13 +15,13 @@
         }
     ],
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.3",
         "ext-json": "*",
         "symfony/http-foundation": "^4.0|^5.0",
         "andrey-helldar/support": "^1.14"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.0"
     },
     "suggest": {
         "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
