@@ -574,17 +574,9 @@ return with code 405:
 
 ### Best practice use with the Laravel and Lumen Frameworks
 
-If you use the Laravel or Lumen framework, you can update the inheritance in the `app\Exceptions\Handler.php` file to `Helldar\ApiResponse\Support\LaravelException`:
-```php
-use Helldar\ApiResponse\Support\LaravelException as ExceptionHandler;
+If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file to `Helldar\ApiResponse\Support\LaravelException`.
 
-class Handler extends ExceptionHandler
-{
-    //
-}
-```
-
-If you did not add anything to this file, then delete everything except methods 111 and 222 from it.
+If you did not add anything to this file, then delete everything properties and methods.
 
 As a result, a clean file will look like this:
 ```php
@@ -596,14 +588,7 @@ use Helldar\ApiResponse\Support\LaravelException as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-    protected $dontReport = [
-        //
-    ];
-
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
+    //
 }
 ```
 
