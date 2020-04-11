@@ -20,22 +20,24 @@ Package for standardizing the responses from the API of your **Symfony based** a
 ## Content
 * [Installation](#installation)
 * [Using](#using)
-    * [as NULL with code](#as-null-with-code)
-    * [as integer with default code](#as-integer-with-default-code)
-    * [as string with default code](#as-string-with-default-code)
-    * [as string with code](#as-string-with-code)
-    * [as integer with code](#as-integer-with-code)
-    * [as array](#as-array)
-    * [with additional content](#with-additional-content)
-* [Use without `data` key](#use-without-data-key)
-    * [as NULL with code](#as-null-with-code-and-without-data-key)
-    * [as integer with default code](#as-integer-with-default-code-and-without-data-key)
-    * [as string with default code](#as-string-with-default-code-and-without-data-key)
-    * [as string with code](#as-string-with-code-and-without-data-key)
-    * [as integer with code](#as-integer-with-code-and-without-data-key)
-    * [as array](#as-array-and-without-data-key)
-    * [with additional content](#with-additional-content-and-without-data-key)
-* [Best practice use with the Laravel Framework](#best-practice-use-with-the-laravel-framework)
+    * [Use with `data` key](#use-with-data-key)
+        * [as NULL with code](#as-null-with-code)
+        * [as integer with default code](#as-integer-with-default-code)
+        * [as string with default code](#as-string-with-default-code)
+        * [as string with code](#as-string-with-code)
+        * [as integer with code](#as-integer-with-code)
+        * [as array](#as-array)
+        * [with additional content](#with-additional-content)
+    * [Use without `data` key](#use-without-data-key)
+        * [as NULL with code](#as-null-with-code-and-without-data-key)
+        * [as integer with default code](#as-integer-with-default-code-and-without-data-key)
+        * [as string with default code](#as-string-with-default-code-and-without-data-key)
+        * [as string with code](#as-string-with-code-and-without-data-key)
+        * [as integer with code](#as-integer-with-code-and-without-data-key)
+        * [as array](#as-array-and-without-data-key)
+        * [with additional content](#with-additional-content-and-without-data-key)
+    * [Returning Exception instances](#returning-exception-instances)
+    * [Best practice use with the Laravel Framework](#best-practice-use-with-the-laravel-framework)
 * [Copyright and License](#copyright-and-license)
 
 
@@ -56,14 +58,14 @@ Or you can manually set the required version, following the table:
 |  ^4.0 | 5.6.9+ | ^3.0, ^4.0 | `composer require andrey-helldar/api-response:^4.0` |
 |  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4` |
 |  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^5.0` |
-|  latest | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response` |
+|  ^6.0 | 7.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response` |
 
 Instead, you may of course manually update your require block and run `composer update` if you so choose:
 
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^5.0"
+        "andrey-helldar/api-response": "^6.0"
     }
 }
 ```
@@ -75,7 +77,9 @@ Alright! Use `api_response()` helper.
 
 ## Using
 
-### as NULL with code:
+### Use with `data` key
+
+#### as NULL with code:
 ```php
 return api_response(null, 304);
 ```
@@ -88,7 +92,7 @@ return with code 304:
 
 [[ to top ]](#api-response)
 
-### as integer with default code:
+#### as integer with default code:
 ```php
 return api_response(304);
 ```
@@ -101,7 +105,7 @@ return with code 200:
 
 [[ to top ]](#api-response)
 
-### as string with default code:
+#### as string with default code:
 ```php
 return api_response('qwerty');
 ```
@@ -114,7 +118,7 @@ return with code 200:
 
 [[ to top ]](#api-response)
 
-### as string with code:
+#### as string with code:
 ```php
 return api_response('qwerty', 400);
 ```
@@ -122,7 +126,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": "qwerty"
   }
 }
@@ -130,7 +134,7 @@ return with code 400:
 
 [[ to top ]](#api-response)
 
-### as integer with code:
+#### as integer with code:
 ```php
 return api_response(304, 400);
 ```
@@ -138,7 +142,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": 304
   }
 }
@@ -146,7 +150,7 @@ return with code 400:
 
 [[ to top ]](#api-response)
 
-### as array:
+#### as array:
 ```php
 $data = [
     [
@@ -170,7 +174,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": [
       {
         "title": "Title #1",
@@ -211,9 +215,9 @@ If the first parameter is a number, then the decryption of the error by code wil
 
 [[ to top ]](#api-response)
 
-### with additional content
+#### with additional content
 ```php
-return api_response('title', 200, [], ['foo' => 'bar']);
+return api_response('title', 200, ['foo' => 'bar']);
 ```
 return with code 200:
 ```json
@@ -227,7 +231,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data":"ok"
   },
   "foo": "bar"
@@ -251,7 +255,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data":"foo"
   },
   "bar": "baz"
@@ -261,7 +265,7 @@ return with code 400:
 [[ to top ]](#api-response)
 
 
-## Use without `data` key
+### Use without `data` key
 
 If you do not want to wrap the response in the `data` key, then you need to pass the `false` value to the 5th parameter of the function:
 
@@ -272,32 +276,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Return a new response from the application.
  *
- * @param mixed|null $data
- * @param int $status_code
- * @param array $headers
- * @param array $with
- * @param bool $use_data
+ * @param  mixed|null  $data
+ * @param  int  $status_code
+ * @param  array  $with
+ * @param  array  $headers
+ * @param  bool  $use_data
  *
- * @return JsonResponse
+ * @return Symfony\Component\HttpFoundation\JsonResponse
  */
 function api_response(
     $data = null,
     int $status_code = 200,
-    array $headers = [],
     array $with = [],
+    array $headers = [],
     bool $use_data = true
 )
 {
     return Response::init()
-        ->headers($headers)
-        ->data($data, $use_data)
+        ->data($data, $status_code, $use_data)
         ->with($with)
-        ->status($status_code)
+        ->headers($headers)
         ->response();
 }
 ```
 
-### as NULL with code and without `data` key:
+#### as NULL with code and without `data` key:
 ```php
 return api_response(null, 304, [], [], false);
 ```
@@ -308,7 +311,7 @@ return with code 304:
 
 [[ to top ]](#api-response)
 
-### as integer with default code and without `data` key:
+#### as integer with default code and without `data` key:
 ```php
 return api_response(304, 200, [], [], false);
 ```
@@ -319,7 +322,7 @@ return with code 200:
 
 [[ to top ]](#api-response)
 
-### as string with default code and without `data` key:
+#### as string with default code and without `data` key:
 ```php
 return api_response('qwerty', 200, [], [], false);
 ```
@@ -330,7 +333,7 @@ return with code 200:
 
 [[ to top ]](#api-response)
 
-### as string with code and without `data` key:
+#### as string with code and without `data` key:
 ```php
 return api_response('qwerty', 400, [], [], false);
 ```
@@ -338,7 +341,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": "qwerty"
   }
 }
@@ -346,7 +349,7 @@ return with code 400:
 
 [[ to top ]](#api-response)
 
-### as integer with code and without `data` key:
+#### as integer with code and without `data` key:
 ```php
 return api_response(304, 400, [], [], false);
 ```
@@ -354,7 +357,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": 304
   }
 }
@@ -362,7 +365,7 @@ return with code 400:
 
 [[ to top ]](#api-response)
 
-### as array and without `data` key:
+#### as array and without `data` key:
 ```php
 $data = [
     [
@@ -384,7 +387,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data": [
       {
         "title": "Title #1",
@@ -425,7 +428,7 @@ If the first parameter is a number, then the decryption of the error by code wil
 
 #### with additional content and without `data` key:
 ```php
-return api_response('title', 200, [], ['foo' => 'bar'], false);
+return api_response('title', 200, ['foo' => 'bar'], [], false);
 ```
 return with code 200:
 ```json
@@ -439,7 +442,7 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data":"ok"
   },
   "foo": "bar"
@@ -463,10 +466,103 @@ return with code 400:
 ```json
 {
   "error": {
-    "code": 400,
+    "type": "Exception",
     "data":"foo"
   },
   "bar": "baz"
+}
+```
+
+[[ to top ]](#api-response)
+
+
+### Returning exception instances
+```php
+class FooException extends \Exception
+{
+    public function __construct()
+    {
+        parent::__construct('Foo', 405);
+    }
+}
+
+class BarException extends \Exception
+{
+    public function __construct()
+    {
+        parent::__construct('Bar', 0);
+    }
+}
+
+$foo = new FooException();
+$bar = new BarException();
+```
+
+```php
+return api_response($foo);
+```
+return with code 405:
+```json
+{
+  "error": {
+    "type": "FooException",
+    "data": "Foo"
+  }
+}
+```
+
+```php
+return api_response($foo, 408);
+```
+return with code 408:
+```json
+{
+  "error": {
+    "type": "FooException",
+    "data": "Foo"
+  }
+}
+```
+
+```php
+return api_response($bar);
+```
+return with code 400:
+```json
+{
+  "error": {
+    "type": "BarException",
+    "data": "Bar"
+  }
+}
+```
+
+```php
+return api_response($bar, 408);
+```
+return with code 408:
+```json
+{
+  "error": {
+    "type": "BarException",
+    "data": "Bar"
+  }
+}
+```
+
+You can also add additional data:
+
+```php
+return api_response($foo, ['foo' => 'Bar']);
+```
+return with code 405:
+```json
+{
+  "error": {
+    "type": "FooException",
+    "data": "Foo"
+  },
+  "foo": "Bar"
 }
 ```
 
@@ -525,7 +621,7 @@ class Handler extends ExceptionHandler
      */
     protected function isJson($request): bool
     {
-        return $request->expectsJson() || $request->isJson() || $request->is('api/');
+        return $request->expectsJson() || $request->isJson() || $request->is('api*');
     }
 
     /**

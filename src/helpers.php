@@ -7,8 +7,8 @@ use Helldar\ApiResponse\Services\Response;
  *
  * @param  mixed|null  $data
  * @param  int  $status_code
- * @param  array  $headers
  * @param  array  $with
+ * @param  array  $headers
  * @param  bool  $use_data
  *
  * @return Symfony\Component\HttpFoundation\JsonResponse
@@ -21,9 +21,8 @@ function api_response(
     bool $use_data = true
 ) {
     return Response::init()
-        ->headers($headers)
-        ->data($data, $use_data)
+        ->data($data, $status_code, $use_data)
         ->with($with)
-        ->status($status_code)
+        ->headers($headers)
         ->response();
 }
