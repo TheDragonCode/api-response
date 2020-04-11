@@ -42,6 +42,12 @@
             "Tests\\": "tests/"
         }
     },
+    "extra": {
+        "thanks": {
+            "name": "andrey-helldar/support",
+            "url": "https://github.com/andrey-helldar/support"
+        }
+    },
     "config": {
         "preferred-install": "dist"
     },
