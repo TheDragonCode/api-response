@@ -19,6 +19,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
 
 ## Content
 * [Installation](#installation)
+    * [Compatibility table](#compatibility-table)
 * [Using](#using)
     * [Use with `data` key](#use-with-data-key)
         * [as NULL with code](#as-null-with-code)
@@ -51,16 +52,7 @@ $ composer require andrey-helldar/api-response
 
 This command will automatically install the latest version of the package for your environment.
 
-Or you can manually set the required version, following the table:
-
-| Package version | PHP version | Symfony version | Command |
-|:---:|:---:|:---:|:---|
-|  ^4.0 | 5.6.9+ | ^3.0, ^4.0 | `composer require andrey-helldar/api-response:^4.0` |
-|  ^4.4.1 | 5.6.9+ | ^3.0, ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^4.4` |
-|  ^5.0 | 7.1.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response:^5.0` |
-|  ^6.0 | 7.3+ | ^4.0, ^5.0 | `composer require andrey-helldar/api-response` |
-
-Instead, you may of course manually update your require block and run `composer update` if you so choose:
+Instead, you may of course manually update your `require` block and run `composer update` if you so choose:
 
 ```json
 {
@@ -71,6 +63,17 @@ Instead, you may of course manually update your require block and run `composer 
 ```
 
 Alright! Use `api_response()` helper.
+
+
+### Compatibility table
+
+| Package version | PHP min version | Symfony version | Support | Links |
+|:---:|:---:|:---:|:---|:---|
+|  ^4.0 | 5.6.9 | ^3.0, ^4.0 | ![Not Supported][badge_not_supported] | --- |
+|  ^4.4.1 | 5.6.9 | ^3.0, ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
+|  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
+|  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
+
 
 [[ to top ]](#api-response)
 
@@ -648,3 +651,7 @@ class Handler extends ExceptionHandler
 `API Response` was written by Andrey Helldar, and is licensed under the [MIT License](LICENSE).
 
 [[ to top ]](#api-response)
+
+
+[badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
+[badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square
