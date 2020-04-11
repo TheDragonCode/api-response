@@ -47,10 +47,10 @@ class ResponseUseDataTest extends TestCase
 
     public function testDataWith()
     {
-        $this->assertJson(api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
-        $this->assertJson(api_response('fail', 400, [], ['foo' => 'bar'])->getContent());
+        $this->assertJson(api_response('ok', 200, ['foo' => 'bar'])->getContent());
+        $this->assertJson(api_response('fail', 400, ['foo' => 'bar'])->getContent());
 
-        $this->assertEquals(json_encode(['data' => 'ok', 'foo' => 'bar']), api_response('ok', 200, [], ['foo' => 'bar'])->getContent());
+        $this->assertEquals(json_encode(['data' => 'ok', 'foo' => 'bar']), api_response('ok', 200, ['foo' => 'bar'])->getContent());
 
         $this->assertEquals(
             json_encode([
@@ -60,27 +60,27 @@ class ResponseUseDataTest extends TestCase
                 ],
                 'foo'   => 'bar',
             ]),
-            api_response('ok', 400, [], ['foo' => 'bar'])->getContent()
+            api_response('ok', 400, ['foo' => 'bar'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['data' => [], 'foo' => 'bar', 'baz' => 'baq']),
-            api_response([], 200, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+            api_response([], 200, ['foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
-            api_response([], 200, [], ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+            api_response([], 200, ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['error' => ['code' => 400, 'data' => []], 'foo' => 'bar', 'baz' => 'baq']),
-            api_response([], 400, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+            api_response([], 400, ['foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['error' => ['code' => 400, 'data' => []], 'data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
-            api_response([], 400, [], ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+            api_response([], 400, ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
     }
 

@@ -13,8 +13,13 @@ use Helldar\ApiResponse\Services\Response;
  *
  * @return Symfony\Component\HttpFoundation\JsonResponse
  */
-function api_response($data = null, int $status_code = 200, array $headers = [], array $with = [], bool $use_data = true)
-{
+function api_response(
+    $data = null,
+    int $status_code = 200,
+    array $with = [],
+    array $headers = [],
+    bool $use_data = true
+) {
     return Response::init()
         ->headers($headers)
         ->data($data, $use_data)

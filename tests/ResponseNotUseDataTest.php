@@ -48,10 +48,10 @@ class ResponseNotUseDataTest extends TestCase
 
     public function testDataWith()
     {
-        $this->assertJson($this->response('ok', 200, [], ['foo' => 'bar'])->getContent());
-        $this->assertJson($this->response('fail', 400, [], ['foo' => 'bar'])->getContent());
+        $this->assertJson($this->response('ok', 200, ['foo' => 'bar'])->getContent());
+        $this->assertJson($this->response('fail', 400, ['foo' => 'bar'])->getContent());
 
-        $this->assertEquals(json_encode(['data' => 'ok', 'foo' => 'bar']), $this->response('ok', 200, [], ['foo' => 'bar'])->getContent());
+        $this->assertEquals(json_encode(['data' => 'ok', 'foo' => 'bar']), $this->response('ok', 200, ['foo' => 'bar'])->getContent());
 
         $this->assertEquals(
             json_encode([
@@ -61,22 +61,22 @@ class ResponseNotUseDataTest extends TestCase
                 ],
                 'foo'   => 'bar',
             ]),
-            $this->response('ok', 400, [], ['foo' => 'bar'])->getContent()
+            $this->response('ok', 400, ['foo' => 'bar'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['data' => [], 'foo' => 'bar', 'baz' => 'baq']),
-            $this->response([], 200, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+            $this->response([], 200, ['foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['error' => ['code' => 400, 'data' => []], 'foo' => 'bar', 'baz' => 'baq']),
-            $this->response([], 400, [], ['foo' => 'bar', 'baz' => 'baq'])->getContent()
+            $this->response([], 400, ['foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
 
         $this->assertEquals(
             json_encode(['error' => ['code' => 400, 'data' => []], 'data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
-            $this->response([], 400, [], ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+            $this->response([], 400, ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
     }
 
@@ -110,8 +110,8 @@ class ResponseNotUseDataTest extends TestCase
         );
     }
 
-    protected function response($data = null, int $status_code = 200, array $headers = [], array $with = []): JsonResponse
+    protected function response($data = null, int $status_code = 200, array $with = [], array $headers = []): JsonResponse
     {
-        return api_response($data, $status_code, $headers, $with, false);
+        return api_response($data, $status_code, $with, $headers, false);
     }
 }
