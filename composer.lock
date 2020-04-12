@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db8e967b57e65b6d58b1cea86f51143b",
+    "content-hash": "36699e2ac15f4526c9adaf1ac4582f4f",
     "packages": [
         {
             "name": "andrey-helldar/support",
