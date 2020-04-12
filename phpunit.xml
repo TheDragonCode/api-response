@@ -12,13 +12,16 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="ApiResponse Test Suite">
+        <testsuite name="Test Suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>src/Support/LaravelException.php</file>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
