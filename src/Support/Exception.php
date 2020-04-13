@@ -13,7 +13,7 @@ use Throwable;
 final class Exception
 {
     /**
-     * @param  mixed  $value
+     * @param  object|string  $value
      *
      * @throws \ReflectionException
      *
