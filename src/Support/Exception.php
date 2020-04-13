@@ -2,17 +2,11 @@
 
 namespace Helldar\ApiResponse\Support;
 
-use function basename;
 use Exception as BaseException;
-use function get_class;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Validation\ValidationException;
-
-use function is_object;
-use function is_subclass_of;
-use function str_replace;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Throwable;
 
@@ -20,17 +14,12 @@ final class Exception
 {
     public static function isError($value = null): bool
     {
-        return static::isException($value) || static::isThrowable($value);
+        return Instance::of($value, [BaseException::class, Throwable::class]);
     }
 
-    public static function isException($value = null): bool
+    public static function isErrorCode(int $code = 0): bool
     {
-        return $value instanceof BaseException || is_subclass_of($value, BaseException::class);
-    }
-
-    public static function isThrowable($value = null): bool
-    {
-        return $value instanceof Throwable || is_subclass_of($value, Throwable::class);
+        return $code >= 400;
     }
 
     /**
@@ -41,18 +30,24 @@ final class Exception
      */
     public static function getCode($value, int $status_code = 400): int
     {
-        $code = $value instanceof ValidationException
-            ? $value->status ?? $value->getCode() ?? $status_code
-            : $value->getCode() ?? $value->getStatusCode() ?? $status_code;
+        if (static::isErrorCode($status_code)) {
+            return $status_code;
+        }
 
-        return static::correctStatusCode($code, $status_code);
+        if (Instance::of($value, ValidationException::class)) {
+            return static::correctStatusCode(
+                $value->status ?? Instance::call($value, 'getCode') ?: 0
+            );
+        }
+
+        return static::correctStatusCode(
+            Instance::callsWhenNotEmpty($value, ['getStatusCode', 'getCode']) ?: 0
+        );
     }
 
     public static function getType(Throwable $class): string
     {
-        $class = is_object($class) ? get_class($class) : $class;
-
-        return basename(str_replace('\\', '/', $class));
+        return Instance::basename($class);
     }
 
     public static function getData($exception)
@@ -74,15 +69,8 @@ final class Exception
         return $exception->getMessage();
     }
 
-    protected static function correctStatusCode(int $code, int $status_code): int
+    protected static function correctStatusCode(int $code): int
     {
-        $code = static::isCorrectedStatusCode($status_code) ? $status_code : $code;
-
-        return static::isCorrectedStatusCode($code) ? $code : 400;
-    }
-
-    protected static function isCorrectedStatusCode(int $code): bool
-    {
-        return $code >= 400;
+        return static::isErrorCode($code) ? $code : 400;
     }
 }

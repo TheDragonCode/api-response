@@ -93,7 +93,7 @@ final class Response
 
     protected function isError(): bool
     {
-        return $this->status_code >= 400;
+        return Exception::isErrorCode($this->status_code);
     }
 
     protected function e($value = null, $doubleEncode = true)
