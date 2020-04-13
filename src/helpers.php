@@ -11,6 +11,7 @@ use Helldar\ApiResponse\Services\Response;
  * @param  array  $headers
  * @param  bool  $use_data
  *
+ * @throws \ReflectionException
  * @return Symfony\Component\HttpFoundation\JsonResponse
  */
 function api_response(

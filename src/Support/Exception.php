@@ -12,6 +12,12 @@ use Throwable;
 
 final class Exception
 {
+    /**
+     * @param  mixed  $value
+     *
+     * @throws \ReflectionException
+     * @return bool
+     */
     public static function isError($value = null): bool
     {
         return Instance::of($value, [BaseException::class, Throwable::class]);
@@ -26,6 +32,7 @@ final class Exception
      * @param  \Exception|\Throwable  $value
      * @param  int  $status_code
      *
+     * @throws \ReflectionException
      * @return int
      */
     public static function getCode($value, int $status_code = 400): int
@@ -53,9 +60,7 @@ final class Exception
     public static function getData($exception)
     {
         if ($exception instanceof SymfonyResponse || $exception instanceof LaravelResponse) {
-            return method_exists($exception, 'getOriginalContent')
-                ? $exception->getOriginalContent()
-                : $exception->getContent() ?? $exception->getMessage();
+            return Instance::callsWhenNotEmpty($exception, ['getOriginalContent', 'getContent', 'getMessage']);
         }
 
         if ($exception instanceof Responsable || $exception instanceof HttpResponseException) {
