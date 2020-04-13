@@ -24,9 +24,7 @@ class Instance
             return false;
         }
 
-        $needles = Arr::wrap($needles);
-
-        foreach ($needles as $needle) {
+        foreach (Arr::wrap($needles) as $needle) {
             if (! static::isClassExists($needle)) {
                 continue;
             }
@@ -47,7 +45,7 @@ class Instance
 
     public static function basename(Throwable $class): string
     {
-        $class = is_object($class) ? get_class($class) : $class;
+        $class = static::isObject($class) ? get_class($class) : $class;
 
         return basename(str_replace('\\', '/', $class));
     }
@@ -75,9 +73,7 @@ class Instance
      */
     public static function callsWhenNotEmpty(Throwable $object, $methods)
     {
-        $methods = Arr::wrap($methods);
-
-        foreach ($methods as $method) {
+        foreach (Arr::wrap($methods) as $method) {
             if ($value = static::call($object, $method)) {
                 return $value;
             }
