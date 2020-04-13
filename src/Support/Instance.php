@@ -67,7 +67,7 @@ class Instance
 
     /**
      * @param  Throwable  $object
-     * @param  array[]  $methods
+     * @param  string[]  $methods
      *
      * @return mixed
      */
@@ -83,7 +83,7 @@ class Instance
     }
 
     /**
-     * @param  mixed  $value
+     * @param  object|string  $value
      *
      * @return bool
      */
@@ -93,11 +93,11 @@ class Instance
     }
 
     /**
-     * @param  mixed  $value
+     * @param  mixed  $class
      *
      * @return bool
      */
-    protected static function isClassExists($class): bool
+    protected static function isClassExists($class = null): bool
     {
         return is_string($class) && class_exists($class);
     }
