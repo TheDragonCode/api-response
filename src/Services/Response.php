@@ -42,6 +42,7 @@ final class Response
      * @param  bool  $use_data
      *
      * @throws \ReflectionException
+     *
      * @return $this
      */
     public function data($data = null, int $status_code = 200, bool $use_data = true): self

@@ -8,13 +8,14 @@ use Throwable;
 
 class Instance
 {
-    static protected $instances = [];
+    protected static $instances = [];
 
     /**
      * @param  mixed  $haystack
-     * @param  string|array  $needles
+     * @param  array|string  $needles
      *
      * @throws \ReflectionException
+     *
      * @return bool
      */
     public static function of($haystack, $needles): bool
@@ -89,9 +90,10 @@ class Instance
     }
 
     /**
-     * @param  string|object  $class
+     * @param  object|string  $class
      *
      * @throws \ReflectionException
+     *
      * @return \ReflectionClass
      */
     protected static function reflection($class)
