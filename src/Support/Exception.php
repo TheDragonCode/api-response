@@ -43,7 +43,7 @@ final class Exception
             return $status_code;
         }
 
-        if (Instance::of($value, ValidationException::class)) {
+        if ($value instanceof ValidationException) {
             return static::correctStatusCode(
                 $value->status ?? Instance::call($value, 'getCode') ?: 0
             );
