@@ -54,7 +54,7 @@ class Instance
      * @param  Throwable  $object
      * @param  string  $method
      *
-     * @return bool
+     * @return mixed
      */
     public static function call(Throwable $object, string $method)
     {
@@ -67,9 +67,9 @@ class Instance
 
     /**
      * @param  Throwable  $object
-     * @param  array|string  $methods
+     * @param  array[]  $methods
      *
-     * @return mixed|null
+     * @return mixed
      */
     public static function callsWhenNotEmpty(Throwable $object, $methods)
     {
