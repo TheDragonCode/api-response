@@ -61,15 +61,15 @@ final class Exception
 
     public static function getData($exception)
     {
-        if ($exception instanceof SymfonyResponse || $exception instanceof LaravelResponse) {
+        if (Instance::of($exception, [SymfonyResponse::class, LaravelResponse::class])) {
             return Instance::callsWhenNotEmpty($exception, ['getOriginalContent', 'getContent', 'getMessage']);
         }
 
-        if ($exception instanceof Responsable || $exception instanceof HttpResponseException) {
+        if (Instance::of($exception, [Responsable::class, HttpResponseException::class])) {
             return $exception->getResponse();
         }
 
-        if ($exception instanceof ValidationException) {
+        if (Instance::of($exception, ValidationException::class)) {
             return $exception->errors();
         }
 

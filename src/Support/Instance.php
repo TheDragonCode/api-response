@@ -6,10 +6,8 @@ use Helldar\Support\Facades\Arr;
 use ReflectionClass;
 use Throwable;
 
-class Instance
+final class Instance extends Container
 {
-    protected static $instances = [];
-
     /**
      * @param  mixed  $haystack
      * @param  array|string  $needles
@@ -24,17 +22,17 @@ class Instance
             return false;
         }
 
+        $reflection = static::reflection($haystack);
+
         foreach (Arr::wrap($needles) as $needle) {
             if (! static::isClassExists($needle)) {
                 continue;
             }
 
-            $reflection = static::reflection($haystack);
-
             if (
-                $reflection->isInstance(static::make($needle)) ||
+                $reflection->isInstance(static::makeContainer($needle)) ||
                 $reflection->isSubclassOf($needle) ||
-                $reflection->implementsInterface($needle)
+                (Is::contract($reflection) && $reflection->implementsInterface($needle))
             ) {
                 return true;
             }
@@ -99,7 +97,7 @@ class Instance
      */
     protected static function isClassExists($class = null): bool
     {
-        return is_string($class) && class_exists($class);
+        return Is::string($class) && class_exists($class);
     }
 
     /**
@@ -109,7 +107,7 @@ class Instance
      */
     protected static function isObject($value): bool
     {
-        return is_object($value);
+        return Is::object($value);
     }
 
     /**
@@ -122,23 +120,5 @@ class Instance
     protected static function reflection(Throwable $class): ReflectionClass
     {
         return new ReflectionClass($class);
-    }
-
-    /**
-     * @param  string|Throwable  $class
-     *
-     * @return Throwable
-     */
-    protected static function make($class): Throwable
-    {
-        $is_object = static::isObject($class);
-
-        $name = $is_object ? get_class($class) : $class;
-
-        if (! isset(static::$instances[$name])) {
-            static::$instances[$name] = $is_object ? $class : new $class;
-        }
-
-        return static::$instances[$name];
     }
 }
