@@ -20,6 +20,7 @@ final class Is
      * @param $class
      *
      * @throws \ReflectionException
+     *
      * @return bool
      */
     public static function contract($class): bool
