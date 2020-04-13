@@ -556,7 +556,9 @@ return with code 408:
 You can also add additional data:
 
 ```php
-return api_response($foo, ['foo' => 'Bar']);
+return api_response($foo, 405, ['foo' => 'Bar']);
+// or
+return api_response($foo, 0, ['foo' => 'Bar']);
 ```
 return with code 405:
 ```json
