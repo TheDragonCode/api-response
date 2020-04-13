@@ -52,7 +52,13 @@ class Instance
         return basename(str_replace('\\', '/', $class));
     }
 
-    public static function call($object, string $method)
+    /**
+     * @param  Throwable  $object
+     * @param  string  $method
+     *
+     * @return bool
+     */
+    public static function call(Throwable $object, string $method)
     {
         if (method_exists($object, $method)) {
             return call_user_func([$object, $method]);
@@ -61,7 +67,13 @@ class Instance
         return null;
     }
 
-    public static function callsWhenNotEmpty($object, $methods)
+    /**
+     * @param  Throwable  $object
+     * @param  string|array  $methods
+     *
+     * @return mixed|null
+     */
+    public static function callsWhenNotEmpty(Throwable $object, $methods)
     {
         $methods = Arr::wrap($methods);
 
@@ -74,34 +86,54 @@ class Instance
         return null;
     }
 
+    /**
+     * @param  mixed  $value
+     *
+     * @return bool
+     */
     protected static function isExistsObject($value): bool
     {
         return static::isObject($value) ?: static::isClassExists($value);
     }
 
+    /**
+     * @param  mixed  $value
+     *
+     * @return bool
+     */
     protected static function isClassExists($class): bool
     {
         return is_string($class) && class_exists($class);
     }
 
+    /**
+     * @param  mixed  $value
+     *
+     * @return bool
+     */
     protected static function isObject($value): bool
     {
         return is_object($value);
     }
 
     /**
-     * @param  object|string  $class
+     * @param  Throwable  $class
      *
      * @throws \ReflectionException
      *
      * @return \ReflectionClass
      */
-    protected static function reflection($class)
+    protected static function reflection(Throwable $class): ReflectionClass
     {
         return new ReflectionClass($class);
     }
 
-    protected static function make($class)
+    /**
+     * @param  Throwable|string  $class
+     *
+     * @return Throwable
+     */
+    protected static function make($class): Throwable
     {
         $is_object = static::isObject($class);
 
