@@ -67,7 +67,7 @@ class Instance
 
     /**
      * @param  Throwable  $object
-     * @param  string|array  $methods
+     * @param  array|string  $methods
      *
      * @return mixed|null
      */
@@ -125,7 +125,7 @@ class Instance
     }
 
     /**
-     * @param  Throwable|string  $class
+     * @param  string|Throwable  $class
      *
      * @return Throwable
      */
