@@ -16,6 +16,7 @@ final class Exception
      * @param  mixed  $value
      *
      * @throws \ReflectionException
+     *
      * @return bool
      */
     public static function isError($value = null): bool
@@ -33,6 +34,7 @@ final class Exception
      * @param  int  $status_code
      *
      * @throws \ReflectionException
+     *
      * @return int
      */
     public static function getCode($value, int $status_code = 400): int
