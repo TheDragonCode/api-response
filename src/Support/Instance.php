@@ -111,13 +111,13 @@ final class Instance extends Container
     }
 
     /**
-     * @param  Throwable  $class
+     * @param  object  $class
      *
      * @throws \ReflectionException
      *
      * @return \ReflectionClass
      */
-    protected static function reflection(Throwable $class): ReflectionClass
+    protected static function reflection($class): ReflectionClass
     {
         return new ReflectionClass($class);
     }
