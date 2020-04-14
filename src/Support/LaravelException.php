@@ -99,7 +99,7 @@ abstract class LaravelException extends ExceptionHandler
         $converted = parent::convertExceptionToArray($e);
 
         return config('app.debug')
-            ? ['trace' => Arr::except($converted, 'message')]
+            ? ['info' => Arr::except($converted, 'message')]
             : [];
     }
 }
