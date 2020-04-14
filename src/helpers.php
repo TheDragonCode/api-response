@@ -10,9 +10,9 @@ use Helldar\ApiResponse\Services\Response;
  * @param  array  $with
  * @param  array  $headers
  * @param  bool  $use_data
+ * @param  string|null  $exception
  *
  * @throws \ReflectionException
- *
  * @return Symfony\Component\HttpFoundation\JsonResponse
  */
 function api_response(
@@ -20,10 +20,11 @@ function api_response(
     int $status_code = 200,
     array $with = [],
     array $headers = [],
-    bool $use_data = true
+    bool $use_data = true,
+    string $exception = null
 ) {
     return Response::init()
-        ->data($data, $status_code, $use_data)
+        ->data($data, $status_code, $use_data, $exception)
         ->with($with)
         ->headers($headers)
         ->response();

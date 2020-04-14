@@ -41,18 +41,19 @@ final class Response
      * @param  int  $status_code
      * @param  bool  $use_data
      *
-     * @throws \ReflectionException
+     * @param  string|null  $exception
      *
+     * @throws \ReflectionException
      * @return $this
      */
-    public function data($data = null, int $status_code = 200, bool $use_data = true): self
+    public function data($data = null, int $status_code = 200, bool $use_data = true, string $exception = null): self
     {
         $this->use_data    = $use_data;
         $this->status_code = $status_code;
 
         if (Exception::isError($data)) {
             $this->status_code = Exception::getCode($data, $status_code);
-            $this->status_type = Exception::getType($data);
+            $this->status_type = Exception::getType($data, $exception);
             $this->data        = Exception::getData($data);
         } else {
             $this->data = ResponseSupport::get($data);

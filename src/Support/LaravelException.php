@@ -28,7 +28,7 @@ abstract class LaravelException extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($this->isJson($request) && $e instanceof MaintenanceModeException) {
-            return api_response(__('Maintenance Mode'), 503);
+            return api_response($e, 503);
         }
 
         if (method_exists($e, 'render') && $response = $e->render($request)) {
@@ -78,19 +78,28 @@ abstract class LaravelException extends ExceptionHandler
     protected function prepareJsonResponse($request, Throwable $e)
     {
         return api_response(
-            $this->convertExceptionToArray($e),
+            $this->getExceptionMessage($e),
             $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            [],
-            $this->isHttpException($e) ? $e->getHeaders() : []
+            $this->getExceptionTrace($e),
+            $this->isHttpException($e) ? $e->getHeaders() : [],
+            true,
+            get_class($e)
         );
     }
 
-    protected function convertExceptionToArray(Throwable $e)
+    protected function getExceptionMessage(Throwable $e)
+    {
+        $converted = parent::convertExceptionToArray($e);
+
+        return Arr::get($converted, 'message');
+    }
+
+    protected function getExceptionTrace(Throwable $e)
     {
         $converted = parent::convertExceptionToArray($e);
 
         return config('app.debug')
-            ? $converted
-            : Arr::get($converted, 'message');
+            ? ['trace' => Arr::except($converted, 'message')]
+            : [];
     }
 }

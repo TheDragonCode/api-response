@@ -553,6 +553,19 @@ return with code 408:
 }
 ```
 
+```php
+return api_response($bar, 408, [], [], true, FooException::class);
+```
+return with code 408:
+```json
+{
+  "error": {
+    "type": "FooException",
+    "data": "Bar"
+  }
+}
+```
+
 You can also add additional data:
 
 ```php
