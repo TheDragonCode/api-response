@@ -42,7 +42,7 @@ final class Instance extends Container
     }
 
     /**
-     * @param  Throwable|string  $class
+     * @param  string|Throwable  $class
      *
      * @return string
      */
