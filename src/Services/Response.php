@@ -40,10 +40,10 @@ final class Response
      * @param  mixed  $data
      * @param  int  $status_code
      * @param  bool  $use_data
-     *
      * @param  string|null  $exception
      *
      * @throws \ReflectionException
+     *
      * @return $this
      */
     public function data($data = null, int $status_code = 200, bool $use_data = true, string $exception = null): self
