@@ -25,7 +25,8 @@ function api_response(
     string $exception = null
 ) {
     return Response::init()
-        ->data($data, $status_code, $use_data, $exception)
+        ->exception($exception)
+        ->data($data, $status_code, $use_data)
         ->with($with)
         ->headers($headers)
         ->response();

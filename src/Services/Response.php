@@ -26,7 +26,7 @@ final class Response
     /** @var int */
     protected $status_code = 200;
 
-    /** @var string */
+    /** @var string|null */
     protected $status_type;
 
     /**
@@ -37,28 +37,33 @@ final class Response
         return new self();
     }
 
+    public function exception(string $status_type = null): self
+    {
+        $this->status_type = $status_type;
+
+        return $this;
+    }
+
     /**
      * @param  mixed  $data
      * @param  int  $status_code
      * @param  bool  $use_data
-     * @param  string|null  $exception
      *
      * @throws \ReflectionException
      *
      * @return $this
      */
-    public function data($data = null, int $status_code = 200, bool $use_data = true, string $exception = BaseException::class): self
+    public function data($data = null, int $status_code = 200, bool $use_data = true): self
     {
         $this->use_data    = $use_data;
         $this->status_code = $status_code;
 
         if (Exception::isError($data)) {
             $this->status_code = Exception::getCode($data, $status_code);
-            $this->status_type = Exception::getType($data, $exception);
+            $this->status_type = Exception::getType($data, $this->status_type);
             $this->data        = Exception::getData($data);
         } else {
-            $this->status_type = Instance::basename($exception);
-            $this->data        = ResponseSupport::get($data);
+            $this->data = ResponseSupport::get($data);
         }
 
         return $this;
@@ -112,6 +117,13 @@ final class Response
             : null;
     }
 
+    protected function getStatusType(): string
+    {
+        return Instance::basename(
+            $this->status_type ?: BaseException::class
+        );
+    }
+
     protected function getData()
     {
         $this->splitData();
@@ -127,7 +139,7 @@ final class Response
     {
         return [
             'error' => [
-                'type' => $this->status_type,
+                'type' => $this->getStatusType(),
                 'data' => $this->e($this->data),
             ],
         ];

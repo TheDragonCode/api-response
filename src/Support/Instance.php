@@ -48,9 +48,14 @@ final class Instance extends Container
      */
     public static function basename($class): string
     {
-        $class = static::isObject($class) ? get_class($class) : $class;
+        $class = static::classname($class);
 
         return basename(str_replace('\\', '/', $class));
+    }
+
+    public static function classname($class): string
+    {
+        return static::isObject($class) ? get_class($class) : $class;
     }
 
     /**

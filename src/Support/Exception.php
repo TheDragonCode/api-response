@@ -56,7 +56,7 @@ final class Exception
 
     public static function getType(Throwable $class, string $exception = null): string
     {
-        return Instance::basename($exception ?: $class);
+        return $exception ?: Instance::classname($class);
     }
 
     public static function getData($exception)
