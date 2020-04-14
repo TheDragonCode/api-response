@@ -41,7 +41,12 @@ final class Instance extends Container
         return false;
     }
 
-    public static function basename(Throwable $class): string
+    /**
+     * @param  Throwable|string  $class
+     *
+     * @return string
+     */
+    public static function basename($class): string
     {
         $class = static::isObject($class) ? get_class($class) : $class;
 

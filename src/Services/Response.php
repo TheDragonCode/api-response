@@ -4,6 +4,7 @@ namespace Helldar\ApiResponse\Services;
 
 use Exception as BaseException;
 use Helldar\ApiResponse\Support\Exception;
+use Helldar\ApiResponse\Support\Instance;
 use Helldar\ApiResponse\Support\Response as ResponseSupport;
 use Helldar\Support\Facades\Arr;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +27,7 @@ final class Response
     protected $status_code = 200;
 
     /** @var string */
-    protected $status_type = BaseException::class;
+    protected $status_type;
 
     /**
      * @return Response
@@ -46,7 +47,7 @@ final class Response
      *
      * @return $this
      */
-    public function data($data = null, int $status_code = 200, bool $use_data = true, string $exception = null): self
+    public function data($data = null, int $status_code = 200, bool $use_data = true, string $exception = BaseException::class): self
     {
         $this->use_data    = $use_data;
         $this->status_code = $status_code;
@@ -56,7 +57,8 @@ final class Response
             $this->status_type = Exception::getType($data, $exception);
             $this->data        = Exception::getData($data);
         } else {
-            $this->data = ResponseSupport::get($data);
+            $this->status_type = Instance::basename($exception);
+            $this->data        = ResponseSupport::get($data);
         }
 
         return $this;
