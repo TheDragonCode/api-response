@@ -78,19 +78,26 @@ abstract class LaravelException extends ExceptionHandler
     protected function prepareJsonResponse($request, Throwable $e)
     {
         return api_response(
-            $this->convertExceptionToArray($e),
+            $this->getExceptionMessage($e),
             $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            [],
+            $this->getExceptionTrace($e),
             $this->isHttpException($e) ? $e->getHeaders() : []
         );
     }
 
-    protected function convertExceptionToArray(Throwable $e)
+    protected function getExceptionMessage(Throwable $e)
+    {
+        $converted = parent::convertExceptionToArray($e);
+
+        return Arr::get($converted, 'message');
+    }
+
+    protected function getExceptionTrace(Throwable $e)
     {
         $converted = parent::convertExceptionToArray($e);
 
         return config('app.debug')
-            ? $converted
-            : Arr::get($converted, 'message');
+            ? ['trace' => Arr::except($converted, 'message')]
+            : [];
     }
 }
