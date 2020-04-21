@@ -60,7 +60,7 @@ abstract class LaravelException extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
-            ? api_response($exception)
+            ? api_response($exception, 401)
             : redirect()->guest(route('login'));
     }
 
