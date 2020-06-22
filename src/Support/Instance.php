@@ -18,14 +18,14 @@ final class Instance extends Container
      */
     public static function of($haystack, $needles): bool
     {
-        if (! static::isExistsObject($haystack)) {
+        if (! self::isExistsObject($haystack)) {
             return false;
         }
 
-        $reflection = static::reflection($haystack);
+        $reflection = self::reflection($haystack);
 
         foreach (Arr::wrap($needles) as $needle) {
-            if (! static::isClassExists($needle)) {
+            if (! self::isClassExists($needle)) {
                 continue;
             }
 
@@ -48,14 +48,14 @@ final class Instance extends Container
      */
     public static function basename($class): string
     {
-        $class = static::classname($class);
+        $class = self::classname($class);
 
         return basename(str_replace('\\', '/', $class));
     }
 
     public static function classname($class): string
     {
-        return static::isObject($class) ? get_class($class) : $class;
+        return self::isObject($class) ? get_class($class) : $class;
     }
 
     /**
@@ -82,7 +82,7 @@ final class Instance extends Container
     public static function callsWhenNotEmpty(Throwable $object, $methods)
     {
         foreach (Arr::wrap($methods) as $method) {
-            if ($value = static::call($object, $method)) {
+            if ($value = self::call($object, $method)) {
                 return $value;
             }
         }
@@ -97,7 +97,7 @@ final class Instance extends Container
      */
     protected static function isExistsObject($value): bool
     {
-        return static::isObject($value) ?: static::isClassExists($value);
+        return self::isObject($value) ?: self::isClassExists($value);
     }
 
     /**

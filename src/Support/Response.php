@@ -10,7 +10,7 @@ final class Response
     public static function get($data)
     {
         return $data instanceof Responsable
-            ? static::toResponse($data)
+            ? self::toResponse($data)
             : $data;
     }
 

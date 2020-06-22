@@ -39,17 +39,17 @@ final class Exception
      */
     public static function getCode($value, int $status_code = 400): int
     {
-        if (static::isErrorCode($status_code)) {
+        if (self::isErrorCode($status_code)) {
             return $status_code;
         }
 
         if ($value instanceof ValidationException) {
-            return static::correctStatusCode(
+            return self::correctStatusCode(
                 $value->status ?? Instance::call($value, 'getCode') ?: 0
             );
         }
 
-        return static::correctStatusCode(
+        return self::correctStatusCode(
             Instance::callsWhenNotEmpty($value, ['getStatusCode', 'getCode']) ?: 0
         );
     }
@@ -78,6 +78,6 @@ final class Exception
 
     protected static function correctStatusCode(int $code): int
     {
-        return static::isErrorCode($code) ? $code : 400;
+        return self::isErrorCode($code) ? $code : 400;
     }
 }
