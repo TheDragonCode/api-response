@@ -16,7 +16,7 @@ abstract class Container
         $name = static::containerName($class);
 
         if (! isset(static::$containers[$name])) {
-            static::$containers[$name] = Is::object($class) ? $class : new $class;
+            static::$containers[$name] = Is::object($class) ? $class : new $class();
         }
 
         return static::$containers[$name];
