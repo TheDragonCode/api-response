@@ -28,7 +28,7 @@ abstract class LaravelException extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($this->isJson($request) && $e instanceof MaintenanceModeException) {
-            return api_response($e, 503);
+            return $this->response($e, 503);
         }
 
         if (method_exists($e, 'render') && $response = $e->render($request)) {
@@ -54,13 +54,13 @@ abstract class LaravelException extends ExceptionHandler
 
     protected function invalidJson($request, ValidationException $exception)
     {
-        return api_response($exception);
+        return $this->response($exception);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->isJson($request)
-            ? api_response($exception, 401)
+            ? $this->response($exception, 401)
             : redirect()->guest(route('login'));
     }
 
@@ -80,7 +80,7 @@ abstract class LaravelException extends ExceptionHandler
         return api_response(
             $this->getExceptionMessage($e),
             $this->isHttpException($e) ? $e->getStatusCode() : 500,
-            $this->getExceptionTrace($e),
+            array_merge($this->with(), $this->getExceptionTrace($e)),
             $this->isHttpException($e) ? $e->getHeaders() : [],
             true,
             get_class($e)
@@ -101,5 +101,15 @@ abstract class LaravelException extends ExceptionHandler
         return config('app.debug')
             ? ['info' => Arr::except($converted, 'message')]
             : [];
+    }
+
+    protected function with(): array
+    {
+        return [];
+    }
+
+    protected function response($data, int $status_code = 200): JsonResponse
+    {
+        return api_response($data, $status_code, $this->with());
     }
 }
