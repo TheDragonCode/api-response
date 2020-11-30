@@ -3,3 +3,5 @@
 
 *.cache
 *.log
+
+composer.lock
