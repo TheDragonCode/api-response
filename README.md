@@ -1,20 +1,18 @@
-## API Response
+# API Response
 
 Package for standardizing the responses from the API of your **Symfony based** applications.
 
 ![api response](https://user-images.githubusercontent.com/10347617/41526643-83080b9c-72ed-11e8-9fc7-9780546e0255.png)
 
-<p align="center">
-    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square" alt="Total Downloads" /></a>
-    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
-    <a href="https://packagist.org/packages/andrey-helldar/api-response"><img src="https://poser.pugx.org/andrey-helldar/api-response/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
-    <a href="LICENSE"><img src="https://poser.pugx.org/andrey-helldar/api-response/license?format=flat-square" alt="License" /></a>
-</p>
-<p align="center">
-    <a href="https://styleci.io/repos/82566268"><img src="https://styleci.io/repos/82566268/shield" alt="StyleCI" /></a>
-    <a href="https://scrutinizer-ci.com/g/andrey-helldar/api-response"><img src="https://scrutinizer-ci.com/g/andrey-helldar/api-response/badges/quality-score.png?b=master" alt="Code Quality" /></a>
-    <a href="https://scrutinizer-ci.com/g/andrey-helldar/api-response"><img src="https://scrutinizer-ci.com/g/andrey-helldar/api-response/badges/build.png?b=master" alt="Build Quality" /></a>
-</p>
+[![StyleCI Status][badge_styleci]][link_styleci]
+[![Github Workflow Status][badge_build]][link_build]
+[![Coverage Status][badge_coverage]][link_scrutinizer]
+[![Scrutinizer Code Quality][badge_quality]][link_scrutinizer]
+
+[![Stable Version][badge_stable]][link_packagist]
+[![Unstable Version][badge_unstable]][link_packagist]
+[![Total Downloads][badge_downloads]][link_packagist]
+[![License][badge_license]][link_license]
 
 
 ## Content
@@ -655,7 +653,8 @@ return with code 405:
 
 ### Best practice use with the Laravel and Lumen Frameworks
 
-If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file to `Helldar\ApiResponse\Support\LaravelException`.
+If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file
+to `Helldar\ApiResponse\Support\LaravelException`.
 
 If you did not add anything to this file, then delete everything properties and methods.
 
@@ -679,13 +678,28 @@ Or you can change this file by adding code to it, similar to [ours](src/Support/
 [[ to top ]](#api-response)
 
 
-## Copyright and License
-
-`API Response` was written by Andrey Helldar, and is licensed under the [MIT License](LICENSE).
-
-[[ to top ]](#api-response)
-
-
 [badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
 
 [badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square
+
+[badge_styleci]:    https://styleci.io/repos/82566268/shield
+
+[link_styleci]:     https://github.styleci.io/repos/82566268
+
+[badge_build]:      https://img.shields.io/github/workflow/status/andrey-helldar/api-response/phpunit?style=flat-square
+
+[link_build]:       https://github.com/andrey-helldar/api-response/actions
+
+[badge_coverage]:   https://img.shields.io/scrutinizer/coverage/g/andrey-helldar/api-response.svg?style=flat-square
+
+[link_scrutinizer]: https://scrutinizer-ci.com/g/andrey-helldar/api-response
+
+[badge_quality]:    https://img.shields.io/scrutinizer/g/andrey-helldar/api-response.svg?style=flat-square
+
+[badge_stable]:     https://img.shields.io/github/v/release/andrey-helldar/api-response?label=stable&style=flat-square
+
+[badge_unstable]:   https://img.shields.io/badge/unstable-dev--main-orange?style=flat-square
+
+[badge_downloads]:  https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square
+
+[badge_license]:    https://img.shields.io/packagist/l/andrey-helldar/api-response.svg?style=flat-square

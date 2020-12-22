@@ -1,18 +1,17 @@
 name: phpunit
-on: [push]
+on: [ push ]
 
 jobs:
     build:
-
         runs-on: ubuntu-latest
 
         strategy:
             fail-fast: true
             matrix:
-                php: [7.3, 7.4, 8.0]
-                dependency-version: [prefer-lowest, prefer-stable]
+                php: [ "7.3", "7.4", "8.0" ]
+                symfony: [ "4.0", "5.0" ]
 
-        name: PHP ${{ matrix.php }} - ${{ matrix.dependency-version }}
+        name: Symfony ${{ matrix.symfony }}, PHP ${{ matrix.php }}
 
         steps:
             -   name: Checkout code
@@ -23,20 +22,17 @@ jobs:
                 with:
                     php-version: ${{ matrix.php }}
                     extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
-                    coverage: xdebug
+                    coverage: none
 
             -   name: Composer self update
                 run: composer self-update
 
             -   name: Install dependencies
-                run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-progress --no-interaction --no-suggest
+                run: |
+                    composer require symfony/http-foundation:^${{ matrix.laravel }}
+                    composer update --prefer-stable --prefer-dist --no-progress --no-interaction
 
             -   name: Execute tests
                 run: |
                     mkdir -p build/logs
-                    vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-            -   name: Scrutinizer CI
-                run: |
-                    wget https://scrutinizer-ci.com/ocular.phar
-                    php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+                    vendor/bin/phpunit --coverage-text
