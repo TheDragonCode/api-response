@@ -29,7 +29,7 @@ jobs:
 
             -   name: Install dependencies
                 run: |
-                    composer require symfony/http-foundation:^${{ matrix.laravel }}
+                    composer require symfony/http-foundation:^${{ matrix.symfony }}
                     composer update --prefer-stable --prefer-dist --no-progress --no-interaction
 
             -   name: Execute tests
