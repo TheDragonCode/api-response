@@ -297,7 +297,7 @@ return with code 400:
 If you do not want to wrap the response in the `data` key, then you need to pass the `false` value to the 5th parameter of the function:
 
 ```php
-use Helldar\ApiResponse\Services\Response;
+use Helldar\ApiResponse\Services\ResponseOld;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -319,7 +319,7 @@ function api_response(
     bool $use_data = true
 )
 {
-    return Response::init()
+    return Response::make()
         ->data($data, $status_code, $use_data)
         ->with($with)
         ->headers($headers)

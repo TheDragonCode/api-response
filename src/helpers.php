@@ -10,10 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * @param  int  $status_code
  * @param  array  $with
  * @param  array  $headers
- * @param  bool  $use_data
- * @param  string|null  $exception
- *
- * @throws \ReflectionException
+ * @param  bool  $wrap_data
  *
  * @return Symfony\Component\HttpFoundation\JsonResponse
  */
@@ -22,12 +19,10 @@ function api_response(
     int $status_code = 200,
     array $with = [],
     array $headers = [],
-    bool $use_data = true,
-    string $exception = null
+    bool $wrap_data = true
 ): JsonResponse {
-    return Response::init()
-        ->exception($exception)
-        ->data($data, $status_code, $use_data)
+    return Response::make()
+        ->data($data, $status_code, $wrap_data)
         ->with($with)
         ->headers($headers)
         ->response();
