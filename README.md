@@ -678,28 +678,32 @@ Or you can change this file by adding code to it, similar to [ours](src/Support/
 [[ to top ]](#api-response)
 
 
-[badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
-
-[badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square
-
-[badge_styleci]:    https://styleci.io/repos/82566268/shield
-
-[link_styleci]:     https://github.styleci.io/repos/82566268
-
 [badge_build]:      https://img.shields.io/github/workflow/status/andrey-helldar/api-response/phpunit?style=flat-square
-
-[link_build]:       https://github.com/andrey-helldar/api-response/actions
 
 [badge_coverage]:   https://img.shields.io/scrutinizer/coverage/g/andrey-helldar/api-response.svg?style=flat-square
 
-[link_scrutinizer]: https://scrutinizer-ci.com/g/andrey-helldar/api-response
+[badge_downloads]:  https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square
+
+[badge_license]:    https://img.shields.io/packagist/l/andrey-helldar/api-response.svg?style=flat-square
+
+[badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square
 
 [badge_quality]:    https://img.shields.io/scrutinizer/g/andrey-helldar/api-response.svg?style=flat-square
 
 [badge_stable]:     https://img.shields.io/github/v/release/andrey-helldar/api-response?label=stable&style=flat-square
 
+[badge_styleci]:    https://styleci.io/repos/82566268/shield
+
+[badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
+
 [badge_unstable]:   https://img.shields.io/badge/unstable-dev--main-orange?style=flat-square
 
-[badge_downloads]:  https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square
+[link_build]:       https://github.com/andrey-helldar/api-response/actions
 
-[badge_license]:    https://img.shields.io/packagist/l/andrey-helldar/api-response.svg?style=flat-square
+[link_license]:     LICENSE
+
+[link_packagist]:   https://packagist.org/packages/andrey-helldar/api-response
+
+[link_scrutinizer]: https://scrutinizer-ci.com/g/andrey-helldar/api-response
+
+[link_styleci]:     https://github.styleci.io/repos/82566268
