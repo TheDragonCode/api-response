@@ -44,12 +44,6 @@ final class Exception
             return $status_code;
         }
 
-        if (Instance::of($value, ValidationException::class)) {
-            return self::correctStatusCode(
-                $value->status ?? Instance::call($value, 'getCode', 0)
-            );
-        }
-
         return self::correctStatusCode(
             Instance::callsWhenNotEmpty($value, ['getStatusCode', 'getCode'], 0)
         );
@@ -62,19 +56,13 @@ final class Exception
 
     public static function getData($exception)
     {
-        if (Instance::of($exception, [SymfonyResponse::class, LaravelResponse::class])) {
-            return Instance::callsWhenNotEmpty($exception, ['getOriginalContent', 'getContent', 'getMessage']);
+        if (Instance::of($exception, [SymfonyResponse::class, LaravelResponse::class, Responsable::class, HttpResponseException::class])) {
+            return Instance::callsWhenNotEmpty($exception, ['getOriginalContent', 'getContent', 'getResponse', 'getMessage']);
         }
 
-        if (Instance::of($exception, [Responsable::class, HttpResponseException::class])) {
-            return $exception->getResponse();
-        }
-
-        if (Instance::of($exception, ValidationException::class)) {
-            return $exception->errors();
-        }
-
-        return $exception->getMessage();
+        return Instance::of($exception, ValidationException::class)
+            ? $exception->errors()
+            : $exception->getMessage();
     }
 
     protected static function correctStatusCode(int $code): int
