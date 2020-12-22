@@ -18,6 +18,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
 
 
 ## Content
+
 * [Installation](#installation)
     * [Compatibility table](#compatibility-table)
 * [Using](#using)
@@ -40,7 +41,6 @@ Package for standardizing the responses from the API of your **Symfony based** a
     * [Returning Exception instances](#returning-exception-instances)
     * [Best practice use with the Laravel and Lumen Frameworks](#best-practice-use-with-the-laravel-and-lumen-frameworks)
 * [Copyright and License](#copyright-and-license)
-
 
 ## Installation
 
@@ -74,7 +74,6 @@ Alright! Use `api_response()` helper.
 |  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
 |  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
 
-
 [[ to top ]](#api-response)
 
 
@@ -83,10 +82,13 @@ Alright! Use `api_response()` helper.
 ### Use with `data` key
 
 #### as NULL with code:
+
 ```php
 return api_response(null, 304);
 ```
+
 return with code 304:
+
 ```json
 {
     "data": null
@@ -96,10 +98,13 @@ return with code 304:
 [[ to top ]](#api-response)
 
 #### as integer with default code:
+
 ```php
 return api_response(304);
 ```
+
 return with code 200:
+
 ```json
 {
     "data": 304
@@ -109,10 +114,13 @@ return with code 200:
 [[ to top ]](#api-response)
 
 #### as string with default code:
+
 ```php
 return api_response('qwerty');
 ```
+
 return with code 200:
+
 ```json
 {
     "data": "qwerty"
@@ -122,38 +130,45 @@ return with code 200:
 [[ to top ]](#api-response)
 
 #### as string with code:
+
 ```php
 return api_response('qwerty', 400);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": "qwerty"
-  }
+    "error": {
+        "type": "Exception",
+        "data": "qwerty"
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as integer with code:
+
 ```php
 return api_response(304, 400);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": 304
-  }
+    "error": {
+        "type": "Exception",
+        "data": 304
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as array:
+
 ```php
 $data = [
     [
@@ -170,35 +185,41 @@ $data = [
 [[ to top ]](#api-response)
 
 #### as error
+
 ```php
 return api_response($data, 400);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": [
-      {
-        "title": "Title #1",
-        "description": "Description #1"
-      },
-      {
-        "title": "Title #2",
-        "description": "Description #2"
-      }
-    ]
-  }
+    "error": {
+        "type": "Exception",
+        "data": [
+            {
+                "title": "Title #1",
+                "description": "Description #1"
+            },
+            {
+                "title": "Title #2",
+                "description": "Description #2"
+            }
+        ]
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as success
+
 ```php
 return api_response($data, 200);
 ```
+
 return with code 200:
+
 ```json
 {
     "data": [
@@ -213,55 +234,60 @@ return with code 200:
     ]
 }
 ```
-    
+
 If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
 
 [[ to top ]](#api-response)
 
 #### with additional content
+
 ```php
 return api_response('title', 200, ['foo' => 'bar']);
 ```
+
 return with code 200:
+
 ```json
 {
-  "data": "title",
-  "foo": "bar"
+    "data": "title",
+    "foo": "bar"
 }
 ```
 
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data":"ok"
-  },
-  "foo": "bar"
+    "error": {
+        "type": "Exception",
+        "data": "ok"
+    },
+    "foo": "bar"
 }
 ```
-
 
 ```php
 return api_response(['data' => 'foo', 'bar' => 'baz']);
 ```
 
 return with code 200:
+
 ```json
 {
-  "data": "foo",
-  "bar": "baz"
+    "data": "foo",
+    "bar": "baz"
 }
 ```
 
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data":"foo"
-  },
-  "bar": "baz"
+    "error": {
+        "type": "Exception",
+        "data": "foo"
+    },
+    "bar": "baz"
 }
 ```
 
@@ -304,10 +330,13 @@ function api_response(
 ```
 
 #### as NULL with code and without `data` key:
+
 ```php
 return api_response(null, 304, [], [], false);
 ```
+
 return with code 304:
+
 ```json
 {}
 ```
@@ -315,10 +344,13 @@ return with code 304:
 [[ to top ]](#api-response)
 
 #### as integer with default code and without `data` key:
+
 ```php
 return api_response(304, 200, [], [], false);
 ```
+
 return with code 200:
+
 ```json
 304
 ```
@@ -326,10 +358,13 @@ return with code 200:
 [[ to top ]](#api-response)
 
 #### as string with default code and without `data` key:
+
 ```php
 return api_response('qwerty', 200, [], [], false);
 ```
+
 return with code 200:
+
 ```json
 "qwerty"
 ```
@@ -337,38 +372,45 @@ return with code 200:
 [[ to top ]](#api-response)
 
 #### as string with code and without `data` key:
+
 ```php
 return api_response('qwerty', 400, [], [], false);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": "qwerty"
-  }
+    "error": {
+        "type": "Exception",
+        "data": "qwerty"
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as integer with code and without `data` key:
+
 ```php
 return api_response(304, 400, [], [], false);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": 304
-  }
+    "error": {
+        "type": "Exception",
+        "data": 304
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as array and without `data` key:
+
 ```php
 $data = [
     [
@@ -383,35 +425,41 @@ $data = [
 ```
 
 #### as error and without `data` key
+
 ```php
 return api_response($data, 400, [], [], false);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data": [
-      {
-        "title": "Title #1",
-        "description": "Description #1"
-      },
-      {
-        "title": "Title #2",
-        "description": "Description #2"
-      }
-    ]
-  }
+    "error": {
+        "type": "Exception",
+        "data": [
+            {
+                "title": "Title #1",
+                "description": "Description #1"
+            },
+            {
+                "title": "Title #2",
+                "description": "Description #2"
+            }
+        ]
+    }
 }
 ```
 
 [[ to top ]](#api-response)
 
 #### as success and without `data` key
+
 ```php
 return api_response($data, 200, [], [], false);
 ```
+
 return with code 200:
+
 ```json
 [
     {
@@ -424,55 +472,60 @@ return with code 200:
     }
 ]
 ```
-    
+
 If the first parameter is a number, then the decryption of the error by code will be return. In other cases, the value of the passed variable will be return.
 
 [[ to top ]](#api-response)
 
 #### with additional content and without `data` key:
+
 ```php
 return api_response('title', 200, ['foo' => 'bar'], [], false);
 ```
+
 return with code 200:
+
 ```json
 {
-  "data": "title",
-  "foo": "bar"
+    "data": "title",
+    "foo": "bar"
 }
 ```
 
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data":"ok"
-  },
-  "foo": "bar"
+    "error": {
+        "type": "Exception",
+        "data": "ok"
+    },
+    "foo": "bar"
 }
 ```
-
 
 ```php
 return api_response(['data' => 'foo', 'bar' => 'baz'], 200, [], [], false);
 ```
 
 return with code 200:
+
 ```json
 {
-  "data": "foo",
-  "bar": "baz"
+    "data": "foo",
+    "bar": "baz"
 }
 ```
 
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "Exception",
-    "data":"foo"
-  },
-  "bar": "baz"
+    "error": {
+        "type": "Exception",
+        "data": "foo"
+    },
+    "bar": "baz"
 }
 ```
 
@@ -480,6 +533,7 @@ return with code 400:
 
 
 ### Returning exception instances
+
 ```php
 class FooException extends \Exception
 {
@@ -504,65 +558,75 @@ $bar = new BarException();
 ```php
 return api_response($foo);
 ```
+
 return with code 405:
+
 ```json
 {
-  "error": {
-    "type": "FooException",
-    "data": "Foo"
-  }
+    "error": {
+        "type": "FooException",
+        "data": "Foo"
+    }
 }
 ```
 
 ```php
 return api_response($foo, 408);
 ```
+
 return with code 408:
+
 ```json
 {
-  "error": {
-    "type": "FooException",
-    "data": "Foo"
-  }
+    "error": {
+        "type": "FooException",
+        "data": "Foo"
+    }
 }
 ```
 
 ```php
 return api_response($bar);
 ```
+
 return with code 400:
+
 ```json
 {
-  "error": {
-    "type": "BarException",
-    "data": "Bar"
-  }
+    "error": {
+        "type": "BarException",
+        "data": "Bar"
+    }
 }
 ```
 
 ```php
 return api_response($bar, 408);
 ```
+
 return with code 408:
+
 ```json
 {
-  "error": {
-    "type": "BarException",
-    "data": "Bar"
-  }
+    "error": {
+        "type": "BarException",
+        "data": "Bar"
+    }
 }
 ```
 
 ```php
 return api_response($bar, 408, [], [], true, FooException::class);
 ```
+
 return with code 408:
+
 ```json
 {
-  "error": {
-    "type": "FooException",
-    "data": "Bar"
-  }
+    "error": {
+        "type": "FooException",
+        "data": "Bar"
+    }
 }
 ```
 
@@ -573,14 +637,16 @@ return api_response($foo, 405, ['foo' => 'Bar']);
 // or
 return api_response($foo, 0, ['foo' => 'Bar']);
 ```
+
 return with code 405:
+
 ```json
 {
-  "error": {
-    "type": "FooException",
-    "data": "Foo"
-  },
-  "foo": "Bar"
+    "error": {
+        "type": "FooException",
+        "data": "Foo"
+    },
+    "foo": "Bar"
 }
 ```
 
@@ -594,6 +660,7 @@ If you use the Laravel or Lumen framework, you can update the `extends` in the `
 If you did not add anything to this file, then delete everything properties and methods.
 
 As a result, a clean file will look like this:
+
 ```php
 <?php
 
@@ -620,4 +687,5 @@ Or you can change this file by adding code to it, similar to [ours](src/Support/
 
 
 [badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
+
 [badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square

@@ -42,7 +42,8 @@ class ResponseUseDataTest extends BaseTestCase
     public function testStructure()
     {
         $this->assertJsonStringEqualsJsonString(json_encode(['data' => 'ok']), $this->response('ok')->getContent());
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => ['type' => Exception::class, 'data' => 'fail']]), $this->response('fail', 400)->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(['error' => ['type' => Exception::class, 'data' => 'fail']]),
+            $this->response('fail', 400)->getContent());
 
         $this->assertJsonStringNotEqualsJsonString(json_encode(['data' => 'ok']), $this->response('fail', 400)->getContent());
     }
