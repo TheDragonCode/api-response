@@ -1,6 +1,7 @@
 <?php
 
 use Helldar\ApiResponse\Services\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Return a new response from the application.
@@ -23,7 +24,7 @@ function api_response(
     array $headers = [],
     bool $use_data = true,
     string $exception = null
-) {
+): JsonResponse {
     return Response::init()
         ->exception($exception)
         ->data($data, $status_code, $use_data)

@@ -6,7 +6,7 @@ use Exception;
 use Tests\Exceptions\BarException;
 use Tests\Exceptions\FooException;
 
-class ResponseNotUseDataTest extends BaseTestCase
+class ResponseNotUseDataTest extends TestCase
 {
     protected $use_data = false;
 

@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use Tests\Entities\Response;
 
-abstract class BaseTestCase extends TestCase
+abstract class TestCase extends BaseTestCase
 {
     protected $use_data = true;
 

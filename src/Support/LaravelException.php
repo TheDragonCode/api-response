@@ -2,6 +2,7 @@
 
 namespace Helldar\ApiResponse\Support;
 
+use Helldar\Support\Facades\Instance;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -27,7 +28,7 @@ abstract class LaravelException extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        if ($this->isJson($request) && $e instanceof MaintenanceModeException) {
+        if ($this->isJson($request) && Instance::of($e, MaintenanceModeException::class)) {
             return $this->response($e, 503);
         }
 
@@ -39,11 +40,11 @@ abstract class LaravelException extends ExceptionHandler
 
         $e = $this->prepareException($e);
 
-        if ($e instanceof HttpResponseException) {
+        if (Instance::of($e, HttpResponseException::class)) {
             return $e->getResponse();
-        } elseif ($e instanceof AuthenticationException) {
+        } elseif (Instance::of($e, AuthenticationException::class)) {
             return $this->unauthenticated($request, $e);
-        } elseif ($e instanceof ValidationException) {
+        } elseif (Instance::of($e, ValidationException::class)) {
             return $this->convertValidationExceptionToResponse($e, $request);
         }
 
@@ -72,7 +73,7 @@ abstract class LaravelException extends ExceptionHandler
      */
     protected function isJson($request, $response = null): bool
     {
-        return $request->expectsJson() || $request->isJson() || $request->is('api*') || $response instanceof JsonResponse;
+        return $request->expectsJson() || $request->isJson() || $request->is('api*') || Instance::of($response, JsonResponse::class);
     }
 
     protected function prepareJsonResponse($request, Throwable $e)
@@ -83,7 +84,7 @@ abstract class LaravelException extends ExceptionHandler
             array_merge($this->with(), $this->getExceptionTrace($e)),
             $this->isHttpException($e) ? $e->getHeaders() : [],
             true,
-            get_class($e)
+            Instance::classname($e)
         );
     }
 

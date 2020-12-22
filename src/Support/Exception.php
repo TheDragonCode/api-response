@@ -3,6 +3,7 @@
 namespace Helldar\ApiResponse\Support;
 
 use Exception as BaseException;
+use Helldar\Support\Facades\Instance;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response as LaravelResponse;
@@ -43,14 +44,14 @@ final class Exception
             return $status_code;
         }
 
-        if ($value instanceof ValidationException) {
+        if (Instance::of($value, ValidationException::class)) {
             return self::correctStatusCode(
-                $value->status ?? Instance::call($value, 'getCode') ?: 0
+                $value->status ?? Instance::call($value, 'getCode', 0)
             );
         }
 
         return self::correctStatusCode(
-            Instance::callsWhenNotEmpty($value, ['getStatusCode', 'getCode']) ?: 0
+            Instance::callsWhenNotEmpty($value, ['getStatusCode', 'getCode'], 0)
         );
     }
 

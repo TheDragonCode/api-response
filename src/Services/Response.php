@@ -4,13 +4,19 @@ namespace Helldar\ApiResponse\Services;
 
 use Exception as BaseException;
 use Helldar\ApiResponse\Support\Exception;
-use Helldar\ApiResponse\Support\Instance;
 use Helldar\ApiResponse\Support\Response as ResponseSupport;
-use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\{Arr, Instance, Str};
+use Helldar\Support\Traits\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * @method static Response make(...$parameters)
+ * @method static Response init(...$parameters)
+ */
 final class Response
 {
+    use Makeable;
+
     /** @var array */
     protected $with = [];
 
@@ -28,14 +34,6 @@ final class Response
 
     /** @var string|null */
     protected $status_type;
-
-    /**
-     * @return Response
-     */
-    public static function init(): self
-    {
-        return new self();
-    }
 
     public function exception(string $status_type = null): self
     {
@@ -98,7 +96,7 @@ final class Response
      */
     public function response(): JsonResponse
     {
-        return JsonResponse::create($this->getData(), $this->status_code, $this->headers);
+        return new JsonResponse($this->getData(), $this->status_code, $this->headers);
     }
 
     protected function isError(): bool
@@ -108,13 +106,11 @@ final class Response
 
     protected function e($value = null, $doubleEncode = true)
     {
-        if (! is_string($value) || null === $value) {
+        if (is_null($value) || ! is_string($value)) {
             return $value;
         }
 
-        return $value !== ''
-            ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode)
-            : null;
+        return ! empty($value) ? Str::e($value, $doubleEncode) : null;
     }
 
     protected function getStatusType(): string
@@ -149,9 +145,11 @@ final class Response
     {
         $data = $this->e($this->data);
 
-        return $this->use_data || $this->with
-            ? compact('data')
-            : $data;
+        if ($this->use_data || $this->with) {
+            return isset($data['data']) ? $data : compact('data');
+        }
+
+        return $data;
     }
 
     protected function mergeData($data = [])

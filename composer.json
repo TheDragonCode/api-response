@@ -4,32 +4,36 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["api response", "api-response", "response", "laravel", "lumen", "symfony", "api"],
-    "support": {
-        "issues": "https://github.com/andrey-helldar/api-response/issues",
-        "source": "https://github.com/andrey-helldar/api-response"
-    },
     "authors": [
         {
             "name": "Andrey Helldar",
             "email": "helldar@ai-rus.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/andrey-helldar/api-response/issues",
+        "source": "https://github.com/andrey-helldar/api-response"
+    },
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",
-        "andrey-helldar/support": "^1.14",
+        "andrey-helldar/support": "^1.28.2",
+        "illuminate/container": "^5.0|^6.0|^7.0|^8.0",
         "symfony/http-foundation": "^4.0|^5.0"
     },
     "require-dev": {
+        "illuminate/auth": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/http": "^8.0",
+        "illuminate/routing": "^8.0",
+        "illuminate/support": "^8.0",
+        "illuminate/validation": "^8.0",
         "phpunit/phpunit": "^9.0"
     },
     "suggest": {
         "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
     },
     "autoload": {
-        "classmap": [
-            "src/"
-        ],
         "psr-4": {
             "Helldar\\ApiResponse\\": "src"
         },
@@ -43,7 +47,8 @@
         }
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

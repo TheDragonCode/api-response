@@ -6,7 +6,7 @@ use Exception;
 use Tests\Exceptions\BarException;
 use Tests\Exceptions\FooException;
 
-class ResponseUseDataTest extends BaseTestCase
+class ResponseUseDataTest extends TestCase
 {
     public function testEmpty()
     {
