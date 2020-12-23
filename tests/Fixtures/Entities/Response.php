@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests\Entities;
-
-use function api_response;
+namespace Tests\Fixtures\Entities;
 
 final class Response
 {
@@ -10,9 +8,9 @@ final class Response
 
     protected $status_code;
 
-    public function __construct($data = null, int $status_code = 200, array $with = [], array $headers = [], bool $use_data = true)
+    public function __construct($data = null, int $status_code = 200, array $with = [], array $headers = [], bool $wrap = true)
     {
-        $response = api_response($data, $status_code, $with, $headers, $use_data);
+        $response = api_response($data, $status_code, $with, $headers, $wrap);
 
         $this->content     = $response->getContent();
         $this->status_code = $response->getStatusCode();

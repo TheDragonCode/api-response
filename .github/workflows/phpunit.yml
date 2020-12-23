@@ -33,6 +33,4 @@ jobs:
                     composer update --prefer-stable --prefer-dist --no-progress --no-interaction
 
             -   name: Execute tests
-                run: |
-                    mkdir -p build/logs
-                    vendor/bin/phpunit --coverage-text
+                run: vendor/bin/phpunit

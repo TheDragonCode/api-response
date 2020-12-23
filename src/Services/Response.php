@@ -2,12 +2,10 @@
 
 namespace Helldar\ApiResponse\Services;
 
-use Exception as BaseException;
-use Helldar\ApiResponse\Support\Exception;
-use Helldar\ApiResponse\Support\Response as ResponseHelper;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Instance;
-use Helldar\Support\Facades\Str;
+use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Support\Parser;
+use Helldar\ApiResponse\Wrappers\Error;
+use Helldar\ApiResponse\Wrappers\Success;
 use Helldar\Support\Traits\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -19,13 +17,10 @@ final class Response
     protected $data;
 
     /** @var bool */
-    protected $wrap_data = true;
+    protected $wrap = true;
 
-    /** @var int */
+    /** @var int|null */
     protected $status_code;
-
-    /** @var string|null */
-    protected $status_type;
 
     /** @var array */
     protected $with = [];
@@ -33,9 +28,9 @@ final class Response
     /** @var array */
     protected $headers = [];
 
-    public function statusType(string $type = null): self
+    public function wrapper(bool $wrap = true): self
     {
-        $this->status_type = $type;
+        $this->wrap = $wrap;
 
         return $this;
     }
@@ -54,88 +49,28 @@ final class Response
         return $this;
     }
 
-    public function data($data = null, int $status_code = 200, bool $wrap_data = true): self
+    public function data($data = null, int $status_code = null): self
     {
-        $this->wrap_data   = $wrap_data;
+        $this->data        = $data;
         $this->status_code = $status_code;
-
-        if (Exception::isError($data)) {
-            $this->status_code = Exception::getCode($data, $this->status_code);
-            $this->status_type = Exception::getType($data, $this->status_type);
-            $this->data        = Exception::getData($data);
-        } else {
-            $this->data = ResponseHelper::get($data);
-        }
 
         return $this;
     }
 
     public function response(): JsonResponse
     {
-        return new JsonResponse($this->getData(), $this->getStatusCode(), $this->getHeaders());
+        $parser = $this->getParser();
+
+        return new JsonResponse($this->getData($parser), $parser->getStatusCode(), $this->getHeaders());
     }
 
-    protected function splitData(): void
+    protected function getData(Parseable $parser)
     {
-        if (! is_array($this->data) && ! is_object($this->data)) {
-            return;
+        if ($data = $this->getWrapper($parser)) {
+            return $data;
         }
 
-        $data = Arr::toArray($this->data);
-
-        if (Arr::exists($data, 'data')) {
-            $this->data(Arr::get($data, 'data'), $this->status_code);
-            $this->with(Arr::except($data, 'data'));
-        }
-    }
-
-    protected function getData()
-    {
-        $this->splitData();
-
-        $data = $this->isError()
-            ? $this->getErrorData()
-            : $this->getSuccessData();
-
-        return $this->getResolvedData($data);
-    }
-
-    protected function getErrorData()
-    {
-        return [
-            'error' => [
-                'type' => $this->getStatusType(),
-                'data' => $this->e($this->data),
-            ],
-        ];
-    }
-
-    protected function getSuccessData()
-    {
-        $data = $this->e($this->data);
-
-        if ($this->wrap_data || $this->with) {
-            return isset($data['data']) ? $data : compact('data');
-        }
-
-        return $data;
-    }
-
-    protected function getResolvedData($data = [])
-    {
-        return is_array($data) ? array_merge($data, $this->with) : $data;
-    }
-
-    protected function getStatusCode(): int
-    {
-        return $this->status_code;
-    }
-
-    protected function getStatusType(): string
-    {
-        return Instance::basename(
-            $this->status_type ?: BaseException::class
-        );
+        return [];
     }
 
     protected function getHeaders(): array
@@ -143,17 +78,23 @@ final class Response
         return $this->headers;
     }
 
-    protected function e($value = null, $doubleEncode = true)
+    protected function getParser(): Parseable
     {
-        if (is_null($value) || ! is_string($value)) {
-            return $value;
-        }
-
-        return ! empty($value) ? Str::e($value, $doubleEncode) : null;
+        return Parser::make()
+            ->setData($this->data)
+            ->setStatusCode($this->status_code)
+            ->resolve();
     }
 
-    protected function isError(): bool
+    protected function getWrapper(Parseable $parser)
     {
-        return Exception::isErrorCode($this->getStatusCode());
+        /** @var \Helldar\ApiResponse\Wrappers\Wrapper $wrapper */
+        $wrapper = $parser->isError() ? Error::class : Success::class;
+
+        return $wrapper::make()
+            ->parser($parser)
+            ->wrap($this->wrap)
+            ->with($this->with)
+            ->get();
     }
 }

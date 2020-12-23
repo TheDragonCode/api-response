@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Exceptions;
+namespace Tests\Features\Exceptions;
 
 use Exception;
 
