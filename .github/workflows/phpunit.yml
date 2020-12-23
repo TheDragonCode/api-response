@@ -10,8 +10,9 @@ jobs:
             matrix:
                 php: [ "7.3", "7.4", "8.0" ]
                 symfony: [ "4.0", "5.0" ]
+                laravel: [ "6.0", "7.0", "8.0" ]
 
-        name: Symfony ${{ matrix.symfony }}, PHP ${{ matrix.php }}
+        name: Symfony ${{ matrix.symfony }}, Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}
 
         steps:
             -   name: Checkout code
@@ -29,7 +30,7 @@ jobs:
 
             -   name: Install dependencies
                 run: |
-                    composer require symfony/http-foundation:^${{ matrix.symfony }}
+                    composer require symfony/http-foundation:^${{ matrix.symfony }} laravel/framework:^${{ matrix.laravel }}
                     composer update --prefer-stable --prefer-dist --no-progress --no-interaction
 
             -   name: Execute tests
