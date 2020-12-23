@@ -84,7 +84,7 @@ abstract class Wrapper implements WrapperContract
 
             if ($this->wrap || $with || $this->isError($array)) {
                 $this->setData(Arr::get($array, 'data'));
-               $this->setWith(Arr::except($array, 'data'));
+                $this->setWith(Arr::except($array, 'data'));
             } else {
                 $this->setData($array);
             }
