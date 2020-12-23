@@ -21,7 +21,7 @@
         "symfony/http-foundation": "^4.0|^5.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0"
+        "orchestra/testbench": "^4.0|^5.0|^6.0"
     },
     "suggest": {
         "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
