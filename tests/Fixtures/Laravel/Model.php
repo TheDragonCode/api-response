@@ -5,8 +5,8 @@ namespace Tests\Fixtures\Laravel;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
 /**
- * @property-read string $foo
- * @property-read string $bar
+ * @property string $foo
+ * @property string $bar
  */
 final class Model extends BaseModel
 {
