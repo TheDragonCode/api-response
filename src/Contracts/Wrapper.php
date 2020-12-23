@@ -9,9 +9,5 @@ interface Wrapper
 
     public function parser(Parseable $parser): self;
 
-    public function with(array $data = []): self;
-
-    public function withWhen(bool $when, array $data = []): self;
-
     public function get();
 }

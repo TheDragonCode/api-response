@@ -3,6 +3,7 @@
 namespace Helldar\ApiResponse\Parsers;
 
 use Exception as BaseException;
+use Helldar\ApiResponse\Concerns\Errors;
 use Helldar\ApiResponse\Contracts\Parseable;
 use Helldar\Support\Facades\Instance;
 use Helldar\Support\Facades\Is;
@@ -11,17 +12,16 @@ use Helldar\Support\Traits\Makeable;
 abstract class Parser implements Parseable
 {
     use Makeable;
+    use Errors;
 
-    protected $is_error = false;
-
+    /** @var mixed */
     protected $data;
 
-    protected $status_code;
+    /** @var array */
+    protected $with = [];
 
-    public function isError(): bool
-    {
-        return $this->is_error || $this->isErrorCode() || Is::error($this->data);
-    }
+    /** @var int|null */
+    protected $status_code;
 
     public function setData($data): Parseable
     {
@@ -32,7 +32,7 @@ abstract class Parser implements Parseable
 
     public function getStatusCode(): int
     {
-        return $this->isError() || $this->isErrorCode()
+        return $this->isError()
             ? ($this->status_code ?: 400)
             : ($this->status_code ?: 200);
     }
@@ -58,8 +58,10 @@ abstract class Parser implements Parseable
         return [];
     }
 
-    protected function isErrorCode(): bool
+    public function setWith(array $with = []): Parseable
     {
-        return $this->status_code === 0 || $this->status_code >= 400;
+        $this->with = array_merge($this->with, $with);
+
+        return $this;
     }
 }

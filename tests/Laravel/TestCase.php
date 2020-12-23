@@ -1,28 +1,24 @@
 <?php
 
-namespace Tests;
+namespace Tests\Laravel;
 
+use Helldar\ApiResponse\Services\Response;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Tests\Fixtures\Entities\Response;
+use Tests\Fixtures\Concerns\Responsable;
 use Tests\Fixtures\Laravel\Model;
 use Tests\Fixtures\Laravel\Resources\Created;
 use Tests\Fixtures\Laravel\Resources\Success;
 
-abstract class TestCase extends BaseTestCase
+class TestCase extends BaseTestCase
 {
-    protected $wrap = true;
+    use Responsable;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->laravelResourceWrapping();
-    }
-
-    protected function response($data = null, int $status_code = 200, array $with = []): Response
-    {
-        return new Response($data, $status_code, $with, [], $this->wrap);
+        $this->setWrapping();
     }
 
     protected function laravelModel(): Model
@@ -30,20 +26,24 @@ abstract class TestCase extends BaseTestCase
         return new Model();
     }
 
-    protected function laravelSuccessResource(): Success
+    protected function successResource(): Success
     {
         return Success::make($this->laravelModel());
     }
 
-    protected function laravelCreatedResource(): Created
+    protected function createdResource(): Created
     {
         return Created::make($this->laravelModel());
     }
 
-    protected function laravelResourceWrapping(): void
+    protected function setWrapping(): void
     {
         $this->wrap
             ? JsonResource::wrap('data')
             : JsonResource::withoutWrapping();
+
+        $this->wrap
+            ? Response::allowWith()
+            : Response::withoutWith();
     }
 }

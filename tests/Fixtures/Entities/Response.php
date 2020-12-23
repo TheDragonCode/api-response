@@ -2,27 +2,35 @@
 
 namespace Tests\Fixtures\Entities;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 final class Response
 {
-    protected $content;
+    /** @var \Symfony\Component\HttpFoundation\JsonResponse */
+    protected $response;
 
-    protected $status_code;
-
-    public function __construct($data = null, int $status_code = 200, array $with = [], array $headers = [], bool $wrap = true)
+    public function __construct($data = null, int $status_code = null, array $with = [], array $headers = [], bool $wrap = true)
     {
-        $response = api_response($data, $status_code, $with, $headers, $wrap);
-
-        $this->content     = $response->getContent();
-        $this->status_code = $response->getStatusCode();
+        $this->response = api_response($data, $status_code, $with, $headers, $wrap);
     }
 
-    public function getContent()
+    public function getRaw()
     {
-        return $this->content;
+        return $this->response->getContent();
+    }
+
+    public function getJson()
+    {
+        return json_decode($this->getRaw(), true);
     }
 
     public function getStatusCode(): int
     {
-        return $this->status_code;
+        return $this->response->getStatusCode();
+    }
+
+    public function instance(): JsonResponse
+    {
+        return $this->response;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Helldar\ApiResponse\Parsers;
 
-final class DefaultParser extends Parser
+final class Main extends Parser
 {
     public function getData()
     {

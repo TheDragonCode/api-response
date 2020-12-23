@@ -46,15 +46,15 @@ final class WrappedTest extends TestCase
 
         $this->assertEquals(json_encode(
             [
-                'data' => [
-                    'foo' => 'Foo',
-                    'bar' => 'Bar',
+                'error' => [
+                    'type' => 'Exception',
+                    'data' => ['foo' => 'Foo', 'bar' => 'Bar'],
                 ],
-                'baz'  => 'Baz',
+                'baz'   => 'Baz',
             ]
         ), $response->getContent());
 
-        $this->assertSame(201, $response->getStatusCode());
+        $this->assertSame(400, $response->getStatusCode());
     }
 
     public function testAsError()

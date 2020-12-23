@@ -12,7 +12,7 @@ final class DoesntWrapTest extends TestCase
     {
         $response = $this->response($this->laravelSuccessResource());
 
-        $this->assertEquals(json_encode(['foo' => 'Foo', 'bar' => 'Bar']), $response->getContent());
+        $this->assertEquals(json_encode(['foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz']), $response->getContent());
 
         $this->assertSame(200, $response->getStatusCode());
     }
@@ -21,7 +21,7 @@ final class DoesntWrapTest extends TestCase
     {
         $response = $this->response($this->laravelCreatedResource());
 
-        $this->assertEquals(json_encode(['foo' => 'Foo', 'bar' => 'Bar']), $response->getContent());
+        $this->assertEquals(json_encode(['foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz']), $response->getContent());
 
         $this->assertSame(201, $response->getStatusCode());
     }

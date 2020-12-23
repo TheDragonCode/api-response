@@ -7,6 +7,8 @@ interface Parseable
 {
     public function setData($data): self;
 
+    public function setWith(array $with = []): self;
+
     public function setStatusCode(int $code = null): self;
 
     public function getStatusCode(): int;

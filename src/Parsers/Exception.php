@@ -13,13 +13,15 @@ final class Exception extends Parser
 {
     protected $is_error = true;
 
+    protected $message = 'Whoops! Something went wrong.';
+
     public function getData()
     {
         if ($data = $this->getThrowableContent()) {
-            return $data;
+            return $this->message($data);
         }
 
-        return $this->data;
+        return $this->message($this->data);
     }
 
     public function getStatusCode(): int
@@ -40,5 +42,10 @@ final class Exception extends Parser
         return Instance::of($this->data, [BaseException::class, Throwable::class])
             ? Instance::callsWhenNotEmpty($this->data, ['getOriginalContent', 'getContent', 'getResponse', 'getMessage'])
             : null;
+    }
+
+    protected function message($data): string
+    {
+        return $data ?: $this->message;
     }
 }

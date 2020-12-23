@@ -11,14 +11,17 @@ abstract class Wrapper implements WrapperContract
 {
     use Makeable;
 
+    /** @var bool */
     protected $wrap = true;
 
     /** @var \Helldar\ApiResponse\Contracts\Parseable */
     protected $parser;
 
-    protected $with = [];
-
+    /** @var mixed */
     protected $data;
+
+    /** @var array */
+    protected $with = [];
 
     public function wrap(bool $wrap = true): WrapperContract
     {
@@ -30,22 +33,6 @@ abstract class Wrapper implements WrapperContract
     public function parser(Parseable $parser): WrapperContract
     {
         $this->parser = $parser;
-
-        return $this;
-    }
-
-    public function with(array $data = []): WrapperContract
-    {
-        $this->with = array_merge($this->with, $data);
-
-        return $this;
-    }
-
-    public function withWhen(bool $when, array $data = []): WrapperContract
-    {
-        if ($when) {
-            $this->with($data);
-        }
 
         return $this;
     }
@@ -69,12 +56,17 @@ abstract class Wrapper implements WrapperContract
 
     protected function setData($data = null): void
     {
-        $this->data = $data ?: null;
+        $this->data = $data;
     }
 
     protected function getWith(): array
     {
-        return array_merge($this->with, $this->parser->getWith());
+        return $this->parser->getWith();
+    }
+
+    protected function setWith(array $with): void
+    {
+        $this->with = array_merge($this->with, $with);
     }
 
     protected function response()
@@ -85,15 +77,14 @@ abstract class Wrapper implements WrapperContract
     protected function split(): void
     {
         $data = $this->getData();
-
-        $this->with($this->getWith());
+        $with = $this->getWith();
 
         if (is_array($data) || is_object($data)) {
             $array = Arr::toArray($data);
 
-            if ($this->wrap || $this->with || $this->isError($array)) {
+            if ($this->wrap || $with || $this->isError($array)) {
                 $this->setData(Arr::get($array, 'data'));
-                $this->with(Arr::except($array, 'data'));
+               $this->setWith(Arr::except($array, 'data'));
             } else {
                 $this->setData($array);
             }
@@ -115,8 +106,12 @@ abstract class Wrapper implements WrapperContract
     {
         $data = $this->response();
 
-        if ($this->wrap || $this->with) {
+        if ($this->wrap) {
             $data = is_array($data) && Arr::exists($data, 'data') ? $data : compact('data');
+        }
+
+        if ($this->with && ! is_array($data)) {
+            $data = compact('data');
         }
 
         return $this->with ? array_merge($data, $this->with) : $data;

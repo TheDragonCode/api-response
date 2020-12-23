@@ -3,15 +3,19 @@
 namespace Helldar\ApiResponse\Services;
 
 use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Contracts\Responsable;
 use Helldar\ApiResponse\Support\Parser;
 use Helldar\ApiResponse\Wrappers\Error;
 use Helldar\ApiResponse\Wrappers\Success;
 use Helldar\Support\Traits\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-final class Response
+final class Response implements Responsable
 {
     use Makeable;
+
+    /** @var bool */
+    protected static $allow_with = true;
 
     /** @var mixed */
     protected $data;
@@ -28,31 +32,47 @@ final class Response
     /** @var array */
     protected $headers = [];
 
-    public function wrapper(bool $wrap = true): self
+    public static function allowWith(): void
+    {
+        self::$allow_with = true;
+    }
+
+    public static function withoutWith(): void
+    {
+        self::$allow_with = false;
+    }
+
+    public function wrapper(bool $wrap = true): Responsable
     {
         $this->wrap = $wrap;
 
         return $this;
     }
 
-    public function with(array $with = []): self
+    public function with(array $with = []): Responsable
     {
-        $this->with = array_merge($this->with, $with);
+        $this->with = $with;
 
         return $this;
     }
 
-    public function headers(array $headers = []): self
+    public function headers(array $headers = []): Responsable
     {
-        $this->headers = array_merge($this->headers, $headers);
+        $this->headers = $headers;
 
         return $this;
     }
 
-    public function data($data = null, int $status_code = null): self
+    public function statusCode(int $code = null): Responsable
     {
-        $this->data        = $data;
-        $this->status_code = $status_code;
+        $this->status_code = $code;
+
+        return $this;
+    }
+
+    public function data($data = null): Responsable
+    {
+        $this->data = $data;
 
         return $this;
     }
@@ -61,16 +81,7 @@ final class Response
     {
         $parser = $this->getParser();
 
-        return new JsonResponse($this->getData($parser), $parser->getStatusCode(), $this->getHeaders());
-    }
-
-    protected function getData(Parseable $parser)
-    {
-        if ($data = $this->getWrapper($parser)) {
-            return $data;
-        }
-
-        return [];
+        return new JsonResponse($this->getWrapped($parser), $parser->getStatusCode(), $this->getHeaders());
     }
 
     protected function getHeaders(): array
@@ -81,20 +92,29 @@ final class Response
     protected function getParser(): Parseable
     {
         return Parser::make()
-            ->setData($this->data)
             ->setStatusCode($this->status_code)
+            ->setData($this->data)
+            ->setWith($this->with)
             ->resolve();
     }
 
-    protected function getWrapper(Parseable $parser)
+    protected function getWrapped(Parseable $parser)
     {
-        /** @var \Helldar\ApiResponse\Wrappers\Wrapper $wrapper */
-        $wrapper = $parser->isError() ? Error::class : Success::class;
+        $wrapper = $this->getWrapper($parser);
 
         return $wrapper::make()
-            ->parser($parser)
             ->wrap($this->wrap)
-            ->with($this->with)
+            ->parser($parser)
             ->get();
+    }
+
+    /**
+     * @param  \Helldar\ApiResponse\Contracts\Parseable  $parser
+     *
+     * @return \Helldar\ApiResponse\Wrappers\Wrapper
+     */
+    protected function getWrapper(Parseable $parser): string
+    {
+        return $parser->isError() ? Error::class : Success::class;
     }
 }

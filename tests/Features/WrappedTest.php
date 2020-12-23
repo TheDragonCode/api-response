@@ -3,14 +3,12 @@
 namespace Tests\Features;
 
 use Exception;
-use Tests\Features\Exceptions\BarException;
-use Tests\Features\Exceptions\FooException;
+use Tests\Fixtures\Exceptions\BarException;
+use Tests\Fixtures\Exceptions\FooException;
 use Tests\TestCase;
 
-class ResponseNotUseDataTest extends TestCase
+class WrappedTest extends TestCase
 {
-    protected $wrap = false;
-
     public function testEmpty()
     {
         $this->assertJson($this->response()->getContent());
@@ -23,13 +21,13 @@ class ResponseNotUseDataTest extends TestCase
         $this->assertJson($this->response('', 400)->getContent());
         $this->assertJson($this->response('', 500)->getContent());
 
-        $this->assertEquals('[]', $this->response()->getContent());
-        $this->assertEquals('[]', $this->response(null, 300)->getContent());
+        $this->assertEquals(json_encode(['data' => null]), $this->response()->getContent());
+        $this->assertEquals(json_encode(['data' => null]), $this->response(null, 300)->getContent());
         $this->assertEquals(json_encode(['error' => ['type' => Exception::class, 'data' => null]]), $this->response(null, 400)->getContent());
         $this->assertEquals(json_encode(['error' => ['type' => Exception::class, 'data' => null]]), $this->response(null, 500)->getContent());
 
-        $this->assertEquals('[]', $this->response('')->getContent());
-        $this->assertEquals('[]', $this->response('', 300)->getContent());
+        $this->assertEquals(json_encode(['data' => null]), $this->response('')->getContent());
+        $this->assertEquals(json_encode(['data' => null]), $this->response('', 300)->getContent());
         $this->assertEquals(json_encode(['error' => ['type' => Exception::class, 'data' => null]]), $this->response('', 400)->getContent());
         $this->assertEquals(json_encode(['error' => ['type' => Exception::class, 'data' => null]]), $this->response('', 500)->getContent());
     }
@@ -39,19 +37,18 @@ class ResponseNotUseDataTest extends TestCase
         $this->assertJson($this->response('ok')->getContent());
         $this->assertJson($this->response('fail', 400)->getContent());
 
-        $this->assertEquals(json_encode('ok'), $this->response('ok')->getContent());
+        $this->assertEquals(json_encode(['data' => 'ok']), $this->response('ok')->getContent());
     }
 
     public function testStructure()
     {
-        $this->assertJsonStringEqualsJsonString(json_encode('ok'), $this->response('ok')->getContent());
-
+        $this->assertJsonStringEqualsJsonString(json_encode(['data' => 'ok']), $this->response('ok')->getContent());
         $this->assertJsonStringEqualsJsonString(
             json_encode(['error' => ['type' => Exception::class, 'data' => 'fail']]),
             $this->response('fail', 400)->getContent()
         );
 
-        $this->assertJsonStringNotEqualsJsonString(json_encode('ok'), $this->response('fail', 400)->getContent());
+        $this->assertJsonStringNotEqualsJsonString(json_encode(['data' => 'ok']), $this->response('fail', 400)->getContent());
     }
 
     public function testDataWith()
@@ -78,6 +75,11 @@ class ResponseNotUseDataTest extends TestCase
         );
 
         $this->assertEquals(
+            json_encode(['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq']),
+            $this->response([], 200, ['data' => ['foo' => 'foo', 'bar' => 'bar'], 'foo' => 'bar', 'baz' => 'baq'])->getContent()
+        );
+
+        $this->assertEquals(
             json_encode(['error' => ['type' => Exception::class, 'data' => null], 'foo' => 'bar', 'baz' => 'baq']),
             $this->response([], 400, ['foo' => 'bar', 'baz' => 'baq'])->getContent()
         );
@@ -90,7 +92,7 @@ class ResponseNotUseDataTest extends TestCase
 
     public function testNumber()
     {
-        $this->assertEquals(json_encode(304), $this->response(304)->getContent());
+        $this->assertEquals(json_encode(['data' => 304]), $this->response(304)->getContent());
         $this->assertEquals(json_encode(['error' => ['type' => Exception::class, 'data' => 304]]), $this->response(304, 400)->getContent());
     }
 
@@ -118,6 +120,19 @@ class ResponseNotUseDataTest extends TestCase
         );
     }
 
+    public function testWithExceptionHandler()
+    {
+        $e = new FooException('Foo');
+        $r = $this->response($e);
+
+        $this->assertEquals(
+            json_encode(['error' => ['type' => 'FooException', 'data' => 'Foo']]),
+            $r->getContent()
+        );
+
+        $this->assertSame(405, $r->getStatusCode());
+    }
+
     public function testExceptionHandlerWithAdditionalData()
     {
         $e = new FooException('Foo');
@@ -134,10 +149,10 @@ class ResponseNotUseDataTest extends TestCase
     public function testExceptionHandlerWithReplaceStatusCode()
     {
         $e = new FooException('Foo');
-        $r = $this->response($e, 408, ['foo' => 'Bar']);
+        $r = $this->response($e, 408);
 
         $this->assertEquals(
-            json_encode(['error' => ['type' => 'FooException', 'data' => 'Foo'], 'foo' => 'Bar']),
+            json_encode(['error' => ['type' => 'FooException', 'data' => 'Foo']]),
             $r->getContent()
         );
 

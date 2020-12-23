@@ -4,8 +4,6 @@ namespace Helldar\ApiResponse\Wrappers;
 
 final class Error extends Wrapper
 {
-    protected $wrap = false;
-
     protected function response()
     {
         return [
