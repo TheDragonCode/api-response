@@ -20,7 +20,7 @@ abstract class Parser implements Parseable
 
     public function isError(): bool
     {
-        return $this->is_error || Is::error($this->data);
+        return $this->is_error || $this->isErrorCode() || Is::error($this->data);
     }
 
     public function setData($data): Parseable
@@ -47,7 +47,7 @@ abstract class Parser implements Parseable
     public function getType(): ?string
     {
         if ($this->isError()) {
-            return Is::object($this->data) ? Instance::basename($this->data) : BaseException::class;
+            return Is::error($this->data) ? Instance::basename($this->data) : BaseException::class;
         }
 
         return null;
