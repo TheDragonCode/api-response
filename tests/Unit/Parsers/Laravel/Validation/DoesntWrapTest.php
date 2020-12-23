@@ -17,8 +17,7 @@ final class DoesntWrapTest extends TestCase
                 'foo' => ['required'],
                 'bar' => ['required'],
             ])->validate();
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $response = $this->response($e);
 
             $this->assertSame(422, $response->getStatusCode());

@@ -10,7 +10,8 @@ final class WrappedTest extends TestCase
     {
         $response = $this->response($this->laravelSuccessResource());
 
-        $this->assertEquals(json_encode([
+        $this->assertEquals(json_encode(
+            [
                 'data' => [
                     'foo' => 'Foo',
                     'bar' => 'Bar',
@@ -26,7 +27,8 @@ final class WrappedTest extends TestCase
     {
         $response = $this->response($this->laravelCreatedResource());
 
-        $this->assertEquals(json_encode([
+        $this->assertEquals(json_encode(
+            [
                 'data' => [
                     'foo' => 'Foo',
                     'bar' => 'Bar',
