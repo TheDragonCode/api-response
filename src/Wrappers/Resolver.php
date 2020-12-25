@@ -50,7 +50,7 @@ final class Resolver implements ResolverContract
     }
 
     /**
-     * @return array|string|int|null
+     * @return array|int|string|null
      */
     public function get()
     {
@@ -58,7 +58,7 @@ final class Resolver implements ResolverContract
     }
 
     /**
-     * @return array|string|int|null
+     * @return array|int|string|null
      */
     protected function success()
     {
