@@ -15,13 +15,13 @@ final class Response implements Responsable
     use Makeable;
 
     /** @var bool */
-    protected static $allow_with = true;
+    public static $allow_with = true;
+
+    /** @var bool */
+    public static $wrap = true;
 
     /** @var mixed */
     protected $data;
-
-    /** @var bool */
-    protected $wrap = true;
 
     /** @var int|null */
     protected $status_code;
@@ -42,11 +42,14 @@ final class Response implements Responsable
         self::$allow_with = false;
     }
 
-    public function wrapper(bool $wrap = true): Responsable
+    public static function wrapped(): void
     {
-        $this->wrap = $wrap;
+        self::$wrap = true;
+    }
 
-        return $this;
+    public static function withoutWrap(): void
+    {
+        self::$wrap = false;
     }
 
     public function with(array $with = []): Responsable
@@ -103,7 +106,8 @@ final class Response implements Responsable
         $wrapper = $this->getWrapper($parser);
 
         return $wrapper::make()
-            ->wrap($this->wrap)
+            ->wrap(self::$wrap)
+            ->allowWith(self::$allow_with)
             ->parser($parser);
     }
 

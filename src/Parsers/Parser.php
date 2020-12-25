@@ -5,6 +5,7 @@ namespace Helldar\ApiResponse\Parsers;
 use Exception as BaseException;
 use Helldar\ApiResponse\Concerns\Errors;
 use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Services\Response;
 use Helldar\Support\Facades\Instance;
 use Helldar\Support\Facades\Is;
 use Helldar\Support\Traits\Makeable;
@@ -60,8 +61,15 @@ abstract class Parser implements Parseable
 
     public function setWith(array $with = []): Parseable
     {
-        $this->with = array_merge($this->with, $with);
+        if ($this->allowWith()) {
+            $this->with = array_merge($this->with, $with);
+        }
 
         return $this;
+    }
+
+    protected function allowWith(): bool
+    {
+        return Response::$allow_with;
     }
 }

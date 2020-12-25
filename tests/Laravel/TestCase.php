@@ -13,11 +13,14 @@ class TestCase extends BaseTestCase
 
     protected $wrap = true;
 
+    protected $allow_with = true;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->setWrapping();
+        $this->setWithable();
     }
 
     protected function setWrapping(): void
@@ -27,6 +30,13 @@ class TestCase extends BaseTestCase
             : JsonResource::withoutWrapping();
 
         $this->wrap
+            ? Response::wrapped()
+            : Response::withoutWrap();
+    }
+
+    protected function setWithable(): void
+    {
+        $this->allow_with
             ? Response::allowWith()
             : Response::withoutWith();
     }

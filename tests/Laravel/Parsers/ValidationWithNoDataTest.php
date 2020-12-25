@@ -7,7 +7,7 @@ use Tests\Fixtures\Concerns\Validationable;
 use Tests\Fixtures\Contracts\Parserable;
 use Tests\Laravel\TestCase;
 
-final class ValidationWithoutDataTest extends TestCase implements Parserable
+final class ValidationWithNoDataTest extends TestCase implements Parserable
 {
     use Validationable;
 

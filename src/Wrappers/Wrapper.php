@@ -14,6 +14,9 @@ abstract class Wrapper implements WrapperContract
     /** @var bool */
     protected $wrap = true;
 
+    /** @var bool */
+    protected $allow_with = true;
+
     /** @var \Helldar\ApiResponse\Contracts\Parseable */
     protected $parser;
 
@@ -49,6 +52,13 @@ abstract class Wrapper implements WrapperContract
         $this->split();
 
         return $this->resolveData();
+    }
+
+    public function allowWith(bool $allow = true): WrapperContract
+    {
+        $this->allow_with = $allow;
+
+        return $this;
     }
 
     protected function getType(): ?string
@@ -91,7 +101,7 @@ abstract class Wrapper implements WrapperContract
 
             if ($this->wrap || $with || $this->isError($array)) {
                 $this->setData($this->unpackData($array));
-                $this->setWith(Arr::except($with, 'data'));
+                $this->setWith($this->unpackWith($array, $with));
             } else {
                 $this->setData($array);
             }
@@ -121,12 +131,17 @@ abstract class Wrapper implements WrapperContract
             $data = compact('data');
         }
 
-        return $this->with ? array_merge($data, $this->with) : $data;
+        return $this->with ? $this->resolveWith($data) : $data;
     }
 
     protected function resolveError()
     {
-        return array_merge($this->response(), $this->with);
+        return $this->resolveWith($this->response());
+    }
+
+    protected function resolveWith(array $data): array
+    {
+        return $this->allow_with ? array_merge($data, $this->with) : $data;
     }
 
     protected function isError($data = null): bool
@@ -138,12 +153,15 @@ abstract class Wrapper implements WrapperContract
         return is_array($data) ? isset($data['error']) : false;
     }
 
-    protected function unpackData($value)
+    protected function unpackData(array $value)
     {
-        if (is_array($value)) {
-            return Arr::get($value, 'data', $value);
-        }
+        return Arr::get($value, 'data', $value);
+    }
 
-        return $value;
+    protected function unpackWith(array $data, array $with): array
+    {
+        $data = isset($data['data']) ? Arr::except($data, 'data') : $with;
+
+        return Arr::except(array_merge($data, $with), 'data');
     }
 }

@@ -3,12 +3,13 @@
 namespace Tests\Symfony\Parsers;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Symfony\TestCase;
 
-final class MainWithoutDataTest extends TestCase implements Parserable
+final class MainNoWithNoDataTest extends TestCase
 {
     protected $wrap = false;
+
+    protected $allow_with = false;
 
     public function testResponse()
     {
@@ -77,6 +78,11 @@ final class MainWithoutDataTest extends TestCase implements Parserable
         $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 200)->getJson());
         $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 204)->getJson());
         $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 300)->getJson());
+
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], null, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 200, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 204, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 300, ['bar' => 'Bar'])->getJson());
 
         $this->assertSame([], $this->response([])->getJson());
         $this->assertSame([], $this->response([], 200)->getJson());

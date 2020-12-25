@@ -3,11 +3,14 @@
 namespace Tests\Symfony\Parsers;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Symfony\TestCase;
 
-class ExceptionWithDataTest extends TestCase implements Parserable
+final class ExceptionNoWithNoDataTest extends TestCase
 {
+    protected $wrap = false;
+
+    protected $allow_with = false;
+
     public function testResponse()
     {
         $this->assertTrue($this->response(null, 0)->instance() instanceof JsonResponse);
@@ -87,22 +90,22 @@ class ExceptionWithDataTest extends TestCase implements Parserable
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 500)->getJson());
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']], 'bar' => 'Bar'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
             $this->response(['foo' => 'Foo'], 0, ['bar' => 'Bar'])->getJson()
         );
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']], 'bar' => 'Bar'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
             $this->response(['foo' => 'Foo'], 400, ['bar' => 'Bar'])->getJson()
         );
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']], 'bar' => 'Bar'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
             $this->response(['foo' => 'Foo'], 404, ['bar' => 'Bar'])->getJson()
         );
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']], 'bar' => 'Bar'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
             $this->response(['foo' => 'Foo'], 500, ['bar' => 'Bar'])->getJson()
         );
     }

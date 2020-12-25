@@ -10,7 +10,9 @@ interface Responsable
 
     public static function withoutWith(): void;
 
-    public function wrapper(bool $wrap = true): self;
+    public static function wrapped(): void;
+
+    public static function withoutWrap(): void;
 
     public function with(array $with = []): self;
 

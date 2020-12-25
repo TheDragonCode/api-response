@@ -7,6 +7,8 @@ interface Wrapper
 {
     public function wrap(bool $wrap = true): self;
 
+    public function allowWith(bool $allow = true): self;
+
     public function parser(Parseable $parser): self;
 
     public function statusCode(): int;
