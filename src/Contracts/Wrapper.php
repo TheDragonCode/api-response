@@ -11,6 +11,8 @@ interface Wrapper
 
     public function parser(Parseable $parser): self;
 
+    public function resolver(Resolver $resolver): self;
+
     public function statusCode(): int;
 
     public function get();

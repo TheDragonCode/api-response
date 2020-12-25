@@ -3,6 +3,7 @@
 namespace Helldar\ApiResponse\Wrappers;
 
 use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Contracts\Resolver;
 use Helldar\ApiResponse\Contracts\Wrapper as WrapperContract;
 use Helldar\Support\Facades\Arr;
 use Helldar\Support\Traits\Makeable;
@@ -19,6 +20,9 @@ abstract class Wrapper implements WrapperContract
 
     /** @var \Helldar\ApiResponse\Contracts\Parseable */
     protected $parser;
+
+    /** @var \Helldar\ApiResponse\Contracts\Resolver */
+    protected $resolver;
 
     /** @var mixed */
     protected $data;
@@ -40,6 +44,13 @@ abstract class Wrapper implements WrapperContract
         return $this;
     }
 
+    public function resolver(Resolver $resolver): WrapperContract
+    {
+        $this->resolver = $resolver;
+
+        return $this;
+    }
+
     public function statusCode(): int
     {
         return $this->parser->isError()
@@ -51,7 +62,12 @@ abstract class Wrapper implements WrapperContract
     {
         $this->split();
 
-        return $this->resolveData();
+        return $this->resolver
+            ->with($this->with, $this->allow_with)
+            ->wrap($this->wrap)
+            ->data($this->response())
+            ->isError($this->isError())
+            ->get();
     }
 
     public function allowWith(bool $allow = true): WrapperContract
@@ -110,38 +126,6 @@ abstract class Wrapper implements WrapperContract
         }
 
         $this->setData($data);
-    }
-
-    protected function resolveData()
-    {
-        return $this->isError()
-            ? $this->resolveError()
-            : $this->resolveSuccess();
-    }
-
-    protected function resolveSuccess()
-    {
-        $data = $this->response();
-
-        if ($this->wrap) {
-            $data = is_array($data) && Arr::exists($data, 'data') ? $data : compact('data');
-        }
-
-        if (! empty($this->with) && ! is_array($data)) {
-            $data = compact('data');
-        }
-
-        return ! empty($this->with) ? $this->resolveWith($data) : $data;
-    }
-
-    protected function resolveError()
-    {
-        return $this->resolveWith($this->response());
-    }
-
-    protected function resolveWith(array $data): array
-    {
-        return $this->allow_with ? array_merge($data, $this->with) : $data;
     }
 
     protected function isError($data = null): bool

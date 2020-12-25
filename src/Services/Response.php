@@ -3,9 +3,11 @@
 namespace Helldar\ApiResponse\Services;
 
 use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
 use Helldar\ApiResponse\Contracts\Responsable;
 use Helldar\ApiResponse\Support\Parser;
 use Helldar\ApiResponse\Wrappers\Error;
+use Helldar\ApiResponse\Wrappers\Resolver;
 use Helldar\ApiResponse\Wrappers\Success;
 use Helldar\Support\Traits\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,7 +110,8 @@ final class Response implements Responsable
         return $wrapper::make()
             ->wrap(self::$wrap)
             ->allowWith(self::$allow_with)
-            ->parser($parser);
+            ->parser($parser)
+            ->resolver($this->resolver());
     }
 
     /**
@@ -119,5 +122,10 @@ final class Response implements Responsable
     protected function getWrapper(Parseable $parser): string
     {
         return $parser->isError() ? Error::class : Success::class;
+    }
+
+    protected function resolver(): ResolverContract
+    {
+        return Resolver::make();
     }
 }
