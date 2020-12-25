@@ -13,12 +13,20 @@ final class Resource extends Parser
 {
     public function getData()
     {
-        return Arr::only($this->resourceData(), ['data']);
+        $data = $this->resourceData();
+
+        return $this->hasData($data)
+            ? Arr::only($data, ['data'])
+            : $data;
     }
 
     public function getWith(): array
     {
-        return Arr::except($this->resourceData(), ['data']);
+        $data = $this->resourceData();
+
+        return $this->hasData($data)
+            ? Arr::except($data, ['data'])
+            : [];
     }
 
     public function getStatusCode(): int
@@ -36,6 +44,11 @@ final class Resource extends Parser
     protected function resourceData(): array
     {
         return $this->response()->getData(true);
+    }
+
+    protected function hasData($data): bool
+    {
+        return isset($data['data']);
     }
 
     protected function request()
