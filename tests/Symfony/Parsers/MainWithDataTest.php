@@ -76,10 +76,10 @@ class MainWithDataTest extends TestCase implements Parserable
         $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 204)->getJson());
         $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 300)->getJson());
 
-        $this->assertSame(['data' => null], $this->response([])->getJson());
-        $this->assertSame(['data' => null], $this->response([], 200)->getJson());
-        $this->assertSame(['data' => null], $this->response([], 204)->getJson());
-        $this->assertSame(['data' => null], $this->response([], 300)->getJson());
+        $this->assertSame(['data' => []], $this->response([])->getJson());
+        $this->assertSame(['data' => []], $this->response([], 200)->getJson());
+        $this->assertSame(['data' => []], $this->response([], 204)->getJson());
+        $this->assertSame(['data' => []], $this->response([], 300)->getJson());
 
         $this->assertSame(['data' => 0], $this->response(0)->getJson());
         $this->assertSame(['data' => 0], $this->response(0, 200)->getJson());

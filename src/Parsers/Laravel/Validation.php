@@ -16,6 +16,6 @@ final class Validation extends Parser
 
     public function getStatusCode(): int
     {
-        return $this->data->status ?? parent::getStatusCode();
+        return $this->status_code ?: $this->data->status ?? parent::getStatusCode();
     }
 }

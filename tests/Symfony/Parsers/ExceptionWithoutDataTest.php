@@ -83,10 +83,10 @@ final class ExceptionWithoutDataTest extends TestCase implements Parserable
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 404)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 500)->getJson());
 
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 0]], $this->response(0, 0)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 0]], $this->response(0, 400)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 0]], $this->response(0, 404)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 0]], $this->response(0, 500)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 0)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 400)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 404)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 500)->getJson());
 
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']], 'bar' => 'Bar'],
@@ -111,10 +111,10 @@ final class ExceptionWithoutDataTest extends TestCase implements Parserable
 
     public function testStatusCode()
     {
-        $this->assertSame(400, $this->response(null, 0)->getStatusCode());
-        $this->assertSame(400, $this->response('foo', 0)->getStatusCode());
-        $this->assertSame(400, $this->response([], 0)->getStatusCode());
-        $this->assertSame(400, $this->response(0, 0)->getStatusCode());
+        $this->assertSame(500, $this->response(null, 0)->getStatusCode());
+        $this->assertSame(500, $this->response('foo', 0)->getStatusCode());
+        $this->assertSame(500, $this->response([], 0)->getStatusCode());
+        $this->assertSame(500, $this->response(0, 0)->getStatusCode());
 
         $this->assertSame(400, $this->response(null, 400)->getStatusCode());
         $this->assertSame(400, $this->response('foo', 400)->getStatusCode());

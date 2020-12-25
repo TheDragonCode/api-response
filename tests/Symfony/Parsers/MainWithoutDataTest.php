@@ -58,35 +58,35 @@ final class MainWithoutDataTest extends TestCase implements Parserable
 
     public function testStructure()
     {
-        $this->assertSame(['data' => null], $this->response()->getJson());
-        $this->assertSame(['data' => null], $this->response(null, 200)->getJson());
-        $this->assertSame(['data' => null], $this->response(null, 204)->getJson());
-        $this->assertSame(['data' => null], $this->response(null, 300)->getJson());
+        $this->assertSame([], $this->response()->getJson());
+        $this->assertSame([], $this->response(null, 200)->getJson());
+        $this->assertSame([], $this->response(null, 204)->getJson());
+        $this->assertSame([], $this->response(null, 300)->getJson());
 
-        $this->assertSame(['data' => 'foo'], $this->response('foo')->getJson());
-        $this->assertSame(['data' => 'foo'], $this->response('foo', 200)->getJson());
-        $this->assertSame(['data' => 'foo'], $this->response('foo', 204)->getJson());
-        $this->assertSame(['data' => 'foo'], $this->response('foo', 300)->getJson());
+        $this->assertSame('foo', $this->response('foo')->getJson());
+        $this->assertSame('foo', $this->response('foo', 200)->getJson());
+        $this->assertSame('foo', $this->response('foo', 204)->getJson());
+        $this->assertSame('foo', $this->response('foo', 300)->getJson());
 
-        $this->assertSame(['data' => ['foo']], $this->response(['foo'])->getJson());
-        $this->assertSame(['data' => ['foo']], $this->response(['foo'], 200)->getJson());
-        $this->assertSame(['data' => ['foo']], $this->response(['foo'], 204)->getJson());
-        $this->assertSame(['data' => ['foo']], $this->response(['foo'], 300)->getJson());
+        $this->assertSame(['foo'], $this->response(['foo'])->getJson());
+        $this->assertSame(['foo'], $this->response(['foo'], 200)->getJson());
+        $this->assertSame(['foo'], $this->response(['foo'], 204)->getJson());
+        $this->assertSame(['foo'], $this->response(['foo'], 300)->getJson());
 
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'])->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 200)->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 204)->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 300)->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'])->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 200)->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 204)->getJson());
+        $this->assertSame(['foo' => 'Foo'], $this->response(['foo' => 'Foo'], 300)->getJson());
 
-        $this->assertSame(['data' => null], $this->response([])->getJson());
-        $this->assertSame(['data' => null], $this->response([], 200)->getJson());
-        $this->assertSame(['data' => null], $this->response([], 204)->getJson());
-        $this->assertSame(['data' => null], $this->response([], 300)->getJson());
+        $this->assertSame([], $this->response([])->getJson());
+        $this->assertSame([], $this->response([], 200)->getJson());
+        $this->assertSame([], $this->response([], 204)->getJson());
+        $this->assertSame([], $this->response([], 300)->getJson());
 
-        $this->assertSame(['data' => 0], $this->response(0)->getJson());
-        $this->assertSame(['data' => 0], $this->response(0, 200)->getJson());
-        $this->assertSame(['data' => 0], $this->response(0, 204)->getJson());
-        $this->assertSame(['data' => 0], $this->response(0, 300)->getJson());
+        $this->assertSame(0, $this->response(0)->getJson());
+        $this->assertSame(0, $this->response(0, 200)->getJson());
+        $this->assertSame(0, $this->response(0, 204)->getJson());
+        $this->assertSame(0, $this->response(0, 300)->getJson());
     }
 
     public function testStatusCode()

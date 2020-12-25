@@ -37,11 +37,18 @@ abstract class Wrapper implements WrapperContract
         return $this;
     }
 
+    public function statusCode(): int
+    {
+        return $this->parser->isError()
+            ? ($this->parser->getStatusCode() ?: 500)
+            : ($this->parser->getStatusCode() ?: 200);
+    }
+
     public function get()
     {
         $this->split();
 
-        return $this->resolveData() ?: null;
+        return $this->resolveData();
     }
 
     protected function getType(): ?string
@@ -51,7 +58,7 @@ abstract class Wrapper implements WrapperContract
 
     protected function getData()
     {
-        return $this->parser->getData() ?: null;
+        return $this->parser->getData();
     }
 
     protected function setData($data = null): void
@@ -83,8 +90,8 @@ abstract class Wrapper implements WrapperContract
             $array = Arr::toArray($data);
 
             if ($this->wrap || $with || $this->isError($array)) {
-                $this->setData(Arr::get($array, 'data'));
-                $this->setWith(Arr::except($array, 'data'));
+                $this->setData($this->unpackData($array));
+                $this->setWith(Arr::except($with, 'data'));
             } else {
                 $this->setData($array);
             }
@@ -129,5 +136,14 @@ abstract class Wrapper implements WrapperContract
         }
 
         return is_array($data) ? isset($data['error']) : false;
+    }
+
+    protected function unpackData($value)
+    {
+        if (is_array($value)) {
+            return Arr::get($value, 'data', $value);
+        }
+
+        return $value;
     }
 }

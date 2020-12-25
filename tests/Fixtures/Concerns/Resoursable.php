@@ -31,18 +31,18 @@ trait Resoursable
         return Failed::make($this->laravelModel());
     }
 
-    protected function successResourceResponse(): Response
+    protected function successResourceResponse(int $status_code = null): Response
     {
-        return $this->response($this->successResource());
+        return $this->response($this->successResource(), $status_code);
     }
 
-    protected function createdResourceResponse(): Response
+    protected function createdResourceResponse(int $status_code = null): Response
     {
-        return $this->response($this->createdResource());
+        return $this->response($this->createdResource(), $status_code);
     }
 
-    protected function failedResourceResponse(): Response
+    protected function failedResourceResponse(int $status_code = null): Response
     {
-        return $this->response($this->failedResource());
+        return $this->response($this->failedResource(), $status_code);
     }
 }

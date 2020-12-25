@@ -26,7 +26,7 @@ final class Exception extends Parser
 
     public function getStatusCode(): int
     {
-        if ($this->isErrorCode()) {
+        if ($this->isErrorCode($this->status_code)) {
             return $this->status_code;
         }
 
@@ -37,6 +37,9 @@ final class Exception extends Parser
         return parent::getStatusCode();
     }
 
+    /**
+     * @return array|int|string|null
+     */
     protected function getThrowableContent()
     {
         return Instance::of($this->data, [BaseException::class, Throwable::class])
@@ -44,7 +47,12 @@ final class Exception extends Parser
             : null;
     }
 
-    protected function message($data): string
+    /**
+     * @param  mixed  $data
+     *
+     * @return array|int|string string
+     */
+    protected function message($data)
     {
         return $data ?: $this->message;
     }

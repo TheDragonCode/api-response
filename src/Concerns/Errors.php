@@ -8,11 +8,12 @@ trait Errors
 {
     protected $is_error = false;
 
-    public function isError(): bool
+    public function isError(bool $ignore_status_code = false): bool
     {
         switch (true) {
             case $this->is_error:
-            case $this->isErrorCode():
+            case $this->isErrorCode($this->status_code):
+            case $this->isErrorStatusCode($ignore_status_code):
             case $this->isErrorContent():
             case $this->isErrorObject():
                 return true;
@@ -22,9 +23,9 @@ trait Errors
         }
     }
 
-    protected function isErrorCode(): bool
+    protected function isErrorCode(int $code = null): bool
     {
-        return $this->status_code === 0 || $this->status_code >= 400;
+        return $code === 0 || $code >= 400;
     }
 
     protected function isErrorContent(): bool
@@ -35,5 +36,14 @@ trait Errors
     protected function isErrorObject(): bool
     {
         return Is::error($this->data);
+    }
+
+    protected function isErrorStatusCode(bool $ignore_status_code = false): bool
+    {
+        if (! $ignore_status_code && method_exists($this, 'getStatusCode')) {
+            return $this->isErrorCode($this->getStatusCode());
+        }
+
+        return false;
     }
 }

@@ -9,5 +9,7 @@ interface Wrapper
 
     public function parser(Parseable $parser): self;
 
+    public function statusCode(): int;
+
     public function get();
 }

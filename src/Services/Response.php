@@ -79,9 +79,9 @@ final class Response implements Responsable
 
     public function response(): JsonResponse
     {
-        $parser = $this->getParser();
+        $wrapped = $this->getWrapped($this->getParser());
 
-        return new JsonResponse($this->getWrapped($parser), $parser->getStatusCode(), $this->getHeaders());
+        return new JsonResponse($wrapped->get(), $wrapped->statusCode(), $this->getHeaders());
     }
 
     protected function getHeaders(): array
@@ -104,8 +104,7 @@ final class Response implements Responsable
 
         return $wrapper::make()
             ->wrap($this->wrap)
-            ->parser($parser)
-            ->get();
+            ->parser($parser);
     }
 
     /**

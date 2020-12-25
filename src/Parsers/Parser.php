@@ -32,7 +32,7 @@ abstract class Parser implements Parseable
 
     public function getStatusCode(): int
     {
-        return $this->isError()
+        return $this->isError(true)
             ? ($this->status_code ?: 400)
             : ($this->status_code ?: 200);
     }
@@ -55,7 +55,7 @@ abstract class Parser implements Parseable
 
     public function getWith(): array
     {
-        return [];
+        return $this->with;
     }
 
     public function setWith(array $with = []): Parseable

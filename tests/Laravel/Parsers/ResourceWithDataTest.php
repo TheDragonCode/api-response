@@ -41,5 +41,9 @@ final class ResourceWithDataTest extends TestCase implements Parserable
         $this->assertSame(200, $this->successResourceResponse()->getStatusCode());
         $this->assertSame(201, $this->createdResourceResponse()->getStatusCode());
         $this->assertSame(401, $this->failedResourceResponse()->getStatusCode());
+
+        $this->assertSame(300, $this->successResourceResponse(300)->getStatusCode());
+        $this->assertSame(301, $this->createdResourceResponse(301)->getStatusCode());
+        $this->assertSame(403, $this->failedResourceResponse(403)->getStatusCode());
     }
 }
