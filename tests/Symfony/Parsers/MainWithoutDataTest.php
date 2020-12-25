@@ -6,8 +6,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Contracts\Parserable;
 use Tests\Symfony\TestCase;
 
-class MainTest extends TestCase implements Parserable
+final class MainWithoutDataTest extends TestCase implements Parserable
 {
+    protected $wrap = false;
+
     public function testResponse()
     {
         $this->assertTrue($this->response()->instance() instanceof JsonResponse);
@@ -15,18 +17,18 @@ class MainTest extends TestCase implements Parserable
         $this->assertTrue($this->response([])->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(0)->instance() instanceof JsonResponse);
 
-        $this->assertTrue($this->response('foo', 200)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(null, 200)->instance() instanceof JsonResponse);
+        $this->assertTrue($this->response('foo', 200)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response([], 200)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(0, 200)->instance() instanceof JsonResponse);
 
-        $this->assertTrue($this->response('foo', 204)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(null, 204)->instance() instanceof JsonResponse);
+        $this->assertTrue($this->response('foo', 204)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response([], 204)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(0, 204)->instance() instanceof JsonResponse);
 
-        $this->assertTrue($this->response('foo', 300)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(null, 300)->instance() instanceof JsonResponse);
+        $this->assertTrue($this->response('foo', 300)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response([], 300)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(0, 300)->instance() instanceof JsonResponse);
     }
@@ -38,18 +40,18 @@ class MainTest extends TestCase implements Parserable
         $this->assertJson($this->response([])->getRaw());
         $this->assertJson($this->response(0)->getRaw());
 
-        $this->assertJson($this->response('foo', 200)->getRaw());
         $this->assertJson($this->response(null, 200)->getRaw());
+        $this->assertJson($this->response('foo', 200)->getRaw());
         $this->assertJson($this->response([], 200)->getRaw());
         $this->assertJson($this->response(0, 200)->getRaw());
 
-        $this->assertJson($this->response('foo', 204)->getRaw());
         $this->assertJson($this->response(null, 204)->getRaw());
+        $this->assertJson($this->response('foo', 204)->getRaw());
         $this->assertJson($this->response([], 204)->getRaw());
         $this->assertJson($this->response(0, 204)->getRaw());
 
-        $this->assertJson($this->response('foo', 300)->getRaw());
         $this->assertJson($this->response(null, 300)->getRaw());
+        $this->assertJson($this->response('foo', 300)->getRaw());
         $this->assertJson($this->response([], 300)->getRaw());
         $this->assertJson($this->response(0, 300)->getRaw());
     }
@@ -94,18 +96,18 @@ class MainTest extends TestCase implements Parserable
         $this->assertSame(200, $this->response([])->getStatusCode());
         $this->assertSame(200, $this->response(0)->getStatusCode());
 
-        $this->assertSame(200, $this->response('foo', 200)->getStatusCode());
         $this->assertSame(200, $this->response(null, 200)->getStatusCode());
+        $this->assertSame(200, $this->response('foo', 200)->getStatusCode());
         $this->assertSame(200, $this->response([], 200)->getStatusCode());
         $this->assertSame(200, $this->response(0, 200)->getStatusCode());
 
-        $this->assertSame(204, $this->response('foo', 204)->getStatusCode());
         $this->assertSame(204, $this->response(null, 204)->getStatusCode());
+        $this->assertSame(204, $this->response('foo', 204)->getStatusCode());
         $this->assertSame(204, $this->response([], 204)->getStatusCode());
         $this->assertSame(204, $this->response(0, 204)->getStatusCode());
 
-        $this->assertSame(300, $this->response('foo', 300)->getStatusCode());
         $this->assertSame(300, $this->response(null, 300)->getStatusCode());
+        $this->assertSame(300, $this->response('foo', 300)->getStatusCode());
         $this->assertSame(300, $this->response([], 300)->getStatusCode());
         $this->assertSame(300, $this->response(0, 300)->getStatusCode());
     }
