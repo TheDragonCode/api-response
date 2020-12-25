@@ -4,9 +4,7 @@ namespace Helldar\ApiResponse\Parsers\Laravel;
 
 use Helldar\ApiResponse\Parsers\Parser;
 
-/**
- * @property \Illuminate\Validation\ValidationException $data
- */
+/** @property \Illuminate\Validation\ValidationException $data */
 final class Validation extends Parser
 {
     public function getData()

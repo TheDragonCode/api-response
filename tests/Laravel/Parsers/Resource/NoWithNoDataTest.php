@@ -1,15 +1,18 @@
 <?php
 
-namespace Tests\Laravel\Parsers;
+namespace Tests\Laravel\Parsers\Resource;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Resoursable;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Laravel\TestCase;
 
-final class ResourceWithDataTest extends TestCase implements Parserable
+final class NoWithNoDataTest extends TestCase
 {
     use Resoursable;
+
+    protected $wrap = false;
+
+    protected $allow_with = false;
 
     public function testResponse()
     {
@@ -27,11 +30,11 @@ final class ResourceWithDataTest extends TestCase implements Parserable
 
     public function testStructure()
     {
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->successResourceResponse()->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->createdResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->successResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->createdResourceResponse()->getJson());
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']]],
             $this->failedResourceResponse()->getJson()
         );
     }

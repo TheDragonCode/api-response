@@ -1,16 +1,15 @@
 <?php
 
-namespace Tests\Laravel\Parsers;
+namespace Tests\Laravel\Parsers\Validation;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Validationable;
+use Tests\Fixtures\Contracts\Parserable;
 use Tests\Laravel\TestCase;
 
-final class ValidationNoWithDataTest extends TestCase
+final class WithDataTest extends TestCase implements Parserable
 {
     use Validationable;
-
-    protected $allow_with = false;
 
     public function testResponse()
     {

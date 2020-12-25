@@ -6,9 +6,7 @@ use Helldar\ApiResponse\Parsers\Parser;
 use Helldar\Support\Facades\Arr;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @property \Illuminate\Http\Resources\Json\JsonResource $data
- */
+/** @property \Illuminate\Http\Resources\Json\JsonResource $data */
 final class Resource extends Parser
 {
     public function getData()

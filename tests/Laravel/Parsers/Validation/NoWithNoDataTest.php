@@ -1,15 +1,18 @@
 <?php
 
-namespace Tests\Laravel\Parsers;
+namespace Tests\Laravel\Parsers\Validation;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Validationable;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Laravel\TestCase;
 
-final class ValidationWithDataTest extends TestCase implements Parserable
+final class NoWithNoDataTest extends TestCase
 {
     use Validationable;
+
+    protected $wrap = false;
+
+    protected $allow_with = false;
 
     public function testResponse()
     {
@@ -23,16 +26,16 @@ final class ValidationWithDataTest extends TestCase implements Parserable
 
     public function testStructure()
     {
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 123]], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
-        $this->assertSame(['data' => ['foo' => 456, 'bar' => 123]], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 123], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
+        $this->assertSame(['foo' => 456, 'bar' => 123], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
 
         $this->assertSame(
-            ['data' => ['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar']],
+            ['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar'],
             $this->validationResponse(['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar'])->getJson()
         );
 
         $this->assertSame(
-            ['data' => ['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar']],
+            ['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'],
             $this->validationResponse(['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'])->getJson()
         );
 

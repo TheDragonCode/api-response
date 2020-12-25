@@ -9,9 +9,10 @@ final class Response
     /** @var \Symfony\Component\HttpFoundation\JsonResponse */
     protected $response;
 
-    public function __construct($data = null, int $status_code = null, array $with = [], array $headers = [], bool $wrap = true)
+    public function __construct($data = null, int $status_code = null, array $with = [], array $headers = [])
     {
-        $this->response = api_response($data, $status_code, $with, $headers, $wrap);
+        $this->response = $data instanceof JsonResponse
+            ? $data : api_response($data, $status_code, $with, $headers);
     }
 
     public function getRaw()
