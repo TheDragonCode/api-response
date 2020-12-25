@@ -99,7 +99,7 @@ abstract class Wrapper implements WrapperContract
         if (is_array($data) || is_object($data)) {
             $array = Arr::toArray($data);
 
-            if ($this->wrap || $with || $this->isError($array)) {
+            if ($this->wrap || ! empty($with) || $this->isError($array)) {
                 $this->setData($this->unpackData($array));
                 $this->setWith($this->unpackWith($array, $with));
             } else {
@@ -127,11 +127,11 @@ abstract class Wrapper implements WrapperContract
             $data = is_array($data) && Arr::exists($data, 'data') ? $data : compact('data');
         }
 
-        if ($this->with && ! is_array($data)) {
+        if (! empty($this->with) && ! is_array($data)) {
             $data = compact('data');
         }
 
-        return $this->with ? $this->resolveWith($data) : $data;
+        return ! empty($this->with) ? $this->resolveWith($data) : $data;
     }
 
     protected function resolveError()
