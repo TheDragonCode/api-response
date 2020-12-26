@@ -1,4 +1,4 @@
-name: laravel-8
+name: laravel
 on: [ push ]
 
 jobs:
