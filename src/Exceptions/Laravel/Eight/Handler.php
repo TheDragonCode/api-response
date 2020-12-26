@@ -2,7 +2,6 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel\Eight;
 
-use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Web;
 use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
