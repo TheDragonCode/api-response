@@ -763,19 +763,43 @@ return with code 405:
 
 ### Best practice use with the Laravel and Lumen Frameworks
 
-If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file
-to `Helldar\ApiResponse\Support\LaravelException`.
+If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file depending on your application version and
+needs:
+
+| Version \ Type | API + WEB | Only API |
+|:---:|:---|:---|
+| 8.x | `Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler` | `Helldar\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler` |
+| 7.x | `Helldar\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler` | `Helldar\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler` |
 
 If you did not add anything to this file, then delete everything properties and methods.
 
-As a result, a clean file will look like this:
+For example, as a result, a clean file will look like this:
 
 ```php
 <?php
 
 namespace App\Exceptions;
 
-use Helldar\ApiResponse\Support\LaravelException as ExceptionHandler;
+use Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
+
+class Handler extends ExceptionHandler
+{
+    //
+}
+```
+
+More examples:
+
+```php
+<?php
+
+namespace App\Exceptions;
+
+// use Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
+use Helldar\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler;
+
+// use Helldar\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler;
+// use Helldar\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
