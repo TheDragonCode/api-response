@@ -1,27 +1,28 @@
 <?php
 
-namespace Helldar\ApiResponse\Exceptions\Laravel\Six;
+namespace Helldar\ApiResponse\Exceptions\Laravel\Seven;
 
-use Exception;
+use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Api;
 use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Routing\Router;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 abstract class ApiHandler extends BaseHandler
 {
-    public function render($request, Exception $e)
-    {
-        if ($e instanceof PreventRequestsDuringMaintenance) {
-            return $this->response($e);
-        }
+    use Api;
 
+    public function render($request, Throwable $e)
+    {
         if (method_exists($e, 'render') && $response = $e->render($request)) {
-            return $this->response($response);
+            return $this->response(
+                Router::toResponse($request, $response)
+            );
         } elseif ($e instanceof Responsable) {
-            return $this->response($e);
+            return $this->response($e->toResponse($request));
         }
 
         $e = $this->prepareException($e);
@@ -35,20 +36,5 @@ abstract class ApiHandler extends BaseHandler
         }
 
         return $this->prepareJsonResponse($request, $e);
-    }
-
-    protected function prepareJsonResponse($request, Exception $e)
-    {
-        return $this->prepareJsonResponseCompatible($request, $e);
-    }
-
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return $this->response($exception, 403);
-    }
-
-    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
-    {
-        return $this->response($e);
     }
 }

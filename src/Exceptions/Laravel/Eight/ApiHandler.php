@@ -1,29 +1,41 @@
 <?php
 
-namespace Helldar\ApiResponse\Exceptions\Laravel;
+namespace Helldar\ApiResponse\Exceptions\Laravel\Eight;
 
+use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Api;
+use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Routing\Router;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
 abstract class ApiHandler extends BaseHandler
 {
+    use Api;
+
     public function render($request, Throwable $e)
     {
-        if ($e instanceof PreventRequestsDuringMaintenance) {
-            return $this->response($e);
-        }
-
         if (method_exists($e, 'render') && $response = $e->render($request)) {
-            return $this->response($response);
+            return $this->response(
+                Router::toResponse($request, $response)
+            );
         } elseif ($e instanceof Responsable) {
-            return $this->response($e);
+            return $this->response($e->toResponse($request));
         }
 
-        $e = $this->prepareException($e);
+        $e = $this->prepareException($this->mapException($e));
+
+        foreach ($this->renderCallbacks as $renderCallback) {
+            if (is_a($e, $this->firstClosureParameterType($renderCallback))) {
+                $response = $renderCallback($e, $request);
+
+                if (! is_null($response)) {
+                    return $this->response($response);
+                }
+            }
+        }
 
         if ($e instanceof HttpResponseException) {
             return $this->response($e);
@@ -34,20 +46,5 @@ abstract class ApiHandler extends BaseHandler
         }
 
         return $this->prepareJsonResponse($request, $e);
-    }
-
-    protected function prepareJsonResponse($request, Throwable $e)
-    {
-        return $this->prepareJsonResponseCompatible($request, $e);
-    }
-
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return $this->response($exception, 403);
-    }
-
-    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
-    {
-        return $this->response($e);
     }
 }

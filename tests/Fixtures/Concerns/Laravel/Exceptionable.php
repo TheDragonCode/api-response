@@ -2,10 +2,11 @@
 
 namespace Tests\Fixtures\Concerns\Laravel;
 
+use Exception;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 
 /** @mixin \Tests\Laravel\TestCase */
-trait Maintenance
+trait Exceptionable
 {
     protected function makeDownFile(): void
     {
@@ -25,8 +26,12 @@ trait Maintenance
 
     protected function setRoutes($app): void
     {
-        $app['router']->get('/', static function () {
+        $app['router']->get('/foo', static function () {
             return api_response('ok');
         })->middleware(PreventRequestsDuringMaintenance::class);
+
+        $app['router']->get('/bar', static function () {
+            throw new Exception('Foo Bar');
+        });
     }
 }

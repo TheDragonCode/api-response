@@ -11,13 +11,30 @@ final class NoWithDataTest extends TestCase
 
     protected $allow_with = false;
 
-    public function testResponse()
+    public function testJson()
     {
         $this->makeDownFile();
 
-        $response = $this->request();
+        $response = $this->requestFoo();
+
+        $this->assertJson($response->getRaw());
+    }
+
+    public function testStructure()
+    {
+        $this->makeDownFile();
+
+        $response = $this->requestFoo();
+
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Service Unavailable']], $response->getJson());
+    }
+
+    public function testStatusCode()
+    {
+        $this->makeDownFile();
+
+        $response = $this->requestFoo();
 
         $this->assertSame(503, $response->getStatusCode());
-        $this->assertSame(['error' => ['type' => 'PreventRequestsDuringMaintenance', 'data' => 'Service Unavailable']], $response->getRaw());
     }
 }

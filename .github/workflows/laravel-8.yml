@@ -1,4 +1,4 @@
-name: laravel
+name: laravel-8
 on: [ push ]
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
             fail-fast: true
             matrix:
                 php: [ "7.3", "7.4", "8.0" ]
-                laravel: [ "^6.0", "^7.0", "^8.0" ]
+                laravel: [ "8.0" ]
 
         name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}
 

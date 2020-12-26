@@ -3,20 +3,20 @@
 namespace Tests\Laravel;
 
 use Helldar\ApiResponse\Services\Response;
-use Helldar\Support\Facades\Str;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Tests\Fixtures\Concerns\Laravel\Maintenance;
+use Tests\Fixtures\Concerns\Laravel\Application;
+use Tests\Fixtures\Concerns\Laravel\Exceptionable;
 use Tests\Fixtures\Concerns\Responsable;
-use Tests\Fixtures\Laravel\Exceptions\NewHandler;
-use Tests\Fixtures\Laravel\Exceptions\OldHandler;
+use Tests\Fixtures\Laravel\Exceptions\EightHandler;
+use Tests\Fixtures\Laravel\Exceptions\SevenHandler;
 
 class TestCase extends BaseTestCase
 {
+    use Application;
     use Responsable;
-    use Maintenance;
+    use Exceptionable;
 
     protected $wrap = true;
 
@@ -67,6 +67,12 @@ class TestCase extends BaseTestCase
 
     protected function getExceptionHandler(): string
     {
-        return Str::startsWith(Application::VERSION, '6.') ? OldHandler::class : NewHandler::class;
+        switch (true) {
+            case $this->isSeven():
+                return SevenHandler::class;
+
+            default:
+                return EightHandler::class;
+        }
     }
 }
