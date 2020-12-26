@@ -591,7 +591,7 @@ return with code 400:
 
 #### Server Errors
 
-> Note: The `$ with` parameter is also responsible for displaying server-side error messages.
+> Note: The `$with` parameter is also responsible for displaying server-side error messages.
 >
 > In this case, Http errors will be displayed without masking.
 
