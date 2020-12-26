@@ -167,7 +167,7 @@ final class Response
             return;
         }
 
-        $data = Arr::toArray($this->data);
+        $data = Arr::wrap($this->data);
 
         if (Arr::exists($data, 'data')) {
             $this->data(Arr::get($data, 'data'), $this->status_code);
