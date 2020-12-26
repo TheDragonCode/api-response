@@ -28,6 +28,11 @@ final class Response
 
     /** @var string|null */
     protected $status_type;
+    
+    public function __construct()
+    {
+        trigger_deprecation('andrey-helldar/api-response', '6.4.0', 'Upgrade the dependency to version 7.x.');
+    }
 
     /**
      * @return Response
