@@ -1,0 +1,36 @@
+name: symfony
+on: [ push ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+            matrix:
+                php: [ "7.3", "7.4", "8.0" ]
+                symfony: [ "4.0", "5.0" ]
+
+        name: Symfony ${{ matrix.symfony }}, PHP ${{ matrix.php }}
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
+                    coverage: none
+
+            -   name: Composer self update
+                run: composer self-update
+
+            -   name: Install dependencies
+                run: |
+                    composer require symfony/http-foundation:^${{ matrix.symfony }}
+                    composer update --prefer-stable --prefer-dist --no-progress --no-interaction
+
+            -   name: Execute tests
+                run: vendor/bin/phpunit tests/Symfony

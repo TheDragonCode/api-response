@@ -2,176 +2,130 @@
 
 namespace Helldar\ApiResponse\Services;
 
-use Exception as BaseException;
-use Helldar\ApiResponse\Support\Exception;
-use Helldar\ApiResponse\Support\Instance;
-use Helldar\ApiResponse\Support\Response as ResponseSupport;
-use Helldar\Support\Facades\Arr;
+use Helldar\ApiResponse\Contracts\Parseable;
+use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
+use Helldar\ApiResponse\Contracts\Responsable;
+use Helldar\ApiResponse\Support\Parser;
+use Helldar\ApiResponse\Wrappers\Error;
+use Helldar\ApiResponse\Wrappers\Resolver;
+use Helldar\ApiResponse\Wrappers\Success;
+use Helldar\Support\Traits\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-final class Response
+final class Response implements Responsable
 {
-    /** @var array */
-    protected $with = [];
-
-    /** @var array|int|object|string|null */
-    protected $data = null;
+    use Makeable;
 
     /** @var bool */
-    protected $use_data = true;
+    public static $allow_with = true;
+
+    /** @var bool */
+    public static $wrap = true;
+
+    /** @var mixed */
+    protected $data;
+
+    /** @var int|null */
+    protected $status_code;
+
+    /** @var array */
+    protected $with = [];
 
     /** @var array */
     protected $headers = [];
 
-    /** @var int */
-    protected $status_code = 200;
-
-    /** @var string|null */
-    protected $status_type;
-
-    /**
-     * @return Response
-     */
-    public static function init(): self
+    public static function allowWith(): void
     {
-        return new self();
+        self::$allow_with = true;
     }
 
-    public function exception(string $status_type = null): self
+    public static function withoutWith(): void
     {
-        $this->status_type = $status_type;
+        self::$allow_with = false;
+    }
+
+    public static function wrapped(): void
+    {
+        self::$wrap = true;
+    }
+
+    public static function withoutWrap(): void
+    {
+        self::$wrap = false;
+    }
+
+    public function with(array $with = []): Responsable
+    {
+        $this->with = $with;
 
         return $this;
     }
 
-    /**
-     * @param  mixed  $data
-     * @param  int  $status_code
-     * @param  bool  $use_data
-     *
-     * @throws \ReflectionException
-     *
-     * @return $this
-     */
-    public function data($data = null, int $status_code = 200, bool $use_data = true): self
+    public function headers(array $headers = []): Responsable
     {
-        $this->use_data    = $use_data;
-        $this->status_code = $status_code;
-
-        if (Exception::isError($data)) {
-            $this->status_code = Exception::getCode($data, $status_code);
-            $this->status_type = Exception::getType($data, $this->status_type);
-            $this->data        = Exception::getData($data);
-        } else {
-            $this->data = ResponseSupport::get($data);
-        }
+        $this->headers = $headers;
 
         return $this;
     }
 
-    /**
-     * @param  array  $with
-     *
-     * @return $this
-     */
-    public function with(array $with = []): self
+    public function statusCode(int $code = null): Responsable
     {
-        $this->with = array_merge($this->with, $with);
+        $this->status_code = $code;
 
         return $this;
     }
 
-    /**
-     * @param  array  $headers
-     *
-     * @return $this
-     */
-    public function headers(array $headers = []): self
+    public function data($data = null): Responsable
     {
-        $this->headers = array_merge($this->headers, $headers);
+        $this->data = $data;
 
         return $this;
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function response(): JsonResponse
     {
-        return JsonResponse::create($this->getData(), $this->status_code, $this->headers);
+        $wrapped = $this->getWrapped($this->getParser());
+
+        return new JsonResponse($wrapped->get(), $wrapped->statusCode(), $this->getHeaders());
     }
 
-    protected function isError(): bool
+    protected function getHeaders(): array
     {
-        return Exception::isErrorCode($this->status_code);
+        return $this->headers;
     }
 
-    protected function e($value = null, $doubleEncode = true)
+    protected function getParser(): Parseable
     {
-        if (! is_string($value) || null === $value) {
-            return $value;
-        }
-
-        return $value !== ''
-            ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode)
-            : null;
+        return Parser::make()
+            ->setStatusCode($this->status_code)
+            ->setData($this->data)
+            ->setWith($this->with)
+            ->resolve();
     }
 
-    protected function getStatusType(): string
+    protected function getWrapped(Parseable $parser)
     {
-        return Instance::basename(
-            $this->status_type ?: BaseException::class
-        );
+        $wrapper = $this->getWrapper($parser);
+
+        return $wrapper::make()
+            ->wrap(self::$wrap)
+            ->allowWith(self::$allow_with)
+            ->parser($parser)
+            ->resolver($this->resolver());
     }
 
-    protected function getData()
+    /**
+     * @param  \Helldar\ApiResponse\Contracts\Parseable  $parser
+     *
+     * @return \Helldar\ApiResponse\Wrappers\Wrapper
+     */
+    protected function getWrapper(Parseable $parser): string
     {
-        $this->splitData();
-
-        $data = $this->isError()
-            ? $this->getErrorData()
-            : $this->getSuccessData();
-
-        return $this->mergeData($data);
+        return $parser->isError() ? Error::class : Success::class;
     }
 
-    protected function getErrorData(): array
+    protected function resolver(): ResolverContract
     {
-        return [
-            'error' => [
-                'type' => $this->getStatusType(),
-                'data' => $this->e($this->data),
-            ],
-        ];
-    }
-
-    protected function getSuccessData()
-    {
-        $data = $this->e($this->data);
-
-        return $this->use_data || $this->with
-            ? compact('data')
-            : $data;
-    }
-
-    protected function mergeData($data = [])
-    {
-        return is_array($data)
-            ? array_merge($data, $this->with)
-            : $data;
-    }
-
-    protected function splitData(): void
-    {
-        if (! is_array($this->data) && ! is_object($this->data)) {
-            return;
-        }
-
-        $data = Arr::toArray($this->data);
-
-        if (Arr::exists($data, 'data')) {
-            $this->data(Arr::get($data, 'data'), $this->status_code);
-            $this->with(Arr::except($data, 'data'));
-        }
+        return Resolver::make();
     }
 }

@@ -1,33 +1,28 @@
 <?php
 
 use Helldar\ApiResponse\Services\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Return a new response from the application.
  *
- * @param  mixed|null  $data
- * @param  int  $status_code
- * @param  array  $with
- * @param  array  $headers
- * @param  bool  $use_data
- * @param  string|null  $exception
- *
- * @throws \ReflectionException
+ * @param  mixed|null  $data  Any value to be returned.
+ * @param  int|null  $status_code  Will be detected automatically (200 or 400). If specified, this value will take precedence.
+ * @param  array  $with  Any additional value added to the response.
+ * @param  array  $headers  Additional headers passed with the response.
  *
  * @return Symfony\Component\HttpFoundation\JsonResponse
  */
 function api_response(
     $data = null,
-    int $status_code = 200,
+    int $status_code = null,
     array $with = [],
-    array $headers = [],
-    bool $use_data = true,
-    string $exception = null
-) {
-    return Response::init()
-        ->exception($exception)
-        ->data($data, $status_code, $use_data)
-        ->with($with)
+    array $headers = []
+): JsonResponse {
+    return Response::make()
+        ->statusCode($status_code)
         ->headers($headers)
+        ->data($data)
+        ->with($with)
         ->response();
 }

@@ -17,7 +17,9 @@ Package for standardizing the responses from the API of your **Symfony based** a
 
 ## Content
 
-* [Installation](#installation)
+* [Getting Started](#getting-started)
+    * [Upgrade guides](#upgrade-guides)
+    * [Installation](#installation)
     * [Compatibility table](#compatibility-table)
 * [Using](#using)
     * [Use with `data` key](#use-with-data-key)
@@ -36,11 +38,24 @@ Package for standardizing the responses from the API of your **Symfony based** a
         * [as integer with code](#as-integer-with-code-and-without-data-key)
         * [as array](#as-array-and-without-data-key)
         * [with additional content](#with-additional-content-and-without-data-key)
+    * [No extra data](#no-extra-data)
+        * [Server Errors](#server-errors)
     * [Returning Exception instances](#returning-exception-instances)
     * [Best practice use with the Laravel and Lumen Frameworks](#best-practice-use-with-the-laravel-and-lumen-frameworks)
-* [Copyright and License](#copyright-and-license)
+        * [Json Resources](#json-resources)
+        * [Validation](#validation)
 
-## Installation
+## Getting Started
+
+### Upgrade guides
+
+* [To 7.x From 6.x](.upgrading/6.x_7.x.md)
+* [To 6.x From 5.x](.upgrading/5.x_6.x.md)
+
+[[ to top ]](#api-response)
+
+
+### Installation
 
 To get the latest version of `API Response`, simply require the project using [Composer](https://getcomposer.org/):
 
@@ -70,7 +85,8 @@ Alright! Use `api_response()` helper.
 |  ^4.0 | 5.6.9 | ^3.0, ^4.0 | ![Not Supported][badge_not_supported] | --- |
 |  ^4.4.1 | 5.6.9 | ^3.0, ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
 |  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
-|  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
+|  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
+|  ^7.0 | 7.2 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
 
 [[ to top ]](#api-response)
 
@@ -82,7 +98,11 @@ Alright! Use `api_response()` helper.
 #### as NULL with code:
 
 ```php
+// php 7.4 and below
 return api_response(null, 304);
+
+// php 8.0
+return api_response( status_code: 304 );
 ```
 
 return with code 304:
@@ -213,7 +233,7 @@ return with code 400:
 #### as success
 
 ```php
-return api_response($data, 200);
+return api_response($data);
 ```
 
 return with code 200:
@@ -240,7 +260,13 @@ If the first parameter is a number, then the decryption of the error by code wil
 #### with additional content
 
 ```php
+// php 7.4 and below
 return api_response('title', 200, ['foo' => 'bar']);
+// or
+return api_response('title', null, ['foo' => 'bar']);
+
+// php 8.0
+return api_response('title', with: ['foo' => 'bar']);
 ```
 
 return with code 200:
@@ -294,49 +320,29 @@ return with code 400:
 
 ### Use without `data` key
 
-If you do not want to wrap the response in the `data` key, then you need to pass the `false` value to the 5th parameter of the function:
+Since the goal of the package is to unify all the answers, we moved the variable definitions into a static function. So, for example, to enable or disable
+wrapping content in the `data` key, you need to call the `wrapped` or `withoutWrap` method:
 
 ```php
 use Helldar\ApiResponse\Services\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
-/**
- * Return a new response from the application.
- *
- * @param  mixed|null  $data
- * @param  int  $status_code
- * @param  array  $with
- * @param  array  $headers
- * @param  bool  $use_data
- *
- * @return Symfony\Component\HttpFoundation\JsonResponse
- */
-function api_response(
-    $data = null,
-    int $status_code = 200,
-    array $with = [],
-    array $headers = [],
-    bool $use_data = true
-)
-{
-    return Response::init()
-        ->data($data, $status_code, $use_data)
-        ->with($with)
-        ->headers($headers)
-        ->response();
-}
+Response::withoutWrap();
 ```
 
 #### as NULL with code and without `data` key:
 
 ```php
-return api_response(null, 304, [], [], false);
+// php 7.4 and below
+return api_response(null, 304);
+
+// php 8.0
+return api_response( status_code: 304 );
 ```
 
 return with code 304:
 
 ```json
-{}
+[]
 ```
 
 [[ to top ]](#api-response)
@@ -344,7 +350,7 @@ return with code 304:
 #### as integer with default code and without `data` key:
 
 ```php
-return api_response(304, 200, [], [], false);
+return api_response(304, 200);
 ```
 
 return with code 200:
@@ -358,7 +364,7 @@ return with code 200:
 #### as string with default code and without `data` key:
 
 ```php
-return api_response('qwerty', 200, [], [], false);
+return api_response('qwerty', 200);
 ```
 
 return with code 200:
@@ -372,7 +378,7 @@ return with code 200:
 #### as string with code and without `data` key:
 
 ```php
-return api_response('qwerty', 400, [], [], false);
+return api_response('qwerty', 400);
 ```
 
 return with code 400:
@@ -391,7 +397,7 @@ return with code 400:
 #### as integer with code and without `data` key:
 
 ```php
-return api_response(304, 400, [], [], false);
+return api_response(304, 400);
 ```
 
 return with code 400:
@@ -425,7 +431,7 @@ $data = [
 #### as error and without `data` key
 
 ```php
-return api_response($data, 400, [], [], false);
+return api_response($data, 400);
 ```
 
 return with code 400:
@@ -453,7 +459,9 @@ return with code 400:
 #### as success and without `data` key
 
 ```php
-return api_response($data, 200, [], [], false);
+return api_response($data, 200);
+// or
+return api_response($data);
 ```
 
 return with code 200:
@@ -478,7 +486,11 @@ If the first parameter is a number, then the decryption of the error by code wil
 #### with additional content and without `data` key:
 
 ```php
-return api_response('title', 200, ['foo' => 'bar'], [], false);
+// php 7.4 and below
+return api_response('title', 200, ['foo' => 'bar']);
+
+// php 8.0
+return api_response('title', with: ['foo' => 'bar']);
 ```
 
 return with code 200:
@@ -503,7 +515,7 @@ return with code 400:
 ```
 
 ```php
-return api_response(['data' => 'foo', 'bar' => 'baz'], 200, [], [], false);
+return api_response(['data' => 'foo', 'bar' => 'baz']);
 ```
 
 return with code 200:
@@ -530,6 +542,119 @@ return with code 400:
 [[ to top ]](#api-response)
 
 
+### No extra data
+
+In some cases, when returning answers, you must also give additional data. Such as stack trace, for example.
+
+To prevent this data from getting in response to production, you can globally set a label to show or hide this data:
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+env('APP_DEBUG')
+    ? Response::allowWith()
+    : Response::withoutWith();
+```
+
+Now all responses will not contain the additional data being passed.
+
+For example:
+
+```php
+// php 7.4 and below
+return api_response('title', 200, ['foo' => 'bar']);
+// or
+return api_response('title', null, ['foo' => 'bar']);
+
+// php 8.0
+return api_response('title', with: ['foo' => 'bar']);
+```
+
+return with code 200:
+
+```json
+{
+    "data": "title"
+}
+```
+
+return with code 400:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "ok"
+    }
+}
+```
+
+#### Server Errors
+
+> Note: The `$ with` parameter is also responsible for displaying server-side error messages.
+>
+> In this case, Http errors will be displayed without masking.
+
+For example:
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+Response::allowWith();
+
+$e = new Exception('Foo', 0);
+
+return api_response($e);
+```
+
+return with code 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Foo"
+    }
+}
+```
+
+and
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+Response::withoutWith();
+
+$e = new Exception('Foo', 0);
+
+return api_response($e);
+```
+
+return with code 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Whoops! Something went wrong."
+    }
+}
+```
+
+return with if code >=400 and < 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Foo"
+    }
+}
+```
+
+[[ to top ]](#api-response)
+
+
 ### Returning exception instances
 
 ```php
@@ -545,7 +670,7 @@ class BarException extends \Exception
 {
     public function __construct()
     {
-        parent::__construct('Bar', 0);
+        parent::__construct('Bar');
     }
 }
 
@@ -613,21 +738,6 @@ return with code 408:
 }
 ```
 
-```php
-return api_response($bar, 408, [], [], true, FooException::class);
-```
-
-return with code 408:
-
-```json
-{
-    "error": {
-        "type": "FooException",
-        "data": "Bar"
-    }
-}
-```
-
 You can also add additional data:
 
 ```php
@@ -674,6 +784,137 @@ class Handler extends ExceptionHandler
 ```
 
 Or you can change this file by adding code to it, similar to [ours](src/Support/LaravelException.php).
+
+[[ to top ]](#api-response)
+
+
+### Json Resources
+
+Now, if you pass a resource object or validator object, it will also be rendered beautifully:
+
+```php
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/** @mixin \Tests\Fixtures\Laravel\Model */
+final class Resource extends JsonResource
+{
+    public function toArray($request)
+    {
+        return [
+            'foo' => $this->foo,
+            'bar' => $this->bar,
+        ];
+    }
+
+    public function with($request)
+    {
+        return ['baz' => 'Baz'];
+    }
+}
+```
+
+```php
+$model = Model::first();
+$resource = MyResource::make($model);
+
+return api_response($resource);
+```
+
+return with code 200:
+
+```json
+{
+    "data": {
+        "foo": "Foo",
+        "bar": "Bar"
+    },
+    "baz": "Baz"
+}
+```
+
+If `Response::withoutWrap()`
+
+```json
+{
+    "foo": "Foo",
+    "bar": "Bar",
+    "baz": "Baz"
+}
+```
+
+If `Response::withoutWith()`
+
+```json
+{
+    "data": {
+        "foo": "Foo",
+        "bar": "Bar"
+    }
+}
+```
+
+If `Response::withoutWith()` and `Response::withoutWrap()`
+
+```json
+{
+    "foo": "Foo",
+    "bar": "Bar"
+}
+```
+
+[[ to top ]](#api-response)
+
+
+### Validation
+
+```php
+$data = [
+    'foo' => 'Foo',
+    'bar' => 123,
+    'baz' => 'https://foo.example'
+];
+
+$rules = [
+    'foo' => ['required'],
+    'bar' => ['integer'],
+    'baz' => ['sometimes', 'url'],
+];
+```
+
+```php
+$validator = Validator::make($data, $rules);
+
+return $validator->fails()
+    ? new ValidationException($validator)
+    : $validator->validated();
+```
+
+If success:
+
+```json
+{
+    "data": {
+        "foo": "Foo",
+        "bar": 123,
+        "baz": "https://foo.example"
+    }
+}
+```
+
+If failed:
+
+```json
+{
+    "error": {
+        "type": "ValidationException",
+        "data": {
+            "foo": ["The foo field is required."],
+            "bar": ["The bar must be an integer."],
+            "baz": ["The baz format is invalid."]
+        }
+    }
+}
+```
 
 [[ to top ]](#api-response)
 
