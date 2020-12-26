@@ -21,7 +21,7 @@ final class WithDataTest extends TestCase
         $response = $this->requestBar();
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => $this->maintenanceModeMessage()]],
+            ['error' => ['type' => 'Exception', 'data' => 'Foo Bar']],
             $response->getJson()
         );
     }

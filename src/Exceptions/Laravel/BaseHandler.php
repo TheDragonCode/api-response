@@ -31,7 +31,7 @@ abstract class BaseHandler extends ExceptionHandler
     protected function prepareJsonResponse($request, Throwable $e)
     {
         return $this->response(
-            $this->getExceptionMessage($e),
+            $e,
             $this->isHttpException($e) ? $e->getStatusCode() : 500,
             $this->withExceptionData($e),
             $this->isHttpException($e) ? $e->getHeaders() : []

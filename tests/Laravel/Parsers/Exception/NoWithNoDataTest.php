@@ -25,7 +25,7 @@ final class NoWithNoDataTest extends TestCase
         $response = $this->requestBar();
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => $this->maintenanceModeMessage()]],
+            ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
             $response->getJson()
         );
     }

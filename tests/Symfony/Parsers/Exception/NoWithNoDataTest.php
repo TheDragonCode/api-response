@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Symfony\Parsers;
+namespace Tests\Symfony\Parsers\Exception;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Symfony\TestCase;
 
-final class ExceptionNoWithNoDataTest extends TestCase
+final class NoWithNoDataTest extends TestCase
 {
     protected $wrap = false;
 
@@ -69,20 +69,20 @@ final class ExceptionNoWithNoDataTest extends TestCase
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response([], 404)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response([], 500)->getJson());
 
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'foo']], $this->response('foo', 0)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response('foo', 0)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'foo']], $this->response('foo', 400)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'foo']], $this->response('foo', 404)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'foo']], $this->response('foo', 500)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response('foo', 500)->getJson());
 
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo']]], $this->response(['foo'], 0)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(['foo'], 0)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo']]], $this->response(['foo'], 400)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo']]], $this->response(['foo'], 404)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo']]], $this->response(['foo'], 500)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(['foo'], 500)->getJson());
 
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 0)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(['foo' => 'Foo'], 0)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 400)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 404)->getJson());
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]], $this->response(['foo' => 'Foo'], 500)->getJson());
+        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(['foo' => 'Foo'], 500)->getJson());
 
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 0)->getJson());
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 400)->getJson());
@@ -90,7 +90,7 @@ final class ExceptionNoWithNoDataTest extends TestCase
         $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']], $this->response(0, 500)->getJson());
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
+            ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
             $this->response(['foo' => 'Foo'], 0, ['bar' => 'Bar'])->getJson()
         );
 
@@ -105,7 +105,7 @@ final class ExceptionNoWithNoDataTest extends TestCase
         );
 
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo']]],
+            ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
             $this->response(['foo' => 'Foo'], 500, ['bar' => 'Bar'])->getJson()
         );
     }

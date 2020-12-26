@@ -1,15 +1,13 @@
 <?php
 
-namespace Tests\Symfony\Parsers;
+namespace Tests\Symfony\Parsers\Exception;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Contracts\Parserable;
 use Tests\Symfony\TestCase;
 
-final class ExceptionWithNoDataTest extends TestCase implements Parserable
+class WithDataTest extends TestCase implements Parserable
 {
-    protected $wrap = false;
-
     public function testResponse()
     {
         $this->assertTrue($this->response(null, 0)->instance() instanceof JsonResponse);

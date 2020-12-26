@@ -6,7 +6,6 @@ use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Api;
 use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Router;
 use Illuminate\Validation\ValidationException;
@@ -18,10 +17,6 @@ abstract class ApiHandler extends BaseHandler
 
     public function render($request, Throwable $e)
     {
-        if ($e instanceof MaintenanceModeException) {
-            return $this->response($e);
-        }
-
         if (method_exists($e, 'render') && $response = $e->render($request)) {
             return $this->response(
                 Router::toResponse($request, $response)
@@ -35,7 +30,7 @@ abstract class ApiHandler extends BaseHandler
         if ($e instanceof HttpResponseException) {
             return $this->response($e);
         } elseif ($e instanceof AuthenticationException) {
-            return $this->unauthenticated($request, $e);
+            return $this->response($e, 403);
         } elseif ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
         }

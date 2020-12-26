@@ -40,10 +40,17 @@ trait Errors
 
     protected function isErrorStatusCode(bool $ignore_status_code = false): bool
     {
-        if (! $ignore_status_code && method_exists($this, 'getStatusCode')) {
-            return $this->isErrorCode($this->getStatusCode());
+        if (! $ignore_status_code) {
+            return $this->isErrorCode($this->resolveStatusCode());
         }
 
         return false;
+    }
+
+    protected function resolveStatusCode(): ?int
+    {
+        return method_exists($this, 'getStatusCode')
+            ? $this->getStatusCode()
+            : $this->status_code;
     }
 }

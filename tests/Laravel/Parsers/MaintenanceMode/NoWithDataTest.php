@@ -20,26 +20,14 @@ final class NoWithDataTest extends TestCase
         $this->assertJson($response->getRaw());
     }
 
-    public function testStructureWithCustomMessage()
-    {
-        $this->makeDownFile('Foo Bar');
-
-        $response = $this->requestFoo();
-
-        $this->assertSame(
-            ['error' => ['type' => 'MaintenanceModeException', 'data' => ['retry_after' => 60, 'message' => 'Foo Bar']]],
-            $response->getJson()
-        );
-    }
-
-    public function testStructureWithDefaultMessage()
+    public function testStructure()
     {
         $this->makeDownFile();
 
         $response = $this->requestFoo();
 
         $this->assertSame(
-            ['error' => ['type' => 'MaintenanceModeException', 'data' => ['retry_after' => 60, 'message' => 'Whoops! Something went wrong.']]],
+            ['error' => ['type' => 'HttpException', 'data' => 'Whoops! Something went wrong.']],
             $response->getJson()
         );
     }

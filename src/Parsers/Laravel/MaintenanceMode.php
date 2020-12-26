@@ -7,8 +7,6 @@ use Helldar\ApiResponse\Parsers\Parser;
 /** @property \Illuminate\Foundation\Http\Exceptions\MaintenanceModeException $data */
 final class MaintenanceMode extends Parser
 {
-    protected $message = 'Whoops! Something went wrong.';
-
     public function getData()
     {
         return [
@@ -33,6 +31,6 @@ final class MaintenanceMode extends Parser
 
     protected function message(): string
     {
-        return $this->data->getMessage() ?: $this->message;
+        return $this->data->getMessage();
     }
 }

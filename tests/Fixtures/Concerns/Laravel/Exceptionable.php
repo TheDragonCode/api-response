@@ -9,14 +9,14 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 /** @mixin \Tests\Laravel\TestCase */
 trait Exceptionable
 {
-    protected function makeDownFile(string $message = null): void
+    protected function makeDownFile(): void
     {
         $filename = storage_path('framework/down');
 
         if (! file_exists($filename)) {
             file_put_contents(storage_path('framework/down'), json_encode([
                 "time"    => time(),
-                "message" => $message,
+                "message" => 'Service Unavailable',
                 "retry"   => 60,
                 "allowed" => [],
             ]));
@@ -36,7 +36,7 @@ trait Exceptionable
 
         $app['router']->get('/bar', static function () {
             throw new Exception('Foo Bar');
-        });
+        })->middleware($this->getMaintenanceMiddleware());
     }
 
     protected function getMaintenanceMiddleware(): string
@@ -48,10 +48,5 @@ trait Exceptionable
             default:
                 return PreventRequestsDuringMaintenance::class;
         }
-    }
-
-    protected function maintenanceModeMessage(): string
-    {
-        return $this->isSeven() ? 'Server Error' : 'Service Unavailable';
     }
 }

@@ -39,6 +39,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
         * [as array](#as-array-and-without-data-key)
         * [with additional content](#with-additional-content-and-without-data-key)
     * [No extra data](#no-extra-data)
+        * [Server Errors](#server-errors)
     * [Returning Exception instances](#returning-exception-instances)
     * [Best practice use with the Laravel and Lumen Frameworks](#best-practice-use-with-the-laravel-and-lumen-frameworks)
         * [Json Resources](#json-resources)
@@ -588,7 +589,71 @@ return with code 400:
 }
 ```
 
+#### Server Errors
+
+> Note: The `$ with` parameter is also responsible for displaying server-side error messages.
+>
+> In this case, Http errors will be displayed without masking.
+
+For example:
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+Response::allowWith();
+
+$e = new Exception('Foo', 0);
+
+return api_response($e);
+```
+
+return with code 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Foo"
+    }
+}
+```
+
+and
+
+```php
+use Helldar\ApiResponse\Services\Response;
+
+Response::withoutWith();
+
+$e = new Exception('Foo', 0);
+
+return api_response($e);
+```
+
+return with code 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Whoops! Something went wrong."
+    }
+}
+```
+
+return with if code >=400 and < 500:
+
+```json
+{
+    "error": {
+        "type": "Exception",
+        "data": "Foo"
+    }
+}
+```
+
 [[ to top ]](#api-response)
+
 
 ### Returning exception instances
 
