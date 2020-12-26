@@ -70,7 +70,7 @@ Instead, you may of course manually update your `require` block and run `compose
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^6.0"
+        "andrey-helldar/api-response": "^7.0"
     }
 }
 ```
