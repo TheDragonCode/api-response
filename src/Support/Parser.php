@@ -6,12 +6,14 @@ use Exception;
 use Helldar\ApiResponse\Concerns\Errors;
 use Helldar\ApiResponse\Contracts\Parseable;
 use Helldar\ApiResponse\Parsers\Exception as ExceptionParser;
+use Helldar\ApiResponse\Parsers\Laravel\MaintenanceMode as LaravelMaintenanceMode;
 use Helldar\ApiResponse\Parsers\Laravel\Resource as LaravelResourceParser;
 use Helldar\ApiResponse\Parsers\Laravel\Validation as LaravelValidationParser;
 use Helldar\ApiResponse\Parsers\Main;
 use Helldar\Support\Facades\Instance;
 use Helldar\Support\Facades\Is;
 use Helldar\Support\Traits\Makeable;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -29,6 +31,8 @@ final class Parser
 
     /** @var string[] */
     protected $available = [
+        MaintenanceModeException::class => LaravelMaintenanceMode::class,
+
         JsonResource::class        => LaravelResourceParser::class,
         ValidationException::class => LaravelValidationParser::class,
 

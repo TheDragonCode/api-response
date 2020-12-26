@@ -3,18 +3,22 @@
 namespace Tests\Fixtures\Concerns\Laravel;
 
 use Exception;
+use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 
 /** @mixin \Tests\Laravel\TestCase */
 trait Exceptionable
 {
-    protected function makeDownFile(): void
+    protected function makeDownFile(string $message = null): void
     {
         $filename = storage_path('framework/down');
 
         if (! file_exists($filename)) {
             file_put_contents(storage_path('framework/down'), json_encode([
-                'retry' => 60,
+                "time"    => time(),
+                "message" => $message,
+                "retry"   => 60,
+                "allowed" => [],
             ]));
         }
     }
@@ -28,10 +32,26 @@ trait Exceptionable
     {
         $app['router']->get('/foo', static function () {
             return api_response('ok');
-        })->middleware(PreventRequestsDuringMaintenance::class);
+        })->middleware($this->getMaintenanceMiddleware());
 
         $app['router']->get('/bar', static function () {
             throw new Exception('Foo Bar');
         });
+    }
+
+    protected function getMaintenanceMiddleware(): string
+    {
+        switch (true) {
+            case $this->isSeven():
+                return CheckForMaintenanceMode::class;
+
+            default:
+                return PreventRequestsDuringMaintenance::class;
+        }
+    }
+
+    protected function maintenanceModeMessage(): string
+    {
+        return $this->isSeven() ? 'Server Error' : 'Service Unavailable';
     }
 }

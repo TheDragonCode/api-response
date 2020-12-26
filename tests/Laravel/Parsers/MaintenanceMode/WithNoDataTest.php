@@ -20,13 +20,28 @@ final class WithNoDataTest extends TestCase
         $this->assertJson($response->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureWithCustomMessage()
+    {
+        $this->makeDownFile('Foo Bar');
+
+        $response = $this->requestFoo();
+
+        $this->assertSame(
+            ['error' => ['type' => 'MaintenanceModeException', 'data' => ['retry_after' => 60, 'message' => 'Foo Bar']]],
+            $response->getJson()
+        );
+    }
+
+    public function testStructureWithDefaultMessage()
     {
         $this->makeDownFile();
 
         $response = $this->requestFoo();
 
-        $this->assertSame(['error' => ['type' => 'Exception', 'data' => 'Service Unavailable']], $response->getJson());
+        $this->assertSame(
+            ['error' => ['type' => 'MaintenanceModeException', 'data' => ['retry_after' => 60, 'message' => 'Whoops! Something went wrong.']]],
+            $response->getJson()
+        );
     }
 
     public function testStatusCode()
