@@ -17,7 +17,7 @@ final class Error extends Wrapper
     }
 
     /**
-     * @return array|string|int|null
+     * @return array|int|string|null
      */
     protected function resolveData()
     {
@@ -29,7 +29,7 @@ final class Error extends Wrapper
     /**
      * @param  mixed  $message
      *
-     * @return array|string|int|null
+     * @return array|int|string|null
      */
     protected function defaultErrorMessage($message = null)
     {

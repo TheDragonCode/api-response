@@ -15,10 +15,10 @@ trait Exceptionable
 
         if (! file_exists($filename)) {
             file_put_contents(storage_path('framework/down'), json_encode([
-                "time"    => time(),
-                "message" => 'Service Unavailable',
-                "retry"   => 60,
-                "allowed" => [],
+                'time'    => time(),
+                'message' => 'Service Unavailable',
+                'retry'   => 60,
+                'allowed' => [],
             ]));
         }
     }
