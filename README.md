@@ -943,7 +943,7 @@ If failed:
 [[ to top ]](#api-response)
 
 
-[badge_build]:          https://img.shields.io/github/workflow/status/andrey-helldar/api-response/phpunit?style=flat-square
+[badge_build]:          https://img.shields.io/github/workflow/status/andrey-helldar/api-response/coverage?style=flat-square
 
 [badge_coverage]:       https://img.shields.io/scrutinizer/coverage/g/andrey-helldar/api-response.svg?style=flat-square
 
