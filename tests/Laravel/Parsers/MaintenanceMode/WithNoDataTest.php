@@ -27,7 +27,7 @@ final class WithNoDataTest extends TestCase
         $response = $this->requestFoo();
 
         $this->assertSame(
-            ['error' => ['type' => 'HttpException', 'data' => 'Service Unavailable']],
+            ['error' => ['type' => $this->getMaintenanceType(), 'data' => 'Service Unavailable']],
             $response->getJson()
         );
     }

@@ -29,7 +29,7 @@ final class NoWithNoDataTest extends TestCase
         $response = $this->requestFoo();
 
         $this->assertSame(
-            ['error' => ['type' => 'HttpException', 'data' => 'Whoops! Something went wrong.']],
+            ['error' => ['type' => $this->getMaintenanceType(), 'data' => 'Whoops! Something went wrong.']],
             $response->getJson()
         );
     }

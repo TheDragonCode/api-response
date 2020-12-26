@@ -41,12 +41,13 @@ trait Exceptionable
 
     protected function getMaintenanceMiddleware(): string
     {
-        switch (true) {
-            case $this->isSeven():
-                return CheckForMaintenanceMode::class;
+        return $this->isSeven()
+            ? CheckForMaintenanceMode::class
+            : PreventRequestsDuringMaintenance::class;
+    }
 
-            default:
-                return PreventRequestsDuringMaintenance::class;
-        }
+    protected function getMaintenanceType(): string
+    {
+        return $this->isSeven() ? 'MaintenanceModeException' : 'HttpException';
     }
 }
