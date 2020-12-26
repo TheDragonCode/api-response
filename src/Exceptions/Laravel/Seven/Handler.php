@@ -2,7 +2,6 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel\Seven;
 
-use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Web;
 use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
@@ -13,8 +12,6 @@ use Throwable;
 
 abstract class Handler extends BaseHandler
 {
-    use Web;
-
     public function render($request, Throwable $e)
     {
         if (method_exists($e, 'render') && $response = $e->render($request)) {

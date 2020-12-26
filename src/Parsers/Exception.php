@@ -6,20 +6,14 @@ use Exception as BaseException;
 use Helldar\Support\Facades\Instance;
 use Throwable;
 
-/**
- * @property \Exception|\Throwable $data
- */
+/** @property \Exception|\Throwable $data */
 final class Exception extends Parser
 {
     protected $is_error = true;
 
     public function getData()
     {
-        if ($data = $this->getThrowableContent()) {
-            return $data;
-        }
-
-        return $this->data;
+        return $this->getThrowableContent() ?: $this->data;
     }
 
     public function getStatusCode(): int
@@ -28,11 +22,7 @@ final class Exception extends Parser
             return $this->status_code;
         }
 
-        if ($code = Instance::callsWhenNotEmpty($this->data, ['getStatusCode', 'getCode'], 400)) {
-            return $code;
-        }
-
-        return parent::getStatusCode();
+        return $this->callStatusCode() ?: parent::getStatusCode();
     }
 
     /**
@@ -40,8 +30,26 @@ final class Exception extends Parser
      */
     protected function getThrowableContent()
     {
-        return Instance::of($this->data, [BaseException::class, Throwable::class])
-            ? Instance::callsWhenNotEmpty($this->data, ['getOriginalContent', 'getContent', 'getResponse', 'getMessage'])
-            : null;
+        return $this->isThrowable() ? $this->callContent() : null;
+    }
+
+    protected function callStatusCode(): ?int
+    {
+        return $this->call(['getStatusCode', 'getCode']);
+    }
+
+    protected function callContent()
+    {
+        return $this->call(['getOriginalContent', 'getContent', 'getResponse', 'getMessage']);
+    }
+
+    protected function isThrowable(): bool
+    {
+        return Instance::of($this->data, [BaseException::class, Throwable::class]);
+    }
+
+    protected function call(array $methods)
+    {
+        return Instance::callsWhenNotEmpty($this->data, $methods);
     }
 }

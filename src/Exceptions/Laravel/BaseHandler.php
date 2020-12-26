@@ -38,6 +38,17 @@ abstract class BaseHandler extends ExceptionHandler
         );
     }
 
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        if ($e->response) {
+            return $e->response;
+        }
+
+        return $this->isJson($request)
+            ? $this->invalidJson($request, $e)
+            : $this->invalid($request, $e);
+    }
+
     protected function getExceptionMessage(Throwable $e)
     {
         $converted = parent::convertExceptionToArray($e);

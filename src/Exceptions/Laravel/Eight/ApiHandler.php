@@ -2,7 +2,6 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel\Eight;
 
-use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Api;
 use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
@@ -13,8 +12,6 @@ use Throwable;
 
 abstract class ApiHandler extends BaseHandler
 {
-    use Api;
-
     public function render($request, Throwable $e)
     {
         if (method_exists($e, 'render') && $response = $e->render($request)) {
@@ -46,5 +43,10 @@ abstract class ApiHandler extends BaseHandler
         }
 
         return $this->prepareJsonResponse($request, $e);
+    }
+
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        return $this->response($e);
     }
 }

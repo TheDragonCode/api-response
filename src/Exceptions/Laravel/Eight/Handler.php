@@ -13,8 +13,6 @@ use Throwable;
 
 abstract class Handler extends BaseHandler
 {
-    use Web;
-
     public function render($request, Throwable $e)
     {
         if (method_exists($e, 'render') && $response = $e->render($request)) {
