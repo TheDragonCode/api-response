@@ -2,7 +2,7 @@
 
 namespace Helldar\ApiResponse\Concerns;
 
-use Helldar\Support\Facades\Is;
+use Helldar\Support\Facades\Helpers\Is;
 
 trait Errors
 {

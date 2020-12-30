@@ -5,8 +5,8 @@ namespace Helldar\ApiResponse\Wrappers;
 use Helldar\ApiResponse\Contracts\Parseable;
 use Helldar\ApiResponse\Contracts\Resolver;
 use Helldar\ApiResponse\Contracts\Wrapper as WrapperContract;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Traits\Makeable;
+use Helldar\Support\Concerns\Makeable;
+use Helldar\Support\Facades\Helpers\Arr;
 
 abstract class Wrapper implements WrapperContract
 {

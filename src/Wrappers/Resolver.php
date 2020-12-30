@@ -3,8 +3,8 @@
 namespace Helldar\ApiResponse\Wrappers;
 
 use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Traits\Makeable;
+use Helldar\Support\Concerns\Makeable;
+use Helldar\Support\Facades\Helpers\Arr;
 
 final class Resolver implements ResolverContract
 {

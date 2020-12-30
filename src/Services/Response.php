@@ -9,7 +9,7 @@ use Helldar\ApiResponse\Support\Parser;
 use Helldar\ApiResponse\Wrappers\Error;
 use Helldar\ApiResponse\Wrappers\Resolver;
 use Helldar\ApiResponse\Wrappers\Success;
-use Helldar\Support\Traits\Makeable;
+use Helldar\Support\Concerns\Makeable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class Response implements Responsable

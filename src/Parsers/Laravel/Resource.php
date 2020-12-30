@@ -3,7 +3,7 @@
 namespace Helldar\ApiResponse\Parsers\Laravel;
 
 use Helldar\ApiResponse\Parsers\Parser;
-use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Helpers\Arr;
 use Illuminate\Http\JsonResponse;
 
 /** @property \Illuminate\Http\Resources\Json\JsonResource $data */

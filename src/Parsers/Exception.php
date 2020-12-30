@@ -3,7 +3,7 @@
 namespace Helldar\ApiResponse\Parsers;
 
 use Exception as BaseException;
-use Helldar\Support\Facades\Instance;
+use Helldar\Support\Facades\Helpers\Instance;
 use Throwable;
 
 /** @property \Exception|\Throwable $data */
@@ -50,6 +50,6 @@ final class Exception extends Parser
 
     protected function call(array $methods)
     {
-        return Instance::callsWhenNotEmpty($this->data, $methods);
+        return Instance::callWhen($this->data, $methods);
     }
 }
