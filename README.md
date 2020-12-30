@@ -88,7 +88,7 @@ Alright! Use `api_response()` helper.
 |  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
 |  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
 |  ^7.0 | 7.2 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
-|  ^8.0 | 7.2 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
+|  ^8.0 | 7.2 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/7.x_8.x.md) |
 
 [[ to top ]](#api-response)
 
