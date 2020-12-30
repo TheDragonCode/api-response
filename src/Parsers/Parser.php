@@ -6,9 +6,9 @@ use Exception as BaseException;
 use Helldar\ApiResponse\Concerns\Errors;
 use Helldar\ApiResponse\Contracts\Parseable;
 use Helldar\ApiResponse\Services\Response;
-use Helldar\Support\Facades\Instance;
-use Helldar\Support\Facades\Is;
-use Helldar\Support\Traits\Makeable;
+use Helldar\Support\Concerns\Makeable;
+use Helldar\Support\Facades\Helpers\Instance;
+use Helldar\Support\Facades\Helpers\Is;
 
 abstract class Parser implements Parseable
 {

@@ -2,7 +2,7 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel;
 
-use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Helpers\Arr;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
@@ -36,6 +36,17 @@ abstract class BaseHandler extends ExceptionHandler
             $this->withExceptionData($e),
             $this->isHttpException($e) ? $e->getHeaders() : []
         );
+    }
+
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        if ($e->response) {
+            return $e->response;
+        }
+
+        return $this->isJson($request)
+            ? $this->invalidJson($request, $e)
+            : $this->invalid($request, $e);
     }
 
     protected function getExceptionMessage(Throwable $e)

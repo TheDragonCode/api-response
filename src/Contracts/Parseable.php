@@ -2,7 +2,7 @@
 
 namespace Helldar\ApiResponse\Contracts;
 
-/** @mixin \Helldar\Support\Traits\Makeable */
+/** @mixin \Helldar\Support\Concerns\Makeable */
 interface Parseable
 {
     public function setData($data): self;
