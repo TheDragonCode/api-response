@@ -2,7 +2,7 @@
 
 namespace Tests\Fixtures\Entities;
 
-use Helldar\Support\Facades\Instance;
+use Helldar\Support\Facades\Helpers\Instance;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as MainResponse;

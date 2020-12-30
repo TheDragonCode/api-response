@@ -2,7 +2,7 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel;
 
-use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Helpers\Arr;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
