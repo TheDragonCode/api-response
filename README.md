@@ -49,6 +49,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
 
 ### Upgrade guides
 
+* [To 8.x From 7.x](.upgrading/7.x_8.x.md)
 * [To 7.x From 6.x](.upgrading/6.x_7.x.md)
 * [To 6.x From 5.x](.upgrading/5.x_6.x.md)
 
@@ -70,7 +71,7 @@ Instead, you may of course manually update your `require` block and run `compose
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^7.0"
+        "andrey-helldar/api-response": "^8.0"
     }
 }
 ```
