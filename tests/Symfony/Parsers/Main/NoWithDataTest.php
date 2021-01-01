@@ -3,6 +3,7 @@
 namespace Tests\Symfony\Parsers\Main;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
 final class NoWithDataTest extends TestCase
@@ -30,6 +31,8 @@ final class NoWithDataTest extends TestCase
         $this->assertTrue($this->response('foo', 300)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response([], 300)->instance() instanceof JsonResponse);
         $this->assertTrue($this->response(0, 300)->instance() instanceof JsonResponse);
+
+        $this->assertTrue($this->response(new Arrayable())->instance() instanceof JsonResponse);
     }
 
     public function testJson()
@@ -53,6 +56,8 @@ final class NoWithDataTest extends TestCase
         $this->assertJson($this->response('foo', 300)->getRaw());
         $this->assertJson($this->response([], 300)->getRaw());
         $this->assertJson($this->response(0, 300)->getRaw());
+
+        $this->assertJson($this->response(new Arrayable())->getRaw());
     }
 
     public function testStructure()
@@ -91,6 +96,8 @@ final class NoWithDataTest extends TestCase
         $this->assertSame(['data' => 0], $this->response(0, 200)->getJson());
         $this->assertSame(['data' => 0], $this->response(0, 204)->getJson());
         $this->assertSame(['data' => 0], $this->response(0, 300)->getJson());
+
+        $this->assertSame(['data' => ['values' => ['value' => 'foo']]], $this->response(new Arrayable())->getJson());
     }
 
     public function testStatusCode()
@@ -114,5 +121,7 @@ final class NoWithDataTest extends TestCase
         $this->assertSame(300, $this->response('foo', 300)->getStatusCode());
         $this->assertSame(300, $this->response([], 300)->getStatusCode());
         $this->assertSame(300, $this->response(0, 300)->getStatusCode());
+
+        $this->assertSame(200, $this->response(new Arrayable())->getStatusCode());
     }
 }

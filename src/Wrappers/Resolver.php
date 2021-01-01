@@ -62,7 +62,7 @@ final class Resolver implements ResolverContract
      */
     protected function success()
     {
-        $data = $this->data;
+        $data = $this->resolveData($this->data);
 
         if ($this->wrap) {
             $data = is_array($data) && Arr::exists($data, 'data') ? $data : compact('data');
@@ -77,11 +77,20 @@ final class Resolver implements ResolverContract
 
     protected function failed(): array
     {
-        return $this->mergeWith($this->data);
+        return $this->mergeWith($this->resolveData($this->data));
     }
 
     protected function mergeWith(array $data): array
     {
         return $this->allow_with ? array_merge($data, $this->with) : $data;
+    }
+
+    protected function resolveData($data)
+    {
+        if (! is_array($data) && ! is_object($data)) {
+            return $data;
+        }
+
+        return Arr::toArray($data);
     }
 }
