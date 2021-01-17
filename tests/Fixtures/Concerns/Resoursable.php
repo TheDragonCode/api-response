@@ -3,7 +3,7 @@
 namespace Tests\Fixtures\Concerns;
 
 use Tests\Fixtures\Entities\Response;
-use Tests\Fixtures\Laravel\Model;
+use Tests\Fixtures\Laravel\Models\Model;
 use Tests\Fixtures\Laravel\Resources\Created;
 use Tests\Fixtures\Laravel\Resources\Failed;
 use Tests\Fixtures\Laravel\Resources\Success;

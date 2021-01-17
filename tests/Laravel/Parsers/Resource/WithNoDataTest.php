@@ -5,6 +5,9 @@ namespace Tests\Laravel\Parsers\Resource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Resoursable;
 use Tests\Fixtures\Contracts\Parserable;
+use Tests\Fixtures\Laravel\Models\BarModel;
+use Tests\Fixtures\Laravel\Models\FooModel;
+use Tests\Fixtures\Laravel\Resources\Foo;
 use Tests\Laravel\TestCase;
 
 final class WithNoDataTest extends TestCase implements Parserable
@@ -36,6 +39,24 @@ final class WithNoDataTest extends TestCase implements Parserable
             ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
             $this->failedResourceResponse()->getJson()
         );
+    }
+
+    public function testSubresources()
+    {
+        $foo = new FooModel();
+        $bar = new BarModel();
+
+        $foo->setRelation('bar', $bar);
+
+        $resource = Foo::make($foo);
+
+        $response = $this->response($resource);
+
+        $this->assertTrue($response->instance() instanceof JsonResponse);
+        $this->assertJson($response->getRaw());
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
     public function testStatusCode()

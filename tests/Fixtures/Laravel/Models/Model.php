@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixtures\Laravel;
+namespace Tests\Fixtures\Laravel\Models;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
  */
 final class Model extends BaseModel
 {
-    protected function getFooAttribute($value): string
+    protected function getFooAttribute(): string
     {
         return 'Foo';
     }
