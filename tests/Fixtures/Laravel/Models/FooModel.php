@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property string $foo
- * @property-read BarModel $bar
+ * @property BarModel $bar
  */
 final class FooModel extends BaseModel
 {
