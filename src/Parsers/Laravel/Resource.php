@@ -22,9 +22,13 @@ final class Resource extends Parser
     {
         $data = $this->resourceData();
 
-        return $this->hasData($data)
-            ? Arr::except($data, ['data'])
-            : [];
+        if ($this->hasData($data)) {
+            $except = Arr::except($data, ['data']);
+
+            return array_merge($except, $this->with);
+        }
+
+        return $this->with;
     }
 
     public function getStatusCode(): int

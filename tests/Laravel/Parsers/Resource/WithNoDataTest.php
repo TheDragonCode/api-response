@@ -59,6 +59,26 @@ final class WithNoDataTest extends TestCase implements Parserable
         $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
+    public function testSubresourcesWithExtra()
+    {
+        $foo = new FooModel();
+        $bar = new BarModel();
+
+        $extra = ['pro' => 'Pro'];
+
+        $foo->setRelation('bar', $bar);
+
+        $resource = Foo::make($foo);
+
+        $response = $this->response($resource, null, $extra);
+
+        $this->assertTrue($response->instance() instanceof JsonResponse);
+        $this->assertJson($response->getRaw());
+        $this->assertSame(200, $response->getStatusCode());
+
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar'], 'pro' => 'Pro'], $response->getJson());
+    }
+
     public function testStatusCode()
     {
         $this->assertSame(200, $this->successResourceResponse()->getStatusCode());
