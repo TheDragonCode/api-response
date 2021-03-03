@@ -3,6 +3,7 @@
 namespace Helldar\ApiResponse\Parsers;
 
 use Exception as BaseException;
+use Helldar\Support\Facades\Helpers\Call;
 use Helldar\Support\Facades\Helpers\Instance;
 use Throwable;
 
@@ -28,11 +29,7 @@ final class Exception extends Parser
             return $this->status_code;
         }
 
-        if ($code = Instance::callWhen($this->data, ['getStatusCode', 'getCode'], 400)) {
-            return $code;
-        }
-
-        return parent::getStatusCode();
+        return Call::runMethods($this->data, ['getStatusCode', 'getCode']) ?: 400;
     }
 
     /**
@@ -41,7 +38,7 @@ final class Exception extends Parser
     protected function getThrowableContent()
     {
         return Instance::of($this->data, [BaseException::class, Throwable::class])
-            ? Instance::callWhen($this->data, ['getOriginalContent', 'getContent', 'getResponse', 'getMessage'])
+            ? Call::runMethods($this->data, ['getOriginalContent', 'getContent', 'getResponse', 'getMessage'])
             : null;
     }
 }
