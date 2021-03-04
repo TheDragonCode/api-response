@@ -3,14 +3,15 @@
 namespace Tests\Symfony\Parsers\Main;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Tests\Fixtures\Contracts\Testable;
 use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
-final class NoWithDataTest extends TestCase
+class WithDataNoHideTest extends TestCase
 {
-    protected $allow_with = false;
+    protected $hide = false;
 
-    public function testResponse()
+    public function testInstance()
     {
         $this->assertTrue($this->response()->instance() instanceof JsonResponse);
         $this->assertTrue($this->response('foo')->instance() instanceof JsonResponse);
@@ -35,7 +36,7 @@ final class NoWithDataTest extends TestCase
         $this->assertTrue($this->response(new Arrayable())->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->response()->getRaw());
         $this->assertJson($this->response('foo')->getRaw());
@@ -60,7 +61,7 @@ final class NoWithDataTest extends TestCase
         $this->assertJson($this->response(new Arrayable())->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
         $this->assertSame(['data' => null], $this->response()->getJson());
         $this->assertSame(['data' => null], $this->response(null, 200)->getJson());
@@ -82,10 +83,15 @@ final class NoWithDataTest extends TestCase
         $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 204)->getJson());
         $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 300)->getJson());
 
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], null, ['bar' => 'Bar'])->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 200, ['bar' => 'Bar'])->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 204, ['bar' => 'Bar'])->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo']], $this->response(['foo' => 'Foo'], 300, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['data' => ['foo' => 'Foo'], 'bar' => 'Bar'], $this->response(['foo' => 'Foo'], null, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['data' => ['foo' => 'Foo'], 'bar' => 'Bar'], $this->response(['foo' => 'Foo'], 200, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['data' => ['foo' => 'Foo'], 'bar' => 'Bar'], $this->response(['foo' => 'Foo'], 204, ['bar' => 'Bar'])->getJson());
+        $this->assertSame(['data' => ['foo' => 'Foo'], 'bar' => 'Bar'], $this->response(['foo' => 'Foo'], 300, ['bar' => 'Bar'])->getJson());
+
+        $this->assertSame(['data' => 'Foo', 'bar' => 'Bar'], $this->response(['data' => 'Foo', 'bar' => 'Bar'])->getJson());
+        $this->assertSame(['data' => 'Foo', 'bar' => 'Bar'], $this->response(['data' => 'Foo', 'bar' => 'Bar'], 200)->getJson());
+        $this->assertSame(['data' => 'Foo', 'bar' => 'Bar'], $this->response(['data' => 'Foo', 'bar' => 'Bar'], 204)->getJson());
+        $this->assertSame(['data' => 'Foo', 'bar' => 'Bar'], $this->response(['data' => 'Foo', 'bar' => 'Bar'], 300)->getJson());
 
         $this->assertSame(['data' => []], $this->response([])->getJson());
         $this->assertSame(['data' => []], $this->response([], 200)->getJson());

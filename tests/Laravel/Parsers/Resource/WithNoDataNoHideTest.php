@@ -9,35 +9,38 @@ use Tests\Fixtures\Laravel\Models\FooModel;
 use Tests\Fixtures\Laravel\Resources\Foo;
 use Tests\Laravel\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+final class WithNoDataNoHideTest extends TestCase
 {
     use Resoursable;
 
+    protected $hide = false;
+
     protected $wrap = false;
 
-    protected $allow_with = false;
-
-    public function testResponse()
+    public function testInstance()
     {
         $this->assertTrue($this->successResourceResponse()->instance() instanceof JsonResponse);
         $this->assertTrue($this->createdResourceResponse()->instance() instanceof JsonResponse);
         $this->assertTrue($this->failedResourceResponse()->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->successResourceResponse()->getRaw());
         $this->assertJson($this->createdResourceResponse()->getRaw());
         $this->assertJson($this->failedResourceResponse()->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
-        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->successResourceResponse()->getJson());
-        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->createdResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz'], $this->successResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz'], $this->createdResourceResponse()->getJson());
+    }
 
+    public function testStructureErrors()
+    {
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']]],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
             $this->failedResourceResponse()->getJson()
         );
     }
@@ -77,7 +80,7 @@ final class NoWithNoDataTest extends TestCase
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar'], 'pro' => 'Pro'], $response->getJson());
     }
 
     public function testStatusCode()

@@ -17,6 +17,11 @@ trait Requests
         return $this->request('/bar');
     }
 
+    protected function requestBaz(): Response
+    {
+        return $this->request('/baz');
+    }
+
     protected function request(string $uri): Response
     {
         return $this->response(

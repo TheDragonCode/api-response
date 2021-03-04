@@ -2,6 +2,7 @@
 
 namespace Helldar\ApiResponse\Exceptions\Laravel;
 
+use Helldar\ApiResponse\Services\Response;
 use Helldar\Support\Facades\Helpers\Arr;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -40,14 +41,14 @@ abstract class BaseHandler extends ExceptionHandler
 
     protected function getExceptionMessage(Throwable $e)
     {
-        $converted = parent::convertExceptionToArray($e);
+        $converted = $this->convertExceptionToArray($e);
 
         return Arr::get($converted, 'message');
     }
 
     protected function getExceptionTrace(Throwable $e)
     {
-        $converted = parent::convertExceptionToArray($e);
+        $converted = $this->convertExceptionToArray($e);
 
         return ['info' => Arr::except($converted, 'message')];
     }
@@ -67,5 +68,25 @@ abstract class BaseHandler extends ExceptionHandler
         $with = array_merge($this->with(), $with);
 
         return api_response($data, $status_code, $with, $headers);
+    }
+
+    protected function convertExceptionToArray(Throwable $e)
+    {
+        return Response::$hide_private
+            ? ['message' => $this->isHttpException($e) ? $e->getMessage() : 'Server Error']
+            : [
+                'message'   => $e->getMessage(),
+                'exception' => get_class($e),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
+                'trace'     => $this->getTrace($e),
+            ];
+    }
+
+    protected function getTrace(Throwable $e): array
+    {
+        return collect($e->getTrace())->map(static function ($trace) {
+            return Arr::except($trace, ['args']);
+        })->all();
     }
 }

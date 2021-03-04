@@ -5,10 +5,13 @@ namespace Tests\Symfony;
 use Helldar\ApiResponse\Services\Response;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Tests\Fixtures\Concerns\Responsable;
+use Tests\Fixtures\Contracts\Testable;
 
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase implements Testable
 {
     use Responsable;
+
+    protected $hide = true;
 
     protected $wrap = true;
 
@@ -18,8 +21,14 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->setHidePrivate();
         $this->setWrapping();
         $this->setWithable();
+    }
+
+    protected function setHidePrivate(): void
+    {
+        Response::hidePrivate($this->hide);
     }
 
     protected function setWrapping(): void

@@ -6,25 +6,27 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Validationable;
 use Tests\Laravel\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+final class NoWithNoDataNoHideTest extends TestCase
 {
     use Validationable;
 
+    protected $hide = false;
+
     protected $wrap = false;
 
-    protected $allow_with = false;
+    protected $with = false;
 
-    public function testResponse()
+    public function testInstance()
     {
         $this->assertTrue($this->validationResponse([])->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->validationResponse([])->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
         $this->assertSame(['foo' => 'Foo', 'bar' => 123], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
         $this->assertSame(['foo' => 456, 'bar' => 123], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
@@ -38,7 +40,10 @@ final class NoWithNoDataTest extends TestCase
             ['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'],
             $this->validationResponse(['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'])->getJson()
         );
+    }
 
+    public function testStructureErrors()
+    {
         $this->assertSame(
             ['error' => ['type' => 'ValidationException', 'data' => ['foo' => ['The foo field is required.']]]],
             $this->validationResponse([])->getJson()

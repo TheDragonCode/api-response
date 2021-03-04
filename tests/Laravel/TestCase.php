@@ -8,23 +8,27 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 use Tests\Fixtures\Concerns\Laravel\Application;
 use Tests\Fixtures\Concerns\Laravel\Exceptionable;
 use Tests\Fixtures\Concerns\Responsable;
+use Tests\Fixtures\Contracts\Testable;
 use Tests\Fixtures\Laravel\Exceptions\EightHandler;
 use Tests\Fixtures\Laravel\Exceptions\SevenHandler;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase implements Testable
 {
     use Application;
     use Responsable;
     use Exceptionable;
 
+    protected $hide = true;
+
     protected $wrap = true;
 
-    protected $allow_with = true;
+    protected $with = true;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->setHidePrivate();
         $this->setWrapping();
         $this->setWithable();
     }
@@ -46,6 +50,11 @@ class TestCase extends BaseTestCase
         $app->singleton(ExceptionHandler::class, $this->getExceptionHandler());
     }
 
+    protected function setHidePrivate(): void
+    {
+        Response::hidePrivate($this->hide);
+    }
+
     protected function setWrapping(): void
     {
         $this->wrap
@@ -55,7 +64,7 @@ class TestCase extends BaseTestCase
 
     protected function setWithable(): void
     {
-        $this->allow_with
+        $this->with
             ? Response::allowWith()
             : Response::withoutWith();
     }

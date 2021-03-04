@@ -5,6 +5,7 @@ namespace Tests\Fixtures\Concerns\Laravel;
 use Exception;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
+use Tests\Fixtures\Exceptions\FooHttpException;
 
 /** @mixin \Tests\Laravel\TestCase */
 trait Exceptionable
@@ -31,11 +32,15 @@ trait Exceptionable
     protected function setRoutes($app): void
     {
         $app['router']->get('/foo', static function () {
-            return api_response('ok');
+            return api_response('ok', null, ['foo' => 'Foo']);
         })->middleware($this->getMaintenanceMiddleware());
 
         $app['router']->get('/bar', static function () {
             throw new Exception('Foo Bar');
+        })->middleware($this->getMaintenanceMiddleware());
+
+        $app['router']->get('/baz', static function () {
+            throw new FooHttpException('Foo Http');
         })->middleware($this->getMaintenanceMiddleware());
     }
 

@@ -32,7 +32,10 @@ final class Response
         return $this->response->getStatusCode();
     }
 
-    public function instance(): JsonResponse
+    /**
+     * @return mixed|\Symfony\Component\HttpFoundation\JsonResponse|\Illuminate\Testing\TestResponse||null
+     */
+    public function instance()
     {
         return $this->response;
     }

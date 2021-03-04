@@ -3,15 +3,17 @@
 namespace Tests\Symfony\Parsers\Main;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Tests\Fixtures\Contracts\Parserable;
+use Tests\Fixtures\Contracts\Testable;
 use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
-final class WithNoDataTest extends TestCase implements Parserable
+final class WithNoDataNoHideTest extends TestCase
 {
+    protected $hide = false;
+
     protected $wrap = false;
 
-    public function testResponse()
+    public function testInstance()
     {
         $this->assertTrue($this->response()->instance() instanceof JsonResponse);
         $this->assertTrue($this->response('foo')->instance() instanceof JsonResponse);
@@ -36,7 +38,7 @@ final class WithNoDataTest extends TestCase implements Parserable
         $this->assertTrue($this->response(new Arrayable())->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->response()->getRaw());
         $this->assertJson($this->response('foo')->getRaw());
@@ -61,7 +63,7 @@ final class WithNoDataTest extends TestCase implements Parserable
         $this->assertJson($this->response(new Arrayable())->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
         $this->assertSame([], $this->response()->getJson());
         $this->assertSame([], $this->response(null, 200)->getJson());

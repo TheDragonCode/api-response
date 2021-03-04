@@ -4,38 +4,44 @@ namespace Tests\Laravel\Parsers\Validation;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Validationable;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Laravel\TestCase;
 
-final class WithDataTest extends TestCase implements Parserable
+final class WithNoDataNoHideTest extends TestCase
 {
     use Validationable;
 
-    public function testResponse()
+    protected $hide = false;
+
+    protected $wrap = false;
+
+    public function testInstance()
     {
         $this->assertTrue($this->validationResponse([])->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->validationResponse([])->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 123]], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
-        $this->assertSame(['data' => ['foo' => 456, 'bar' => 123]], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 123], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
+        $this->assertSame(['foo' => 456, 'bar' => 123], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
 
         $this->assertSame(
-            ['data' => ['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar']],
+            ['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar'],
             $this->validationResponse(['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar'])->getJson()
         );
 
         $this->assertSame(
-            ['data' => ['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar']],
+            ['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'],
             $this->validationResponse(['foo' => 456, 'bar' => 123, 'baz' => 'http://foo.bar'])->getJson()
         );
+    }
 
+    public function testStructureErrors()
+    {
         $this->assertSame(
             ['error' => ['type' => 'ValidationException', 'data' => ['foo' => ['The foo field is required.']]]],
             $this->validationResponse([])->getJson()

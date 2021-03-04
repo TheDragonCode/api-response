@@ -4,37 +4,45 @@ namespace Tests\Laravel\Parsers\Resource;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Resoursable;
-use Tests\Fixtures\Contracts\Parserable;
 use Tests\Fixtures\Laravel\Models\BarModel;
 use Tests\Fixtures\Laravel\Models\FooModel;
 use Tests\Fixtures\Laravel\Resources\Foo;
 use Tests\Laravel\TestCase;
 
-final class WithDataTest extends TestCase implements Parserable
+final class NoWithNoDataNoHideTest extends TestCase
 {
     use Resoursable;
 
-    public function testResponse()
+    protected $hide = false;
+
+    protected $wrap = false;
+
+    protected $with = false;
+
+    public function testInstance()
     {
         $this->assertTrue($this->successResourceResponse()->instance() instanceof JsonResponse);
         $this->assertTrue($this->createdResourceResponse()->instance() instanceof JsonResponse);
         $this->assertTrue($this->failedResourceResponse()->instance() instanceof JsonResponse);
     }
 
-    public function testJson()
+    public function testType()
     {
         $this->assertJson($this->successResourceResponse()->getRaw());
         $this->assertJson($this->createdResourceResponse()->getRaw());
         $this->assertJson($this->failedResourceResponse()->getRaw());
     }
 
-    public function testStructure()
+    public function testStructureSuccess()
     {
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->successResourceResponse()->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->createdResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->successResourceResponse()->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $this->createdResourceResponse()->getJson());
+    }
 
+    public function testStructureErrors()
+    {
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']]],
             $this->failedResourceResponse()->getJson()
         );
     }
@@ -54,7 +62,7 @@ final class WithDataTest extends TestCase implements Parserable
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']]], $response->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
     public function testSubresourcesWithExtra()
@@ -74,7 +82,7 @@ final class WithDataTest extends TestCase implements Parserable
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], 'pro' => 'Pro'], $response->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
     public function testStatusCode()
