@@ -15,7 +15,7 @@ abstract class TestCase extends BaseTestCase implements Testable
 
     protected $wrap = true;
 
-    protected $allow_with = true;
+    protected $with = true;
 
     protected function setUp(): void
     {
@@ -40,7 +40,7 @@ abstract class TestCase extends BaseTestCase implements Testable
 
     protected function setWithable(): void
     {
-        $this->allow_with
+        $this->with
             ? Response::allowWith()
             : Response::withoutWith();
     }

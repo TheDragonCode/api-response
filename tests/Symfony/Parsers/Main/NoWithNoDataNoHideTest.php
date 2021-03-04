@@ -12,7 +12,7 @@ final class NoWithNoDataNoHideTest extends TestCase
 
     protected $wrap = false;
 
-    protected $allow_with = false;
+    protected $with = false;
 
     public function testInstance()
     {
