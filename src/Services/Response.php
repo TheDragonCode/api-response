@@ -10,6 +10,7 @@ use Helldar\ApiResponse\Wrappers\Error;
 use Helldar\ApiResponse\Wrappers\Resolver;
 use Helldar\ApiResponse\Wrappers\Success;
 use Helldar\Support\Concerns\Makeable;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class Response implements Responsable
@@ -47,11 +48,19 @@ final class Response implements Responsable
     public static function wrapped(): void
     {
         self::$wrap = true;
+
+        if (class_exists(JsonResource::class)) {
+            JsonResource::wrap('data');
+        }
     }
 
     public static function withoutWrap(): void
     {
         self::$wrap = false;
+
+        if (class_exists(JsonResource::class)) {
+            JsonResource::withoutWrapping();
+        }
     }
 
     public function with(array $with = []): Responsable

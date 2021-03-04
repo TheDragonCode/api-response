@@ -4,7 +4,6 @@ namespace Tests\Laravel;
 
 use Helldar\ApiResponse\Services\Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Tests\Fixtures\Concerns\Laravel\Application;
 use Tests\Fixtures\Concerns\Laravel\Exceptionable;
@@ -49,10 +48,6 @@ class TestCase extends BaseTestCase
 
     protected function setWrapping(): void
     {
-        $this->wrap
-            ? JsonResource::wrap('data')
-            : JsonResource::withoutWrapping();
-
         $this->wrap
             ? Response::wrapped()
             : Response::withoutWrap();
