@@ -3,7 +3,6 @@
 namespace Tests\Symfony\Parsers\Main;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Tests\Fixtures\Contracts\Testable;
 use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
