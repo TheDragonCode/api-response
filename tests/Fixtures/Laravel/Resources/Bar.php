@@ -13,4 +13,9 @@ class Bar extends JsonResource
             'qwerty' => $this->bar,
         ];
     }
+
+    public function with($request)
+    {
+        return ['baz' => 'Baz'];
+    }
 }

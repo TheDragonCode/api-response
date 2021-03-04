@@ -38,7 +38,7 @@ final class NoWithNoDataNoHideTest extends TestCase
     public function testStructureErrors()
     {
         $this->assertSame(
-            ['error' => ['type' => 'Exception', 'data' => 'Foo Bar']],
+            ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
             $this->requestBar()->getJson()
         );
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Laravel\Parsers\MaintenanceMode;
 
+use Illuminate\Testing\TestResponse;
 use Tests\Fixtures\Concerns\Laravel\Requests;
 use Tests\Laravel\TestCase;
 
@@ -15,6 +16,13 @@ final class NoWithNoDataNoHideTest extends TestCase
 
     protected $with = false;
 
+    public function testInstance()
+    {
+        $this->assertTrue($this->requestFoo()->instance() instanceof TestResponse);
+        $this->assertTrue($this->requestBar()->instance() instanceof TestResponse);
+        $this->assertTrue($this->requestBaz()->instance() instanceof TestResponse);
+    }
+
     public function testType()
     {
         $this->makeDownFile();
@@ -25,6 +33,26 @@ final class NoWithNoDataNoHideTest extends TestCase
     }
 
     public function testStructureSuccess()
+    {
+        $this->makeDownFile();
+
+        $this->assertSame(
+            ['error' => ['type' => $this->getMaintenanceType(), 'data' => 'Service Unavailable']],
+            $this->requestFoo()->getJson()
+        );
+
+        $this->assertSame(
+            ['error' => ['type' => $this->getMaintenanceType(), 'data' => 'Service Unavailable']],
+            $this->requestBar()->getJson()
+        );
+
+        $this->assertSame(
+            ['error' => ['type' => $this->getMaintenanceType(), 'data' => 'Service Unavailable']],
+            $this->requestBaz()->getJson()
+        );
+    }
+
+    public function testStructureErrors()
     {
         $this->makeDownFile();
 

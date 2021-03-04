@@ -35,7 +35,7 @@ final class WithDataNoHideTest extends TestCase
     public function testStructureErrors()
     {
         /*
-         * BAZ
+         * BAR
          */
         $bar = $this->requestBar()->getJson();
 

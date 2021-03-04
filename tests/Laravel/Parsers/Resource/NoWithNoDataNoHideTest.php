@@ -15,9 +15,9 @@ final class NoWithNoDataNoHideTest extends TestCase
 
     protected $hide = false;
 
-    protected $wrap = false;
-
     protected $with = false;
+
+    protected $wrap = false;
 
     public function testInstance()
     {
@@ -45,6 +45,11 @@ final class NoWithNoDataNoHideTest extends TestCase
             ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']]],
             $this->failedResourceResponse()->getJson()
         );
+
+        $this->assertSame(
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']]],
+            $this->failedResourceResponse(502)->getJson()
+        );
     }
 
     public function testSubresources()
@@ -62,7 +67,7 @@ final class NoWithNoDataNoHideTest extends TestCase
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
     public function testSubresourcesWithExtra()
@@ -70,19 +75,17 @@ final class NoWithNoDataNoHideTest extends TestCase
         $foo = new FooModel();
         $bar = new BarModel();
 
-        $extra = ['pro' => 'Pro'];
-
         $foo->setRelation('bar', $bar);
 
         $resource = Foo::make($foo);
 
-        $response = $this->response($resource, null, $extra);
+        $response = $this->response($resource, null, ['pro' => 'Pro']);
 
         $this->assertTrue($response->instance() instanceof JsonResponse);
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], $response->getJson());
+        $this->assertSame(['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar']], $response->getJson());
     }
 
     public function testStatusCode()

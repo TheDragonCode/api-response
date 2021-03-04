@@ -12,24 +12,33 @@ final class NoWithNoDataNoHideTest extends TestCase
 
     protected $hide = false;
 
-    protected $wrap = false;
-
     protected $with = false;
+
+    protected $wrap = false;
 
     public function testInstance()
     {
+        $this->assertTrue($this->validationResponse(['foo' => 'Foo', 'bar' => 123])->instance() instanceof JsonResponse);
         $this->assertTrue($this->validationResponse([])->instance() instanceof JsonResponse);
     }
 
     public function testType()
     {
+        $this->assertJson($this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getRaw());
         $this->assertJson($this->validationResponse([])->getRaw());
     }
 
     public function testStructureSuccess()
     {
-        $this->assertSame(['foo' => 'Foo', 'bar' => 123], $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson());
-        $this->assertSame(['foo' => 456, 'bar' => 123], $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson());
+        $this->assertSame(
+            ['foo' => 'Foo', 'bar' => 123],
+            $this->validationResponse(['foo' => 'Foo', 'bar' => 123])->getJson()
+        );
+
+        $this->assertSame(
+            ['foo' => 456, 'bar' => 123],
+            $this->validationResponse(['foo' => 456, 'bar' => 123])->getJson()
+        );
 
         $this->assertSame(
             ['foo' => 'Foo', 'bar' => 123, 'baz' => 'http://foo.bar'],

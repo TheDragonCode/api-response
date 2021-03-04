@@ -31,8 +31,15 @@ final class WithDataNoHideTest extends TestCase
 
     public function testStructureSuccess()
     {
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->successResourceResponse()->getJson());
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'], $this->createdResourceResponse()->getJson());
+        $this->assertSame(
+            ['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'],
+            $this->successResourceResponse()->getJson()
+        );
+
+        $this->assertSame(
+            ['data' => ['foo' => 'Foo', 'bar' => 'Bar'], 'baz' => 'Baz'],
+            $this->createdResourceResponse()->getJson()
+        );
     }
 
     public function testStructureErrors()
@@ -40,6 +47,11 @@ final class WithDataNoHideTest extends TestCase
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
             $this->failedResourceResponse()->getJson()
+        );
+
+        $this->assertSame(
+            ['error' => ['type' => 'Exception', 'data' => ['foo' => 'Foo', 'bar' => 'Bar']], 'baz' => 'Baz'],
+            $this->failedResourceResponse(502)->getJson()
         );
     }
 
@@ -58,7 +70,10 @@ final class WithDataNoHideTest extends TestCase
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']]], $response->getJson());
+        $this->assertSame(
+            ['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar', 'baz' => 'Baz']], 'baz' => 'Baz'],
+            $response->getJson()
+        );
     }
 
     public function testSubresourcesWithExtra()
@@ -66,19 +81,20 @@ final class WithDataNoHideTest extends TestCase
         $foo = new FooModel();
         $bar = new BarModel();
 
-        $extra = ['pro' => 'Pro'];
-
         $foo->setRelation('bar', $bar);
 
         $resource = Foo::make($foo);
 
-        $response = $this->response($resource, null, $extra);
+        $response = $this->response($resource, null, ['pro' => 'Pro']);
 
         $this->assertTrue($response->instance() instanceof JsonResponse);
         $this->assertJson($response->getRaw());
         $this->assertSame(200, $response->getStatusCode());
 
-        $this->assertSame(['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar'], 'baz' => ['qwerty' => 'Bar']], 'pro' => 'Pro'], $response->getJson());
+        $this->assertSame(
+            ['data' => ['foo' => 'Foo', 'bar' => ['qwerty' => 'Bar', 'baz' => 'Baz']], 'baz' => 'Baz', 'pro' => 'Pro'],
+            $response->getJson()
+        );
     }
 
     public function testStatusCode()
