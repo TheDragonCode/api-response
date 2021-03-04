@@ -84,12 +84,12 @@ final class NoWithNoDataNoHideTest extends TestCase
         $this->assertSame([], $this->response([], null, ['bar' => 'Bar'])->getJson());
         $this->assertSame(0, $this->response(0, null, ['bar' => 'Bar'])->getJson());
 
-        $this->assertSame(null, $this->response(null, 200, ['bar' => 'Bar'])->getJson());
+        $this->assertNull($this->response(null, 200, ['bar' => 'Bar'])->getJson());
         $this->assertSame('foo', $this->response('foo', 200, ['bar' => 'Bar'])->getJson());
         $this->assertSame([], $this->response([], 200, ['bar' => 'Bar'])->getJson());
         $this->assertSame(0, $this->response(0, 200, ['bar' => 'Bar'])->getJson());
 
-        $this->assertSame(null, $this->response(null, 300, ['bar' => 'Bar'])->getJson());
+        $this->assertNull($this->response(null, 300, ['bar' => 'Bar'])->getJson());
         $this->assertSame('foo', $this->response('foo', 300, ['bar' => 'Bar'])->getJson());
         $this->assertSame([], $this->response([], 300, ['bar' => 'Bar'])->getJson());
         $this->assertSame(0, $this->response(0, 300, ['bar' => 'Bar'])->getJson());
@@ -103,7 +103,8 @@ final class NoWithNoDataNoHideTest extends TestCase
 
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
-            $this->response(null, 0, ['bar' => 'Bar'])->getJson());
+            $this->response(null, 0, ['bar' => 'Bar'])->getJson()
+        );
 
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],

@@ -99,7 +99,8 @@ final class NoWithDataHideTest extends TestCase
 
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
-            $this->response(null, 0, ['bar' => 'Bar'])->getJson());
+            $this->response(null, 0, ['bar' => 'Bar'])->getJson()
+        );
 
         $this->assertSame(
             ['error' => ['type' => 'Exception', 'data' => 'Whoops! Something went wrong.']],
