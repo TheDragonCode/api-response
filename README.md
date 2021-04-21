@@ -15,36 +15,6 @@ Package for standardizing the responses from the API of your **Symfony based** a
 [![License][badge_license]][link_license]
 
 
-## Content
-
-* [Getting Started](#getting-started)
-    * [Upgrade guides](#upgrade-guides)
-    * [Installation](#installation)
-    * [Compatibility table](#compatibility-table)
-* [Using](#using)
-    * [Use with `data` key](#use-with-data-key)
-        * [as NULL with code](#as-null-with-code)
-        * [as integer with default code](#as-integer-with-default-code)
-        * [as string with default code](#as-string-with-default-code)
-        * [as string with code](#as-string-with-code)
-        * [as integer with code](#as-integer-with-code)
-        * [as array](#as-array)
-        * [with additional content](#with-additional-content)
-    * [Use without `data` key](#use-without-data-key)
-        * [as NULL with code](#as-null-with-code-and-without-data-key)
-        * [as integer with default code](#as-integer-with-default-code-and-without-data-key)
-        * [as string with default code](#as-string-with-default-code-and-without-data-key)
-        * [as string with code](#as-string-with-code-and-without-data-key)
-        * [as integer with code](#as-integer-with-code-and-without-data-key)
-        * [as array](#as-array-and-without-data-key)
-        * [with additional content](#with-additional-content-and-without-data-key)
-    * [No extra data](#no-extra-data)
-        * [Server Errors](#server-errors)
-    * [Returning Exception instances](#returning-exception-instances)
-    * [Best practice use with the Laravel and Lumen Frameworks](#best-practice-use-with-the-laravel-and-lumen-frameworks)
-        * [Json Resources](#json-resources)
-        * [Validation](#validation)
-
 ## Getting Started
 
 ### Upgrade guides
@@ -941,6 +911,20 @@ If failed:
     }
 }
 ```
+
+[[ to top ]](#api-response)
+
+
+## License
+
+This package is licensed under the [MIT License](LICENSE).
+
+
+## For Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of `andrey-helldar/api-response` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use. [Learn more](https://tidelift.com/subscription/pkg/packagist-andrey-helldar-api-response?utm_source=packagist-andrey-helldar-api-response&utm_medium=referral&utm_campaign=enterprise&utm_term=repo).
 
 [[ to top ]](#api-response)
 
