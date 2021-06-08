@@ -784,7 +784,7 @@ Or you can change this file by adding code to it, similar to [ours](src/Support/
 [[ to top ]](#api-response)
 
 
-### Json Resources
+#### Json Resources
 
 Now, if you pass a resource object or validator object, it will also be rendered beautifully:
 
@@ -861,7 +861,7 @@ If `Response::withoutWith()` and `Response::withoutWrap()`
 [[ to top ]](#api-response)
 
 
-### Validation
+#### Validation
 
 ```php
 $data = [
