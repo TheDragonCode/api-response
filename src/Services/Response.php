@@ -5,6 +5,7 @@ namespace Helldar\ApiResponse\Services;
 use Helldar\ApiResponse\Contracts\Parseable;
 use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
 use Helldar\ApiResponse\Contracts\Responsable;
+use Helldar\ApiResponse\Contracts\Wrapper;
 use Helldar\ApiResponse\Support\Parser;
 use Helldar\ApiResponse\Wrappers\Error;
 use Helldar\ApiResponse\Wrappers\Resolver;
@@ -16,6 +17,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 final class Response implements Responsable
 {
     use Makeable;
+
+    /** @var bool */
+    public static $hide_private = true;
 
     /** @var bool */
     public static $allow_with = true;
@@ -34,6 +38,11 @@ final class Response implements Responsable
 
     /** @var array */
     protected $headers = [];
+
+    public static function hidePrivate(bool $hide = true): void
+    {
+        self::$hide_private = $hide;
+    }
 
     public static function allowWith(): void
     {
@@ -112,13 +121,13 @@ final class Response implements Responsable
             ->resolve();
     }
 
-    protected function getWrapped(Parseable $parser)
+    protected function getWrapped(Parseable $parser): Wrapper
     {
         $wrapper = $this->getWrapper($parser);
 
         return $wrapper::make()
             ->wrap(self::$wrap)
-            ->allowWith(self::$allow_with)
+            ->allowWith(! $this->isHidePrivate($parser) && $this->isAllowWith())
             ->parser($parser)
             ->resolver($this->resolver());
     }
@@ -136,5 +145,15 @@ final class Response implements Responsable
     protected function resolver(): ResolverContract
     {
         return Resolver::make();
+    }
+
+    protected function isHidePrivate(Parseable $parser): bool
+    {
+        return $parser->isError() && self::$hide_private;
+    }
+
+    protected function isAllowWith(): bool
+    {
+        return self::$allow_with;
     }
 }

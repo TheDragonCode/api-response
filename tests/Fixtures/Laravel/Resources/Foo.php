@@ -13,6 +13,12 @@ class Foo extends JsonResource
             'foo' => $this->foo,
 
             'bar' => Bar::make($this->bar),
+        ];
+    }
+
+    public function with($request)
+    {
+        return [
             'baz' => Bar::make($this->whenLoaded('bar')),
         ];
     }

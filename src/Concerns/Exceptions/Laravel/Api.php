@@ -9,6 +9,6 @@ trait Api
 {
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
-        return $this->response($e);
+        return $this->prepareJsonResponse($request, $e);
     }
 }

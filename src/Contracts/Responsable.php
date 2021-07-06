@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 interface Responsable
 {
+    public static function hidePrivate(bool $hide): void;
+
     public static function allowWith(): void;
 
     public static function withoutWith(): void;
