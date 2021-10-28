@@ -2,7 +2,7 @@
 
 Package for standardizing the responses from the API of your **Symfony based** applications.
 
-![api response](https://user-images.githubusercontent.com/10347617/41526643-83080b9c-72ed-11e8-9fc7-9780546e0255.png)
+<img src="https://preview.dragon-code.pro/TheDragonCode/api-response.svg?brand=php" width="100%" height="320" alt="API Response"/>
 
 [![StyleCI Status][badge_styleci]][link_styleci]
 [![Github Workflow Status][badge_build]][link_build]
