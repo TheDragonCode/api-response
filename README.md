@@ -1,8 +1,6 @@
 # API Response
 
-Package for standardizing the responses from the API of your **Symfony based** applications.
-
-<img src="https://preview.dragon-code.pro/TheDragonCode/api-response.svg?brand=php" width="100%" height="320" alt="API Response"/>
+<img src="https://preview.dragon-code.pro/TheDragonCode/api-response.svg?brand=php" alt="API Response"/>
 
 [![StyleCI Status][badge_styleci]][link_styleci]
 [![Github Workflow Status][badge_build]][link_build]
@@ -14,6 +12,7 @@ Package for standardizing the responses from the API of your **Symfony based** a
 [![Total Downloads][badge_downloads]][link_packagist]
 [![License][badge_license]][link_license]
 
+> Package for standardizing the responses from the API of your **Symfony based** applications.
 
 ## Getting Started
 
@@ -918,13 +917,6 @@ If failed:
 ## License
 
 This package is licensed under the [MIT License](LICENSE).
-
-
-## For Enterprise
-
-Available as part of the Tidelift Subscription.
-
-The maintainers of `andrey-helldar/api-response` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use. [Learn more](https://tidelift.com/subscription/pkg/packagist-andrey-helldar-api-response?utm_source=packagist-andrey-helldar-api-response&utm_medium=referral&utm_campaign=enterprise&utm_term=repo).
 
 [[ to top ]](#api-response)
 
