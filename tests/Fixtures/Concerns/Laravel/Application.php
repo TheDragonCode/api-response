@@ -2,7 +2,7 @@
 
 namespace Tests\Fixtures\Concerns\Laravel;
 
-use Helldar\Support\Facades\Helpers\Str;
+use DragonCode\Support\Facades\Helpers\Str;
 use Illuminate\Foundation\Application as LaravelApp;
 
 trait Application

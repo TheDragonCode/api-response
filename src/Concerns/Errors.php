@@ -1,8 +1,8 @@
 <?php
 
-namespace Helldar\ApiResponse\Concerns;
+namespace DragonCode\ApiResponse\Concerns;
 
-use Helldar\Support\Facades\Helpers\Is;
+use DragonCode\Support\Facades\Helpers\Is;
 
 trait Errors
 {

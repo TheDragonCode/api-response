@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
-final class NoWithDataTest extends TestCase
+class NoWithDataTest extends TestCase
 {
     protected $allow_with = false;
 

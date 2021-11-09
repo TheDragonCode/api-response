@@ -1,8 +1,8 @@
 <?php
 
-namespace Helldar\ApiResponse\Parsers;
+namespace DragonCode\ApiResponse\Parsers;
 
-final class Main extends Parser
+class Main extends Parser
 {
     public function getData()
     {

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Concerns\Validationable;
 use Tests\Laravel\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+class NoWithNoDataTest extends TestCase
 {
     use Validationable;
 

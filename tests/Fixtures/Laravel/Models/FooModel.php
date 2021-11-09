@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $foo
  * @property BarModel $bar
  */
-final class FooModel extends BaseModel
+class FooModel extends BaseModel
 {
     public function bar(): HasOne
     {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Helldar\ApiResponse\Parsers\Laravel;
+namespace DragonCode\ApiResponse\Parsers\Laravel;
 
-use Helldar\ApiResponse\Parsers\Parser;
+use DragonCode\ApiResponse\Parsers\Parser;
 
 /** @property \Illuminate\Validation\ValidationException $data */
-final class Validation extends Parser
+class Validation extends Parser
 {
     public function getData()
     {
@@ -14,6 +14,6 @@ final class Validation extends Parser
 
     public function getStatusCode(): int
     {
-        return $this->status_code ?: $this->data->status ?? parent::getStatusCode();
+        return $this->status_code ?: ($this->data->status ?? parent::getStatusCode());
     }
 }

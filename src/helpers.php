@@ -1,6 +1,6 @@
 <?php
 
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**

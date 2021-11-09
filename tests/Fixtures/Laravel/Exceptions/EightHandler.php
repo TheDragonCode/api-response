@@ -2,8 +2,8 @@
 
 namespace Tests\Fixtures\Laravel\Exceptions;
 
-use Helldar\ApiResponse\Exceptions\Laravel\Eight\ApiHandler;
+use DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler;
 
-final class EightHandler extends ApiHandler
+class EightHandler extends ApiHandler
 {
 }

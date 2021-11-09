@@ -5,7 +5,7 @@ namespace Tests\Fixtures\Laravel\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin \Tests\Fixtures\Laravel\Models\Model */
-final class Failed extends JsonResource
+class Failed extends JsonResource
 {
     public function withResponse($request, $response)
     {

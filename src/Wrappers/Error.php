@@ -1,8 +1,8 @@
 <?php
 
-namespace Helldar\ApiResponse\Wrappers;
+namespace DragonCode\ApiResponse\Wrappers;
 
-final class Error extends Wrapper
+class Error extends Wrapper
 {
     protected $message = 'Whoops! Something went wrong.';
 

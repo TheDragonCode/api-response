@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 /**
  * @property string $bar
  */
-final class BarModel extends BaseModel
+class BarModel extends BaseModel
 {
     protected function getBarAttribute(): string
     {

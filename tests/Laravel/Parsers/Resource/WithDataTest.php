@@ -10,7 +10,7 @@ use Tests\Fixtures\Laravel\Models\FooModel;
 use Tests\Fixtures\Laravel\Resources\Foo;
 use Tests\Laravel\TestCase;
 
-final class WithDataTest extends TestCase implements Parserable
+class WithDataTest extends TestCase implements Parserable
 {
     use Resoursable;
 

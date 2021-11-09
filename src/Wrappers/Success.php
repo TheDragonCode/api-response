@@ -1,7 +1,7 @@
 <?php
 
-namespace Helldar\ApiResponse\Wrappers;
+namespace DragonCode\ApiResponse\Wrappers;
 
-final class Success extends Wrapper
+class Success extends Wrapper
 {
 }

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Contracts\Parserable;
 use Tests\Symfony\TestCase;
 
-final class WithNoDataTest extends TestCase implements Parserable
+class WithNoDataTest extends TestCase implements Parserable
 {
     protected $wrap = false;
 
