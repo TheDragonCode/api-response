@@ -1,8 +1,8 @@
 <?php
 
-namespace Helldar\ApiResponse\Exceptions\Laravel;
+namespace DragonCode\ApiResponse\Exceptions\Laravel;
 
-use Helldar\Support\Facades\Helpers\Arr;
+use DragonCode\Support\Facades\Helpers\Arr;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;

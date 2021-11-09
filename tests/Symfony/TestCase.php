@@ -2,7 +2,7 @@
 
 namespace Tests\Symfony;
 
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Tests\Fixtures\Concerns\Responsable;
 

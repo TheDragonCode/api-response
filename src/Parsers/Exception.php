@@ -1,16 +1,16 @@
 <?php
 
-namespace Helldar\ApiResponse\Parsers;
+namespace DragonCode\ApiResponse\Parsers;
 
+use DragonCode\Support\Facades\Helpers\Call;
+use DragonCode\Support\Facades\Helpers\Instance;
 use Exception as BaseException;
-use Helldar\Support\Facades\Helpers\Call;
-use Helldar\Support\Facades\Helpers\Instance;
 use Throwable;
 
 /**
  * @property \Exception|\Throwable $data
  */
-final class Exception extends Parser
+class Exception extends Parser
 {
     protected $is_error = true;
 

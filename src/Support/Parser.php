@@ -1,22 +1,22 @@
 <?php
 
-namespace Helldar\ApiResponse\Support;
+namespace DragonCode\ApiResponse\Support;
 
+use DragonCode\ApiResponse\Concerns\Errors;
+use DragonCode\ApiResponse\Parsers\Exception as ExceptionParser;
+use DragonCode\ApiResponse\Parsers\Laravel\Resource as LaravelResourceParser;
+use DragonCode\ApiResponse\Parsers\Laravel\Validation as LaravelValidationParser;
+use DragonCode\ApiResponse\Parsers\Main;
+use DragonCode\Contracts\ApiResponse\Parseable;
+use DragonCode\Support\Concerns\Makeable;
+use DragonCode\Support\Facades\Helpers\Instance;
+use DragonCode\Support\Facades\Helpers\Is;
 use Exception;
-use Helldar\ApiResponse\Concerns\Errors;
-use Helldar\ApiResponse\Contracts\Parseable;
-use Helldar\ApiResponse\Parsers\Exception as ExceptionParser;
-use Helldar\ApiResponse\Parsers\Laravel\Resource as LaravelResourceParser;
-use Helldar\ApiResponse\Parsers\Laravel\Validation as LaravelValidationParser;
-use Helldar\ApiResponse\Parsers\Main;
-use Helldar\Support\Concerns\Makeable;
-use Helldar\Support\Facades\Helpers\Instance;
-use Helldar\Support\Facades\Helpers\Is;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
-final class Parser
+class Parser
 {
     use Makeable;
     use Errors;
@@ -77,7 +77,7 @@ final class Parser
 
     public function resolve(): Parseable
     {
-        /** @var \Helldar\ApiResponse\Contracts\Parseable $parser */
+        /** @var \DragonCode\Contracts\ApiResponse\Parseable $parser */
         $parser = $this->get();
 
         return $parser::make()

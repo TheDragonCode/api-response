@@ -5,7 +5,7 @@ namespace Tests\Symfony\Parsers\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Symfony\TestCase;
 
-final class NoWithDataTest extends TestCase
+class NoWithDataTest extends TestCase
 {
     protected $allow_with = false;
 

@@ -2,12 +2,12 @@
 
 namespace Tests\Fixtures\Entities;
 
-use Helldar\Support\Facades\Helpers\Instance;
+use DragonCode\Support\Facades\Helpers\Instance;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as MainResponse;
 
-final class Response
+class Response
 {
     /** @var \Symfony\Component\HttpFoundation\JsonResponse */
     protected $response;

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Fixtures\Entities\Arrayable;
 use Tests\Symfony\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+class NoWithNoDataTest extends TestCase
 {
     protected $wrap = false;
 

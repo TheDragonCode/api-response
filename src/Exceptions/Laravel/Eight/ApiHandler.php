@@ -1,9 +1,9 @@
 <?php
 
-namespace Helldar\ApiResponse\Exceptions\Laravel\Eight;
+namespace DragonCode\ApiResponse\Exceptions\Laravel\Eight;
 
-use Helldar\ApiResponse\Concerns\Exceptions\Laravel\Api;
-use Helldar\ApiResponse\Exceptions\Laravel\BaseHandler;
+use DragonCode\ApiResponse\Concerns\Exceptions\Laravel\Api;
+use DragonCode\ApiResponse\Exceptions\Laravel\BaseHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;

@@ -1,9 +1,9 @@
 {
-    "name": "andrey-helldar/api-response",
+    "name": "dragon-code/api-response",
     "description": "Package for standardizing the responses from the API of your Symfony based applications.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["api response", "api-response", "response", "laravel", "lumen", "symfony", "api"],
+    "keywords": ["api response", "api-response", "response", "laravel", "lumen", "symfony", "api", "dragon-code", "dragon"],
     "authors": [
         {
             "name": "Andrey Helldar",
@@ -11,13 +11,14 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/andrey-helldar/api-response/issues",
-        "source": "https://github.com/andrey-helldar/api-response"
+        "issues": "https://github.com/TheDragonCode/api-response/issues",
+        "source": "https://github.com/TheDragonCode/api-response"
     },
     "require": {
         "php": "^7.2.5|^8.0",
         "ext-json": "*",
-        "andrey-helldar/support": "^2.16.2|^3.0|^4.0",
+        "dragon-code/contracts": "^2.2",
+        "dragon-code/support": "^5.0",
         "symfony/http-foundation": "^4.0|^5.0"
     },
     "require-dev": {
@@ -28,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Helldar\\ApiResponse\\": "src"
+            "DragonCode\\ApiResponse\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -48,8 +49,8 @@
     "extra": {
         "thanks": [
             {
-                "name": "andrey-helldar/support",
-                "url": "https://github.com/andrey-helldar/support"
+                "name": "dragon-code/support",
+                "url": "https://github.com/TheDragonCode/support"
             }
         ]
     }

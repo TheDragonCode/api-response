@@ -1,12 +1,12 @@
 <?php
 
-namespace Helldar\ApiResponse\Wrappers;
+namespace DragonCode\ApiResponse\Wrappers;
 
-use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
-use Helldar\Support\Concerns\Makeable;
-use Helldar\Support\Facades\Helpers\Arr;
+use DragonCode\Contracts\ApiResponse\Resolver as ResolverContract;
+use DragonCode\Support\Concerns\Makeable;
+use DragonCode\Support\Facades\Helpers\Arr;
 
-final class Resolver implements ResolverContract
+class Resolver implements ResolverContract
 {
     use Makeable;
 

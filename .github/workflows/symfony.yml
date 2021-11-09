@@ -10,7 +10,7 @@ jobs:
             matrix:
                 php: [ "7.3", "7.4", "8.0" ]
                 symfony: [ "4.0", "5.0" ]
-                support: [ "2.0", "3.0", "4.0" ]
+                support: [ "5.0" ]
 
         name: Symfony ${{ matrix.symfony }}, PHP ${{ matrix.php }}, Support ${{ matrix.support }}
 
@@ -30,8 +30,8 @@ jobs:
 
             -   name: Install dependencies
                 run: |
-                    composer require symfony/http-foundation:^${{ matrix.symfony }} andrey-helldar/support:^${{ matrix.support }}
+                    composer require symfony/http-foundation:^${{ matrix.symfony }} dragon-code/support:^${{ matrix.support }}
                     composer update --prefer-stable --prefer-dist --no-progress --no-interaction
 
             -   name: Execute tests
-                run: vendor/bin/phpunit tests/Symfony
+                run: sudo vendor/bin/phpunit tests/Symfony

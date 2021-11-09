@@ -1,19 +1,19 @@
 <?php
 
-namespace Helldar\ApiResponse\Services;
+namespace DragonCode\ApiResponse\Services;
 
-use Helldar\ApiResponse\Contracts\Parseable;
-use Helldar\ApiResponse\Contracts\Resolver as ResolverContract;
-use Helldar\ApiResponse\Contracts\Responsable;
-use Helldar\ApiResponse\Support\Parser;
-use Helldar\ApiResponse\Wrappers\Error;
-use Helldar\ApiResponse\Wrappers\Resolver;
-use Helldar\ApiResponse\Wrappers\Success;
-use Helldar\Support\Concerns\Makeable;
+use DragonCode\ApiResponse\Support\Parser;
+use DragonCode\ApiResponse\Wrappers\Error;
+use DragonCode\ApiResponse\Wrappers\Resolver;
+use DragonCode\ApiResponse\Wrappers\Success;
+use DragonCode\Contracts\ApiResponse\Parseable;
+use DragonCode\Contracts\ApiResponse\Resolver as ResolverContract;
+use DragonCode\Contracts\ApiResponse\Responsable;
+use DragonCode\Support\Concerns\Makeable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-final class Response implements Responsable
+class Response implements Responsable
 {
     use Makeable;
 
@@ -124,9 +124,9 @@ final class Response implements Responsable
     }
 
     /**
-     * @param  \Helldar\ApiResponse\Contracts\Parseable  $parser
+     * @param  \DragonCode\Contracts\ApiResponse\Parseable  $parser
      *
-     * @return \Helldar\ApiResponse\Wrappers\Wrapper
+     * @return \DragonCode\ApiResponse\Wrappers\Wrapper|string
      */
     protected function getWrapper(Parseable $parser): string
     {

@@ -5,7 +5,7 @@ namespace Tests\Symfony\Parsers\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Tests\Symfony\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+class NoWithNoDataTest extends TestCase
 {
     protected $wrap = false;
 

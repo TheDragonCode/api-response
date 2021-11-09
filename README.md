@@ -2,15 +2,14 @@
 
 <img src="https://preview.dragon-code.pro/TheDragonCode/api-response.svg?brand=php" alt="API Response"/>
 
-[![StyleCI Status][badge_styleci]][link_styleci]
-[![Github Workflow Status][badge_build]][link_build]
-[![Coverage Status][badge_coverage]][link_scrutinizer]
-[![Scrutinizer Code Quality][badge_quality]][link_scrutinizer]
-
 [![Stable Version][badge_stable]][link_packagist]
 [![Unstable Version][badge_unstable]][link_packagist]
 [![Total Downloads][badge_downloads]][link_packagist]
 [![License][badge_license]][link_license]
+
+[![Github Workflow Status][badge_build]][link_build]
+[![Coverage Status][badge_coverage]][link_scrutinizer]
+[![Scrutinizer Code Quality][badge_quality]][link_scrutinizer]
 
 > Package for standardizing the responses from the API of your **Symfony based** applications.
 
@@ -18,6 +17,7 @@
 
 ### Upgrade guides
 
+* [To 9.x From 8.x and from the `andrey-helldar/api-response` package](.upgrading/8.x_9.x.md)
 * [To 8.x From 7.x](.upgrading/7.x_8.x.md)
 * [To 7.x From 6.x](.upgrading/6.x_7.x.md)
 * [To 6.x From 5.x](.upgrading/5.x_6.x.md)
@@ -30,7 +30,7 @@
 To get the latest version of `API Response`, simply require the project using [Composer](https://getcomposer.org/):
 
 ```bash
-$ composer require andrey-helldar/api-response
+$ composer require dragon-code/api-response
 ```
 
 This command will automatically install the latest version of the package for your environment.
@@ -40,7 +40,7 @@ Instead, you may of course manually update your `require` block and run `compose
 ```json
 {
     "require": {
-        "andrey-helldar/api-response": "^8.0"
+        "dragon-code/api-response": "^9.0"
     }
 }
 ```
@@ -52,7 +52,8 @@ Alright! Use `api_response()` helper.
 
 | Package version | PHP min version | Symfony version | Support | Links |
 |:---:|:---:|:---:|:---|:---|
-|  ^8.0 | 7.2.5 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/7.x_8.x.md) |
+|  ^9.0 | 7.2.5 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/8.x_9.x.md) |
+|  ^8.0 | 7.2.5 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/7.x_8.x.md) |
 |  ^7.0 | 7.2.5 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
 |  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
 |  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
@@ -291,11 +292,11 @@ return with code 400:
 
 ### Use without `data` key
 
-Since the goal of the package is to unify all the answers, we moved the variable definitions into a static function. So, for example, to enable or disable
-wrapping content in the `data` key, you need to call the `wrapped` or `withoutWrap` method:
+Since the goal of the package is to unify all the answers, we moved the variable definitions into a static function. So, for example, to enable or disable wrapping content in
+the `data` key, you need to call the `wrapped` or `withoutWrap` method:
 
 ```php
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 
 Response::withoutWrap();
 ```
@@ -520,7 +521,7 @@ In some cases, when returning answers, you must also give additional data. Such 
 To prevent this data from getting in response to production, you can globally set a label to show or hide this data:
 
 ```php
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 
 env('APP_DEBUG')
     ? Response::allowWith()
@@ -569,7 +570,7 @@ return with code 400:
 For example:
 
 ```php
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 
 Response::allowWith();
 
@@ -592,7 +593,7 @@ return with code 500:
 and
 
 ```php
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 
 Response::withoutWith();
 
@@ -734,13 +735,12 @@ return with code 405:
 
 ### Best practice use with the Laravel and Lumen Frameworks
 
-If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file depending on your application version and
-needs:
+If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file depending on your application version and needs:
 
 | Version \ Type | API + WEB | Only API |
 |:---:|:---|:---|
-| 8.x | `Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler` | `Helldar\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler` |
-| 7.x | `Helldar\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler` | `Helldar\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler` |
+| 8.x | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler` |
+| 7.x | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler` |
 
 If you did not add anything to this file, then delete everything properties and methods.
 
@@ -751,7 +751,7 @@ For example, as a result, a clean file will look like this:
 
 namespace App\Exceptions;
 
-use Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
+use DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -766,11 +766,11 @@ More examples:
 
 namespace App\Exceptions;
 
-// use Helldar\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
-use Helldar\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler;
+// use DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
+use DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler;
 
-// use Helldar\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler;
-// use Helldar\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler;
+// use DragonCode\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler;
+// use DragonCode\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -921,32 +921,28 @@ This package is licensed under the [MIT License](LICENSE).
 [[ to top ]](#api-response)
 
 
-[badge_build]:          https://img.shields.io/github/workflow/status/andrey-helldar/api-response/coverage?style=flat-square
+[badge_build]:          https://img.shields.io/github/workflow/status/dragon-code/api-response/coverage?style=flat-square
 
-[badge_coverage]:       https://img.shields.io/scrutinizer/coverage/g/andrey-helldar/api-response.svg?style=flat-square
+[badge_coverage]:       https://img.shields.io/scrutinizer/coverage/g/dragon-code/api-response.svg?style=flat-square
 
-[badge_downloads]:      https://img.shields.io/packagist/dt/andrey-helldar/api-response.svg?style=flat-square
+[badge_downloads]:      https://img.shields.io/packagist/dt/dragon-code/api-response.svg?style=flat-square
 
-[badge_license]:        https://img.shields.io/packagist/l/andrey-helldar/api-response.svg?style=flat-square
+[badge_license]:        https://img.shields.io/packagist/l/dragon-code/api-response.svg?style=flat-square
 
 [badge_not_supported]:  https://img.shields.io/badge/not--supported-lightgrey?style=flat-square
 
-[badge_quality]:        https://img.shields.io/scrutinizer/g/andrey-helldar/api-response.svg?style=flat-square
+[badge_quality]:        https://img.shields.io/scrutinizer/g/dragon-code/api-response.svg?style=flat-square
 
-[badge_stable]:         https://img.shields.io/github/v/release/andrey-helldar/api-response?label=stable&style=flat-square
-
-[badge_styleci]:        https://styleci.io/repos/82566268/shield
+[badge_stable]:         https://img.shields.io/github/v/release/dragon-code/api-response?label=stable&style=flat-square
 
 [badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
 
 [badge_unstable]:       https://img.shields.io/badge/unstable-dev--main-orange?style=flat-square
 
-[link_build]:           https://github.com/andrey-helldar/api-response/actions
+[link_build]:           https://github.com/TheDragonCode/api-response/actions
 
 [link_license]:         LICENSE
 
-[link_packagist]:       https://packagist.org/packages/andrey-helldar/api-response
+[link_packagist]:       https://packagist.org/packages/dragon-code/api-response
 
-[link_scrutinizer]:     https://scrutinizer-ci.com/g/andrey-helldar/api-response
-
-[link_styleci]:         https://github.styleci.io/repos/82566268
+[link_scrutinizer]:     https://scrutinizer-ci.com/g/dragon-code/api-response

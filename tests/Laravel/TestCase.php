@@ -2,7 +2,7 @@
 
 namespace Tests\Laravel;
 
-use Helldar\ApiResponse\Services\Response;
+use DragonCode\ApiResponse\Services\Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Tests\Fixtures\Concerns\Laravel\Application;

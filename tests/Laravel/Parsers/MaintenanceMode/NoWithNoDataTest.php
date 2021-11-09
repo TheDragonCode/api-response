@@ -5,7 +5,7 @@ namespace Tests\Laravel\Parsers\MaintenanceMode;
 use Tests\Fixtures\Concerns\Laravel\Requests;
 use Tests\Laravel\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+class NoWithNoDataTest extends TestCase
 {
     use Requests;
 

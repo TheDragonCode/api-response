@@ -4,7 +4,7 @@ namespace Tests\Fixtures\Exceptions;
 
 use Exception;
 
-final class FooException extends Exception
+class FooException extends Exception
 {
     public function __construct(string $message)
     {

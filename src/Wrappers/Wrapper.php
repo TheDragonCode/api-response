@@ -1,12 +1,12 @@
 <?php
 
-namespace Helldar\ApiResponse\Wrappers;
+namespace DragonCode\ApiResponse\Wrappers;
 
-use Helldar\ApiResponse\Contracts\Parseable;
-use Helldar\ApiResponse\Contracts\Resolver;
-use Helldar\ApiResponse\Contracts\Wrapper as WrapperContract;
-use Helldar\Support\Concerns\Makeable;
-use Helldar\Support\Facades\Helpers\Arr;
+use DragonCode\Contracts\ApiResponse\Parseable;
+use DragonCode\Contracts\ApiResponse\Resolver;
+use DragonCode\Contracts\ApiResponse\Wrapper as WrapperContract;
+use DragonCode\Support\Concerns\Makeable;
+use DragonCode\Support\Facades\Helpers\Arr;
 
 abstract class Wrapper implements WrapperContract
 {
@@ -18,10 +18,10 @@ abstract class Wrapper implements WrapperContract
     /** @var bool */
     protected $allow_with = true;
 
-    /** @var \Helldar\ApiResponse\Contracts\Parseable */
+    /** @var \DragonCode\Contracts\ApiResponse\Parseable */
     protected $parser;
 
-    /** @var \Helldar\ApiResponse\Contracts\Resolver */
+    /** @var \DragonCode\Contracts\ApiResponse\Resolver */
     protected $resolver;
 
     /** @var mixed */
@@ -134,7 +134,7 @@ abstract class Wrapper implements WrapperContract
             return true;
         }
 
-        return is_array($data) ? isset($data['error']) : false;
+        return is_array($data) && isset($data['error']);
     }
 
     protected function unpackData(array $value)

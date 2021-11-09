@@ -5,7 +5,7 @@ namespace Tests\Fixtures\Laravel\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin \Tests\Fixtures\Laravel\Models\Model */
-final class Success extends JsonResource
+class Success extends JsonResource
 {
     public function toArray($request)
     {

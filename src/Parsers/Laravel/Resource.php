@@ -1,21 +1,24 @@
 <?php
 
-namespace Helldar\ApiResponse\Parsers\Laravel;
+namespace DragonCode\ApiResponse\Parsers\Laravel;
 
-use Helldar\ApiResponse\Parsers\Parser;
-use Helldar\Support\Facades\Helpers\Arr;
+use DragonCode\ApiResponse\Parsers\Parser;
+use DragonCode\Support\Facades\Helpers\Ables\Arrayable;
+use DragonCode\Support\Facades\Helpers\Arr;
 use Illuminate\Http\JsonResponse;
 
 /** @property \Illuminate\Http\Resources\Json\JsonResource $data */
-final class Resource extends Parser
+class Resource extends Parser
 {
     public function getData()
     {
         $data = $this->resourceData();
 
-        return $this->hasData($data)
-            ? Arr::only($data, ['data'])
-            : $data;
+        if ($this->hasData($data)) {
+            return Arr::only($data, ['data']);
+        }
+
+        return $data;
     }
 
     public function getWith(): array
@@ -23,9 +26,10 @@ final class Resource extends Parser
         $data = $this->resourceData();
 
         if ($this->hasData($data)) {
-            $except = Arr::except($data, ['data']);
-
-            return array_merge($except, $this->with);
+            return Arrayable::of($data)
+                ->except(['data'])
+                ->merge($this->with)
+                ->get();
         }
 
         return $this->with;
@@ -33,7 +37,7 @@ final class Resource extends Parser
 
     public function getStatusCode(): int
     {
-        return $this->status_code ?: $this->response()->getStatusCode() ?: parent::getStatusCode();
+        return $this->status_code ?: ($this->response()->getStatusCode() ?: parent::getStatusCode());
     }
 
     protected function response(): JsonResponse

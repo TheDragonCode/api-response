@@ -9,7 +9,7 @@ use Tests\Fixtures\Laravel\Models\FooModel;
 use Tests\Fixtures\Laravel\Resources\Foo;
 use Tests\Laravel\TestCase;
 
-final class NoWithNoDataTest extends TestCase
+class NoWithNoDataTest extends TestCase
 {
     use Resoursable;
 
