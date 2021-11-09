@@ -50,7 +50,7 @@ final class NoWithNoDataTest extends TestCase
                     'type' => 'ValidationException',
                     'data' => [
                         'foo' => ['The foo field is required.'],
-                        'baz' => ['The baz format is invalid.'],
+                        'baz' => ['The baz must be a valid URL.'],
                     ],
                 ],
             ],
@@ -64,7 +64,7 @@ final class NoWithNoDataTest extends TestCase
                     'data' => [
                         'foo' => ['The foo field is required.'],
                         'bar' => ['The bar must be an integer.'],
-                        'baz' => ['The baz format is invalid.'],
+                        'baz' => ['The baz must be a valid URL.'],
                     ],
                 ],
             ],

@@ -47,7 +47,7 @@ final class WithDataTest extends TestCase implements Parserable
                     'type' => 'ValidationException',
                     'data' => [
                         'foo' => ['The foo field is required.'],
-                        'baz' => ['The baz format is invalid.'],
+                        'baz' => ['The baz must be a valid URL.'],
                     ],
                 ],
             ],
@@ -61,7 +61,7 @@ final class WithDataTest extends TestCase implements Parserable
                     'data' => [
                         'foo' => ['The foo field is required.'],
                         'bar' => ['The bar must be an integer.'],
-                        'baz' => ['The baz format is invalid.'],
+                        'baz' => ['The baz must be a valid URL.'],
                     ],
                 ],
             ],
