@@ -7,10 +7,6 @@
 [![Total Downloads][badge_downloads]][link_packagist]
 [![License][badge_license]][link_license]
 
-[![Github Workflow Status][badge_build]][link_build]
-[![Coverage Status][badge_coverage]][link_scrutinizer]
-[![Scrutinizer Code Quality][badge_quality]][link_scrutinizer]
-
 > Package for standardizing the responses from the API of your **Symfony based** applications.
 
 ## Getting Started
