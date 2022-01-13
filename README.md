@@ -921,7 +921,7 @@ This package is licensed under the [MIT License](LICENSE).
 [[ to top ]](#api-response)
 
 
-[badge_build]:          https://img.shields.io/github/workflow/status/dragon-code/api-response/coverage?style=flat-square
+[badge_build]:          https://img.shields.io/github/workflow/status/TheDragonCode/api-response/coverage?style=flat-square
 
 [badge_coverage]:       https://img.shields.io/scrutinizer/coverage/g/dragon-code/api-response.svg?style=flat-square
 
@@ -933,7 +933,7 @@ This package is licensed under the [MIT License](LICENSE).
 
 [badge_quality]:        https://img.shields.io/scrutinizer/g/dragon-code/api-response.svg?style=flat-square
 
-[badge_stable]:         https://img.shields.io/github/v/release/dragon-code/api-response?label=stable&style=flat-square
+[badge_stable]:         https://img.shields.io/github/v/release/TheDragonCode/api-response?label=stable&style=flat-square
 
 [badge_supported]:      https://img.shields.io/badge/supported-green?style=flat-square
 
