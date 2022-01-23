@@ -25,7 +25,7 @@ use Illuminate\Http\JsonResponse;
 /** @property \Illuminate\Http\Resources\Json\JsonResource $data */
 class Resource extends Parser
 {
-    public function getData()
+    public function getData(): array
     {
         $data = $this->resourceData();
 
@@ -42,7 +42,7 @@ class Resource extends Parser
 
         if ($this->hasData($data)) {
             return Arrayable::of($data)
-                ->except(['data'])
+                ->except('data')
                 ->merge($this->with)
                 ->get();
         }

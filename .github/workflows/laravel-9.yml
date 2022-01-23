@@ -1,4 +1,4 @@
-name: laravel
+name: "Laravel 9"
 on: [ push ]
 
 jobs:
@@ -8,11 +8,10 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                php: [ "7.3", "7.4", "8.0" ]
-                laravel: [ "8.0" ]
-                support: [ "5.0" ]
+                php: [ "8.0", "8.1" ]
+                laravel: [ "9.0" ]
 
-        name: Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }}, Support ${{ matrix.support }}
+        name: PHP ${{ matrix.php }}
 
         steps:
             -   name: Checkout code
@@ -25,13 +24,8 @@ jobs:
                     extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
                     coverage: none
 
-            -   name: Composer self update
-                run: composer self-update
-
             -   name: Install dependencies
-                run: |
-                    composer require laravel/framework:^${{ matrix.laravel }} dragon-code/support:^${{ matrix.support }}
-                    composer update --prefer-stable --prefer-dist --no-progress --no-interaction
+                run: composer require laravel/framework:^${{ matrix.laravel }}
 
             -   name: Execute tests
                 run: sudo vendor/bin/phpunit tests/Laravel

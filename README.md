@@ -36,7 +36,7 @@ Instead, you may of course manually update your `require` block and run `compose
 ```json
 {
     "require": {
-        "dragon-code/api-response": "^9.0"
+        "dragon-code/api-response": "^9.1"
     }
 }
 ```
@@ -46,15 +46,15 @@ Alright! Use `api_response()` helper.
 
 ### Compatibility table
 
-| Package version | PHP min version | Symfony version | Support | Links |
-|:---:|:---:|:---:|:---|:---|
-|  ^9.0 | 7.2.5 | ^4.0, ^5.0 | ![Supported][badge_supported] | [Upgrade guide](.upgrading/8.x_9.x.md) |
-|  ^8.0 | 7.2.5 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/7.x_8.x.md) |
-|  ^7.0 | 7.2.5 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
-|  ^6.0 | 7.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
-|  ^5.0 | 7.1.3 | ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
-|  ^4.4.1 | 5.6.9 | ^3.0, ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | --- |
-|  ^4.0 | 5.6.9 | ^3.0, ^4.0 | ![Not Supported][badge_not_supported] | --- |
+| Package version | PHP min version | Symfony version  | Support                               | Links                                  |
+|:---------------:|:---------------:|:----------------:|:--------------------------------------|:---------------------------------------|
+|      ^9.0       |      7.2.5      | ^4.0, ^5.0, ^6.0 | ![Supported][badge_supported]         | [Upgrade guide](.upgrading/8.x_9.x.md) |
+|      ^8.0       |      7.2.5      |    ^4.0, ^5.0    | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/7.x_8.x.md) |
+|      ^7.0       |      7.2.5      |    ^4.0, ^5.0    | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/6.x_7.x.md) |
+|      ^6.0       |       7.3       |    ^4.0, ^5.0    | ![Not Supported][badge_not_supported] | [Upgrade guide](.upgrading/5.x_6.x.md) |
+|      ^5.0       |      7.1.3      |    ^4.0, ^5.0    | ![Not Supported][badge_not_supported] | ---                                    |
+|     ^4.4.1      |      5.6.9      | ^3.0, ^4.0, ^5.0 | ![Not Supported][badge_not_supported] | ---                                    |
+|      ^4.0       |      5.6.9      |    ^3.0, ^4.0    | ![Not Supported][badge_not_supported] | ---                                    |
 
 [[ to top ]](#api-response)
 
@@ -733,10 +733,11 @@ return with code 405:
 
 If you use the Laravel or Lumen framework, you can update the `extends` in the `app\Exceptions\Handler.php` file depending on your application version and needs:
 
-| Version \ Type | API + WEB | Only API |
-|:---:|:---|:---|
-| 8.x | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler` |
-| 7.x | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler` |
+| Version \ Type | API + WEB                                                                     | Only API                                                                         |
+|:--------------:|:------------------------------------------------------------------------------|:---------------------------------------------------------------------------------|
+|      9.x       | `DragonCode\ApiResponse\Exceptions\Laravel\Nine\Handler as ExceptionHandler`  | `DragonCode\ApiResponse\Exceptions\Laravel\Nine\ApiHandler as ExceptionHandler`  |
+|      8.x       | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler` |
+|      7.x       | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler` | `DragonCode\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler` |
 
 If you did not add anything to this file, then delete everything properties and methods.
 
@@ -747,7 +748,7 @@ For example, as a result, a clean file will look like this:
 
 namespace App\Exceptions;
 
-use DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
+use DragonCode\ApiResponse\Exceptions\Laravel\Nine\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -762,8 +763,11 @@ More examples:
 
 namespace App\Exceptions;
 
+// use DragonCode\ApiResponse\Exceptions\Laravel\Nine\Handler as ExceptionHandler;
+use DragonCode\ApiResponse\Exceptions\Laravel\Nine\ApiHandler as ExceptionHandler;
+
 // use DragonCode\ApiResponse\Exceptions\Laravel\Eight\Handler as ExceptionHandler;
-use DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler;
+// use DragonCode\ApiResponse\Exceptions\Laravel\Eight\ApiHandler as ExceptionHandler;
 
 // use DragonCode\ApiResponse\Exceptions\Laravel\Seven\Handler as ExceptionHandler;
 // use DragonCode\ApiResponse\Exceptions\Laravel\Seven\ApiHandler as ExceptionHandler;
@@ -773,8 +777,6 @@ class Handler extends ExceptionHandler
     //
 }
 ```
-
-Or you can change this file by adding code to it, similar to [ours](src/Support/LaravelException.php).
 
 [[ to top ]](#api-response)
 

@@ -1,9 +1,19 @@
 {
     "name": "dragon-code/api-response",
     "description": "Package for standardizing the responses from the API of your Symfony based applications.",
-    "type": "library",
     "license": "MIT",
-    "keywords": ["api response", "api-response", "response", "laravel", "lumen", "symfony", "api", "dragon-code", "dragon"],
+    "type": "library",
+    "keywords": [
+        "api response",
+        "api-response",
+        "response",
+        "laravel",
+        "lumen",
+        "symfony",
+        "api",
+        "dragon-code",
+        "dragon"
+    ],
     "authors": [
         {
             "name": "Andrey Helldar",
@@ -15,21 +25,20 @@
         "source": "https://github.com/TheDragonCode/api-response"
     },
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.2.5 || ^8.0",
         "ext-json": "*",
         "dragon-code/contracts": "^2.2",
         "dragon-code/support": "^5.0",
-        "symfony/http-foundation": "^4.0|^5.0"
+        "symfony/http-foundation": "^4.0 || ^5.0 || ^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0|^5.0|^6.0"
+        "orchestra/testbench": "^5.0 || ^6.0 || ^7.0"
     },
     "conflict": {
         "andrey-helldar/api-response": "*"
     },
-    "suggest": {
-        "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
-    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "DragonCode\\ApiResponse\\": "src"
@@ -47,13 +56,15 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "extra": {
         "thanks": [
             {
                 "name": "dragon-code/support",
                 "url": "https://github.com/TheDragonCode/support"
+            },
+            {
+                "name": "dragon-code/contracts",
+                "url": "https://github.com/TheDragonCode/contracts"
             }
         ]
     }
