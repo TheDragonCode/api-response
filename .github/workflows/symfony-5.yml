@@ -1,4 +1,4 @@
-name: symfony
+name: "Symfony 5"
 on: [ push ]
 
 jobs:
@@ -8,11 +8,10 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                php: [ "7.3", "7.4", "8.0" ]
-                symfony: [ "4.0", "5.0" ]
-                support: [ "5.0" ]
+                php: [ "7.3", "7.4", "8.0", "8.1" ]
+                symfony: [ "5.0" ]
 
-        name: Symfony ${{ matrix.symfony }}, PHP ${{ matrix.php }}, Support ${{ matrix.support }}
+        name: PHP ${{ matrix.php }}
 
         steps:
             -   name: Checkout code
@@ -25,13 +24,8 @@ jobs:
                     extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
                     coverage: none
 
-            -   name: Composer self update
-                run: composer self-update
-
             -   name: Install dependencies
-                run: |
-                    composer require symfony/http-foundation:^${{ matrix.symfony }} dragon-code/support:^${{ matrix.support }}
-                    composer update --prefer-stable --prefer-dist --no-progress --no-interaction
+                run: composer require symfony/http-foundation:^${{ matrix.symfony }} --no-progress --no-interaction
 
             -   name: Execute tests
                 run: sudo vendor/bin/phpunit tests/Symfony

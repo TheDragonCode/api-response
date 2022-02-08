@@ -1,0 +1,31 @@
+name: "Symfony 6"
+on: [ push ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+            matrix:
+                php: [ "8.0", "8.1" ]
+                symfony: [ "6.0" ]
+
+        name: PHP ${{ matrix.php }}
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: curl, mbstring, zip, pcntl, pdo, pdo_sqlite, iconv
+                    coverage: none
+
+            -   name: Install dependencies
+                run: composer require symfony/http-foundation:^${{ matrix.symfony }} --no-progress --no-interaction
+
+            -   name: Execute tests
+                run: sudo vendor/bin/phpunit tests/Symfony

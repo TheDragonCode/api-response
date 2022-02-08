@@ -22,7 +22,7 @@ use DragonCode\ApiResponse\Parsers\Parser;
 /** @property \Illuminate\Validation\ValidationException $data */
 class Validation extends Parser
 {
-    public function getData()
+    public function getData(): array
     {
         return ['data' => $this->data->errors()];
     }

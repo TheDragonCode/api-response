@@ -18,11 +18,12 @@
 namespace DragonCode\ApiResponse\Concerns\Exceptions\Laravel;
 
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /** @mixin \DragonCode\ApiResponse\Exceptions\Laravel\BaseHandler */
 trait Api
 {
-    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request): JsonResponse
     {
         return $this->response($e);
     }
