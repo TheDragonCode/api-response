@@ -23,7 +23,7 @@ use Exception as BaseException;
 use Throwable;
 
 /**
- * @property \Exception|\Throwable $data
+ * @property \Exception|Throwable $data
  */
 class Exception extends Parser
 {

@@ -42,7 +42,7 @@ class Error extends Wrapper
     }
 
     /**
-     * @param  mixed  $message
+     * @param mixed $message
      *
      * @return array|int|string|null
      */

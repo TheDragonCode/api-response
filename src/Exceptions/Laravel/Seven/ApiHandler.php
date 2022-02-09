@@ -36,7 +36,9 @@ abstract class ApiHandler extends BaseHandler
             return $this->response(
                 Router::toResponse($request, $response)
             );
-        } elseif ($e instanceof Responsable) {
+        }
+
+        if ($e instanceof Responsable) {
             return $this->response($e->toResponse($request));
         }
 
@@ -44,9 +46,13 @@ abstract class ApiHandler extends BaseHandler
 
         if ($e instanceof HttpResponseException) {
             return $this->response($e);
-        } elseif ($e instanceof AuthenticationException) {
+        }
+
+        if ($e instanceof AuthenticationException) {
             return $this->response($e, 403);
-        } elseif ($e instanceof ValidationException) {
+        }
+
+        if ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
         }
 

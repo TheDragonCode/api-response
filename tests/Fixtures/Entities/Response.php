@@ -27,7 +27,7 @@ class Response
     /** @var \Symfony\Component\HttpFoundation\JsonResponse */
     protected $response;
 
-    public function __construct($data = null, int $status_code = null, array $with = [], array $headers = [])
+    public function __construct($data = null, ?int $status_code = null, array $with = [], array $headers = [])
     {
         $this->response = $this->parseResponse($data, $status_code, $with, $headers);
     }
@@ -52,7 +52,7 @@ class Response
         return $this->response;
     }
 
-    protected function parseResponse($data = null, int $status_code = null, array $with = [], array $headers = [])
+    protected function parseResponse($data = null, ?int $status_code = null, array $with = [], array $headers = [])
     {
         if (Instance::of($data, [JsonResponse::class, MainResponse::class, TestResponse::class])) {
             return $data;

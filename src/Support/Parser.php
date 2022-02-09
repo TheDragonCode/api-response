@@ -74,7 +74,7 @@ class Parser
         return $this;
     }
 
-    public function setStatusCode(int $status = null): self
+    public function setStatusCode(?int $status = null): self
     {
         $this->status_code = $status;
 

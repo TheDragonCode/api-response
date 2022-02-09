@@ -53,7 +53,7 @@ abstract class Parser implements Parseable
             : ($this->status_code ?: 200);
     }
 
-    public function setStatusCode(int $code = null): Parseable
+    public function setStatusCode(?int $code = null): Parseable
     {
         $this->status_code = $code;
 

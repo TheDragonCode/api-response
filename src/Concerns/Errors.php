@@ -38,7 +38,7 @@ trait Errors
         }
     }
 
-    protected function isErrorCode(int $code = null): bool
+    protected function isErrorCode(?int $code = null): bool
     {
         return $code === 0 || $code >= 400;
     }

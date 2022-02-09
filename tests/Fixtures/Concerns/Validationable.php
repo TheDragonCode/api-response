@@ -26,14 +26,14 @@ use Tests\Fixtures\Entities\Response;
 trait Validationable
 {
     /**
-     * @param  array  $data
-     * @param  int|null  $status_code
+     * @param array $data
+     * @param int|null $status_code
      *
      * @throws \Illuminate\Validation\ValidationException
      *
      * @return \Tests\Fixtures\Entities\Response
      */
-    protected function validationResponse(array $data, int $status_code = null): Response
+    protected function validationResponse(array $data, ?int $status_code = null): Response
     {
         return $this->response(
             $this->validateException($data),
@@ -42,7 +42,7 @@ trait Validationable
     }
 
     /**
-     * @param  array  $data
+     * @param array $data
      *
      * @return \Illuminate\Contracts\Validation\Validator
      */
@@ -56,7 +56,7 @@ trait Validationable
     }
 
     /**
-     * @param  array  $data
+     * @param array $data
      *
      * @throws \Illuminate\Validation\ValidationException
      *

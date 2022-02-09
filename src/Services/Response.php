@@ -92,7 +92,7 @@ class Response implements Responsable
         return $this;
     }
 
-    public function statusCode(int $code = null): Responsable
+    public function statusCode(?int $code = null): Responsable
     {
         $this->status_code = $code;
 
@@ -139,7 +139,7 @@ class Response implements Responsable
     }
 
     /**
-     * @param  \DragonCode\Contracts\ApiResponse\Parseable  $parser
+     * @param \DragonCode\Contracts\ApiResponse\Parseable $parser
      *
      * @return \DragonCode\ApiResponse\Wrappers\Wrapper|string
      */

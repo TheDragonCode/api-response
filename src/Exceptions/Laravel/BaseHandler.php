@@ -77,7 +77,7 @@ abstract class BaseHandler extends ExceptionHandler
         return [];
     }
 
-    protected function response($data, int $status_code = null, array $with = [], array $headers = []): JsonResponse
+    protected function response($data, ?int $status_code = null, array $with = [], array $headers = []): JsonResponse
     {
         $with = array_merge($this->with(), $with);
 
