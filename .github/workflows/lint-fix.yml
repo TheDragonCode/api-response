@@ -1,9 +1,11 @@
-name: Code Style
+name: "Codestyle Fix"
 
-on: [ push, pull_request ]
+on:
+    push:
+        branches: [ main ]
 
 jobs:
-    build:
+    fix:
         runs-on: ubuntu-latest
 
         steps:
