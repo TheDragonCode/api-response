@@ -64,7 +64,7 @@ class WithNoDataTest extends TestCase implements Parserable
                     'type' => 'ValidationException',
                     'data' => [
                         'foo' => ['The foo field is required.'],
-                        'baz' => ['The baz must be a valid URL.'],
+                        'baz' => $this->validationUrlMessage(),
                     ],
                 ],
             ],
@@ -78,7 +78,7 @@ class WithNoDataTest extends TestCase implements Parserable
                     'data' => [
                         'foo' => ['The foo field is required.'],
                         'bar' => ['The bar must be an integer.'],
-                        'baz' => ['The baz must be a valid URL.'],
+                        'baz' => $this->validationUrlMessage(),
                     ],
                 ],
             ],

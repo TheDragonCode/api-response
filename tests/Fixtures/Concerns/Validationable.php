@@ -17,6 +17,7 @@
 
 namespace Tests\Fixtures\Concerns;
 
+use DragonCode\LaravelSupport\Facades\AppVersion;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -69,5 +70,10 @@ trait Validationable
         return $validator->fails()
             ? new ValidationException($validator)
             : $validator->validated();
+    }
+
+    protected function validationUrlMessage(): array
+    {
+        return AppVersion::is7x() ? ['The baz format is invalid.'] : ['The baz must be a valid URL.'];
     }
 }
