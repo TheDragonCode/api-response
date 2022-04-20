@@ -17,8 +17,8 @@
 
 namespace DragonCode\ApiResponse\Parsers;
 
-use DragonCode\Support\Facades\Helpers\Call;
-use DragonCode\Support\Facades\Helpers\Instance;
+use DragonCode\Support\Facades\Instances\Call;
+use DragonCode\Support\Facades\Instances\Instance;
 use Exception as BaseException;
 use Throwable;
 

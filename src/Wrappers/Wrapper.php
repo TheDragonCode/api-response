@@ -128,7 +128,7 @@ abstract class Wrapper implements WrapperContract
         $with = $this->getWith();
 
         if (is_array($data) || is_object($data)) {
-            $array = Arr::toArray($data);
+            $array = Arr::resolve($data);
 
             if ($this->wrap || ! empty($with) || $this->isError($array)) {
                 $this->setData($this->unpackData($array));

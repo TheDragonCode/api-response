@@ -17,7 +17,7 @@
 
 namespace DragonCode\ApiResponse\Concerns;
 
-use DragonCode\Support\Facades\Helpers\Is;
+use DragonCode\Support\Facades\Types\Is;
 
 trait Errors
 {

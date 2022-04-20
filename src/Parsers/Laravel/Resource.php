@@ -18,7 +18,6 @@
 namespace DragonCode\ApiResponse\Parsers\Laravel;
 
 use DragonCode\ApiResponse\Parsers\Parser;
-use DragonCode\Support\Facades\Helpers\Ables\Arrayable;
 use DragonCode\Support\Facades\Helpers\Arr;
 use Illuminate\Http\JsonResponse;
 
@@ -41,10 +40,10 @@ class Resource extends Parser
         $data = $this->resourceData();
 
         if ($this->hasData($data)) {
-            return Arrayable::of($data)
+            return Arr::of($data)
                 ->except('data')
                 ->merge($this->with)
-                ->get();
+                ->toArray();
         }
 
         return $this->with;
