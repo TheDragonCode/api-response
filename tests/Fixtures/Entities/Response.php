@@ -17,7 +17,7 @@
 
 namespace Tests\Fixtures\Entities;
 
-use DragonCode\Support\Facades\Helpers\Instance;
+use DragonCode\Support\Facades\Instances\Instance;
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as MainResponse;

@@ -106,6 +106,6 @@ class Resolver implements ResolverContract
             return $data;
         }
 
-        return Arr::toArray($data);
+        return Arr::resolve($data);
     }
 }

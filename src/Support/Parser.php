@@ -24,8 +24,8 @@ use DragonCode\ApiResponse\Parsers\Laravel\Validation as LaravelValidationParser
 use DragonCode\ApiResponse\Parsers\Main;
 use DragonCode\Contracts\ApiResponse\Parseable;
 use DragonCode\Support\Concerns\Makeable;
-use DragonCode\Support\Facades\Helpers\Instance;
-use DragonCode\Support\Facades\Helpers\Is;
+use DragonCode\Support\Facades\Instances\Instance;
+use DragonCode\Support\Facades\Types\Is;
 use Exception;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\ValidationException;

@@ -21,8 +21,8 @@ use DragonCode\ApiResponse\Concerns\Errors;
 use DragonCode\ApiResponse\Services\Response;
 use DragonCode\Contracts\ApiResponse\Parseable;
 use DragonCode\Support\Concerns\Makeable;
-use DragonCode\Support\Facades\Helpers\Instance;
-use DragonCode\Support\Facades\Helpers\Is;
+use DragonCode\Support\Facades\Instances\Instance;
+use DragonCode\Support\Facades\Types\Is;
 use Exception as BaseException;
 
 abstract class Parser implements Parseable
