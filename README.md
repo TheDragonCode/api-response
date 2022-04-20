@@ -13,6 +13,7 @@
 
 ### Upgrade guides
 
+* [To 10.x From 9.x](.upgrading/9.x_10.x.md)
 * [To 9.x From 8.x and from the `andrey-helldar/api-response` package](.upgrading/8.x_9.x.md)
 * [To 8.x From 7.x](.upgrading/7.x_8.x.md)
 * [To 7.x From 6.x](.upgrading/6.x_7.x.md)
