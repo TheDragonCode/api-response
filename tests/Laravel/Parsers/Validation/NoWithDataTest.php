@@ -57,15 +57,16 @@ class NoWithDataTest extends TestCase
             $this->validationResponse([])->getJson()
         );
 
-        $this->assertSame([
-            'error' => [
-                'type' => 'ValidationException',
-                'data' => [
-                    'foo' => ['The foo field is required.'],
-                    'baz' => $this->validationUrlMessage(),
+        $this->assertSame(
+            [
+                'error' => [
+                    'type' => 'ValidationException',
+                    'data' => [
+                        'foo' => ['The foo field is required.'],
+                        'baz' => $this->validationUrlMessage(),
+                    ],
                 ],
             ],
-        ],
             $this->validationResponse(['baz' => 0])->getJson()
         );
 
