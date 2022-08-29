@@ -133,7 +133,8 @@ abstract class Wrapper implements WrapperContract
             if ($this->wrap || ! empty($with) || $this->isError($array)) {
                 $this->setData($this->unpackData($array));
                 $this->setWith($this->unpackWith($array, $with));
-            } else {
+            }
+            else {
                 $this->setData($array);
             }
 
